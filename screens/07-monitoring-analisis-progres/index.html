@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Jara — Monitoring &amp; Telemetri Progres</title>
+<!-- Tailwind CSS v3 -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Google Fonts: Inter & JetBrains Mono -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<script data-purpose="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              black: '#000000',
+              surface: '#09090b',
+              card: 'rgba(18, 18, 22, 0.72)',
+              cardSolid: '#111114',
+              input: '#121216',
+              muted: '#71717a',
+              border: 'rgba(255, 255, 255, 0.1)',
+              borderHover: 'rgba(255, 255, 255, 0.22)',
+              glow: 'rgba(255, 255, 255, 0.28)'
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+            mono: ['JetBrains Mono', 'SF Mono', 'Roboto Mono', 'monospace']
+          }
+        }
+      }
+    };
+  </script>
+<style>
+    @layer base {
+      html, body {
+        margin: 0;
+        padding: 0;
+        background-color: #000000;
+      }
+      body {
+        overscroll-behavior: none;
+        font-family: 'Inter', sans-serif;
+      }
+      ::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #09090b;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #27272a;
+        border-radius: 9999px;
+      }
+    }
+
+    .bg-ambient-grid {
+      background-image: 
+        radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.07) 0%, transparent 65%),
+        radial-gradient(circle at 100% 100%, rgba(255, 255, 255, 0.03) 0%, transparent 50%);
+    }
+
+    .glass-card {
+      background: rgba(15, 15, 18, 0.72);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .glass-card:hover {
+      border-color: rgba(255, 255, 255, 0.16);
+    }
+
+    .glow-button {
+      background-color: #ffffff;
+      color: #000000;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.22), 0 0 45px rgba(255, 255, 255, 0.06);
+      transition: all 0.2s ease-out;
+    }
+    .glow-button:hover {
+      box-shadow: 0 0 28px rgba(255, 255, 255, 0.38);
+      transform: translateY(-1px);
+    }
+
+    .pixel-text {
+      font-family: 'JetBrains Mono', monospace;
+      letter-spacing: 0.14em;
+    }
+  </style>
+</head>
+<body class="bg-black text-white selection:bg-white selection:text-black antialiased">
+<!-- BEGIN: Left Navigation Sidebar (Jara Executive Theme) -->
+<aside class="fixed left-0 top-0 h-full w-64 bg-[#08080a]/90 backdrop-blur-2xl border-r border-white/10 z-50 flex flex-col justify-between">
+<div class="flex flex-col">
+<!-- Jara Platform Brand -->
+<div class="h-16 px-6 flex items-center justify-between border-b border-white/10 bg-black/40">
+<a class="flex items-center gap-3 group" href="#" title="Jara Home">
+<div class="w-8 h-8 rounded-full bg-white flex items-center justify-center shadow-[0_0_15px_rgba(255,255,255,0.3)] transition-transform group-hover:scale-105 duration-200">
+<svg class="w-4 h-4 text-black stroke-[2.75]" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" viewbox="0 0 24 24">
+<polyline points="20 6 9 17 4 12"></polyline>
+</svg>
+</div>
+<div class="flex items-baseline gap-1.5">
+<span class="font-semibold text-base tracking-tight text-white">Jara</span>
+<span class="text-[9px] uppercase font-mono tracking-widest text-zinc-500 font-semibold">Platform</span>
+</div>
+</a>
+</div>
+<!-- Navigation Links -->
+<div class="px-3 pt-6">
+<p class="px-3 mb-2 font-mono text-[10px] uppercase text-zinc-500 tracking-wider font-semibold">Menu Utama</p>
+<nav class="flex flex-col gap-1">
+<!-- Active Nav Item -->
+<a class="flex items-center gap-3 px-3 py-2 rounded-xl bg-white/10 text-white font-medium text-xs border border-white/15 transition-all shadow-sm" data-path="ringkasan-dashboard" href="#">
+<span class="material-symbols-outlined text-[18px] text-zinc-100">insights</span>
+<span>Ringkasan &amp; Progres</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-xl text-zinc-400 hover:text-white hover:bg-white/5 font-medium text-xs transition-colors" data-path="proyek-daftar-tugas" href="#">
+<span class="material-symbols-outlined text-[18px] text-zinc-500 group-hover:text-zinc-300">fact_check</span>
+<span>Proyek &amp; Tugas</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-xl text-zinc-400 hover:text-white hover:bg-white/5 font-medium text-xs transition-colors" data-path="tim-kolaborasi" href="#">
+<span class="material-symbols-outlined text-[18px] text-zinc-500 group-hover:text-zinc-300">group</span>
+<span>Anggota Tim</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-xl text-zinc-400 hover:text-white hover:bg-white/5 font-medium text-xs transition-colors" data-path="manajemen-akun" href="#">
+<span class="material-symbols-outlined text-[18px] text-zinc-500 group-hover:text-zinc-300">admin_panel_settings</span>
+<span>Admin &amp; Akun</span>
+</a>
+</nav>
+</div>
+<div class="px-3 pt-5">
+<p class="px-3 mb-2 font-mono text-[10px] uppercase text-zinc-500 tracking-wider font-semibold">Sistem</p>
+<nav class="flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2 rounded-xl text-zinc-400 hover:text-white hover:bg-white/5 font-medium text-xs transition-colors" data-path="pengaturan" href="#">
+<span class="material-symbols-outlined text-[18px] text-zinc-500">settings</span>
+<span>Pengaturan</span>
+</a>
+</nav>
+</div>
+</div>
+<!-- Micro telemetry badge in sidebar -->
+<div class="p-3 m-3 rounded-2xl bg-[#111114]/90 border border-white/10 flex items-center justify-between">
+<div class="flex flex-col">
+<span class="text-[10px] font-mono text-zinc-500 uppercase tracking-wide">Status Node</span>
+<span class="text-xs font-mono text-emerald-400 flex items-center gap-1.5 mt-0.5 font-medium">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block shadow-[0_0_8px_rgba(16,185,129,0.8)]"></span> Operasional
+        </span>
+</div>
+<span class="text-[11px] font-mono text-zinc-600 bg-white/5 px-2 py-0.5 rounded border border-white/10">v2.4</span>
+</div>
+</aside>
+<!-- BEGIN: Main Viewport Container -->
+<div class="pl-64 flex flex-col min-h-screen bg-black bg-ambient-grid">
+<!-- Top Header -->
+<header class="fixed top-0 left-64 right-0 h-16 bg-black/70 backdrop-blur-xl z-40 px-8 flex items-center justify-between border-b border-white/10">
+<!-- Search Box styled like Jara minimal input -->
+<div class="flex items-center gap-4 flex-1 max-w-lg">
+<div class="relative w-full flex items-center">
+<span class="material-symbols-outlined absolute left-3.5 text-zinc-500 pointer-events-none text-[18px]">search</span>
+<input class="w-full bg-[#111114] border border-white/10 focus:border-white/30 text-white font-mono text-xs pl-10 pr-4 py-2 rounded-full outline-none focus:ring-1 focus:ring-white/20 placeholder:text-zinc-600 transition-all" placeholder="Cari tugas, sprint, atau telemetri... (Ctrl + K)" type="text"/>
+</div>
+</div>
+<!-- Header Controls: Operational badge, Quick Task CTA, User Profile -->
+<div class="flex items-center gap-4">
+<!-- Zero-Trust / Operational Badge -->
+<div class="hidden lg:flex items-center gap-2 bg-[#121215] border border-white/10 px-3 py-1 rounded-full text-[11px] text-zinc-400 font-mono">
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+</span>
+<span>Zero-Trust Active</span>
+</div>
+<!-- Create Task Button (White Glowing Pill) -->
+<button class="glow-button flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider text-black transition-all" type="button">
+<span class="material-symbols-outlined text-[16px] font-bold">add</span>
+<span>Buat Tugas</span>
+</button>
+<!-- Notifications -->
+<button aria-label="Notifikasi Aktivitas" class="relative p-2 rounded-full text-zinc-400 hover:text-white bg-[#141417] border border-white/10 hover:border-white/20 transition-all" type="button">
+<span class="material-symbols-outlined text-[18px]">notifications</span>
+<span class="absolute top-1.5 right-1.5 w-1.5 h-1.5 bg-rose-500 rounded-full shadow-[0_0_6px_rgba(244,63,94,0.8)]"></span>
+</button>
+<div class="h-5 w-[1px] bg-white/10"></div>
+<!-- Profile Chip -->
+<div class="flex items-center gap-3">
+<div class="flex flex-col text-right">
+<span class="text-xs font-medium text-white leading-none">Bambang Prakoso</span>
+<span class="text-[10px] font-mono text-zinc-500 leading-none mt-1">Project Lead</span>
+</div>
+<img alt="Profile" class="w-8 h-8 rounded-full object-cover ring-1 ring-white/20" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAsIWrHY6OQ3WqpEO_z_e2WSVHvE0ItDvNlK7fRHkG9UXY90gYJR1ryeVWu0jgntTJAkoyabCJl9RzcjyrIidXDq0PswRsrInDXHUUOs5J2R0lF4udEMivrH6ATEzmchqO5_JIrU58MeGnNcVw0HkueYehhTQMeafqAuPNaMFrRWVURp2m7wU0V_sCG6LBny7fKu3Dc1cA-Y_XkFefePCTfQa5Nnn8FgRPoUvcTdiFpt1VphCH9Ndyw"/>
+<a aria-label="Logout" class="p-1.5 rounded-full text-zinc-500 hover:text-rose-400 bg-white/5 hover:bg-rose-500/10 border border-white/10 hover:border-rose-500/30 transition-all flex items-center justify-center" data-path="login" href="#" title="Keluar dari Sistem">
+<span class="material-symbols-outlined text-[17px]">logout</span>
+</a>
+</div>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="w-full pt-20 px-8 pb-16 flex-1 max-w-7xl mx-auto">
+<div class="flex flex-col w-full">
+<!-- Top Header & Filter Section -->
+<div class="flex flex-col gap-5 mb-8">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div class="flex flex-col">
+<div class="flex items-center gap-2 mb-2">
+<span class="pixel-text text-[10px] text-zinc-400 px-2.5 py-0.5 bg-white/5 border border-white/10 rounded-md inline-block uppercase">
+                  SRS-05 Telemetri Operasional
+                </span>
+<span class="font-mono text-[11px] text-emerald-400 flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span> Live Sync
+                </span>
+</div>
+<h1 class="text-2xl sm:text-3xl font-semibold tracking-tight text-white">Monitoring &amp; Analisis Progres Tugas</h1>
+<p class="text-xs sm:text-sm text-zinc-400 mt-1">Visibilitas performa tim real-time, pelacakan tugas selesai vs tertunda, dan kesehatan proyek.</p>
+</div>
+<!-- Action Pills -->
+<div class="flex items-center gap-2.5 self-start md:self-auto">
+<button class="flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-[#141418] hover:bg-[#1f1f26] border border-white/15 text-zinc-300 hover:text-white text-xs font-medium transition-all">
+<span class="material-symbols-outlined text-[16px] text-zinc-400">file_download</span>
+<span>Ekspor Laporan</span>
+</button>
+<button class="flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-[#18181f] hover:bg-[#22222d] border border-white/20 text-white text-xs font-medium transition-all">
+<span class="material-symbols-outlined text-[16px]">sync</span>
+<span>Segarkan Data</span>
+</button>
+</div>
+</div>
+<!-- Filter Pill Bar -->
+<div class="glass-card p-3 rounded-2xl flex flex-wrap items-center justify-between gap-3">
+<div class="flex flex-wrap items-center gap-2.5 flex-1">
+<!-- Proyek Dropdown -->
+<div class="flex items-center gap-2 bg-[#141418] border border-white/10 px-3 py-1.5 rounded-xl text-zinc-300 text-xs">
+<span class="material-symbols-outlined text-zinc-500 text-[16px]">folder</span>
+<span class="text-zinc-400 font-mono text-[11px]">Proyek:</span>
+<select class="bg-transparent text-xs text-white focus:outline-none cursor-pointer pr-1 border-none p-0">
+<option class="bg-zinc-900 text-white" value="all">Semua Proyek (Aktif)</option>
+<option class="bg-zinc-900 text-white" value="mobile">Redesain Mobile v2.0</option>
+<option class="bg-zinc-900 text-white" value="pgw">Payment Gateway API</option>
+<option class="bg-zinc-900 text-white" value="audit">Audit Keamanan Q2</option>
+</select>
+</div>
+<!-- Rentang Waktu -->
+<div class="flex items-center gap-2 bg-[#141418] border border-white/10 px-3 py-1.5 rounded-xl text-zinc-300 text-xs">
+<span class="material-symbols-outlined text-zinc-500 text-[16px]">calendar_today</span>
+<span class="text-zinc-400 font-mono text-[11px]">Rentang:</span>
+<select class="bg-transparent text-xs text-white focus:outline-none cursor-pointer pr-1 border-none p-0">
+<option class="bg-zinc-900 text-white" value="30d">30 Hari Terakhir</option>
+<option class="bg-zinc-900 text-white" value="7d">7 Hari Terakhir</option>
+<option class="bg-zinc-900 text-white" value="quarter">Kuartal Ini (Q2)</option>
+<option class="bg-zinc-900 text-white" value="custom">Kustomisasi Tanggal...</option>
+</select>
+</div>
+<!-- Filter PIC Anggota -->
+<div class="flex items-center gap-2 bg-[#141418] border border-white/10 px-3 py-1.5 rounded-xl text-zinc-300 text-xs">
+<span class="material-symbols-outlined text-zinc-500 text-[16px]">badge</span>
+<span class="text-zinc-400 font-mono text-[11px]">PIC:</span>
+<select class="bg-transparent text-xs text-white focus:outline-none cursor-pointer pr-1 border-none p-0">
+<option class="bg-zinc-900 text-white" value="all">Semua Penanggung Jawab</option>
+<option class="bg-zinc-900 text-white" value="dimas">Dimas Kurnia</option>
+<option class="bg-zinc-900 text-white" value="siti">Siti Rahmawati</option>
+<option class="bg-zinc-900 text-white" value="alberto">Alberto Tanujaya</option>
+<option class="bg-zinc-900 text-white" value="nadia">Nadia Utami</option>
+</select>
+</div>
+</div>
+<!-- Auto sync indicator -->
+<div class="flex items-center gap-2 text-zinc-400 font-mono text-[11px] px-2">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+<span>Sinkronisasi Otomatis: 1 mnt yang lalu</span>
+</div>
+</div>
+</div>
+<!-- 4 Telemetry Metrics Cards -->
+<div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 mb-8">
+<!-- Total Beban Tugas -->
+<div class="glass-card p-5 rounded-2xl flex flex-col justify-between relative overflow-hidden group">
+<div class="flex items-center justify-between mb-4">
+<span class="text-xs font-mono uppercase text-zinc-400 tracking-wider">Total Beban Tugas</span>
+<div class="w-8 h-8 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-zinc-300">
+<span class="material-symbols-outlined text-[18px]">assignment</span>
+</div>
+</div>
+<div class="flex flex-col">
+<div class="flex items-baseline gap-2">
+<span class="text-3xl font-bold font-mono tracking-tight text-white">142</span>
+<span class="text-xs text-zinc-500">Tugas</span>
+</div>
+<div class="flex items-center gap-1 mt-2 text-emerald-400 font-mono text-xs">
+<span class="material-symbols-outlined text-[15px]">arrow_upward</span>
+<span>+12 dibuat minggu ini</span>
+</div>
+</div>
+</div>
+<!-- Tugas Selesai -->
+<div class="glass-card p-5 rounded-2xl flex flex-col justify-between relative overflow-hidden group">
+<div class="flex items-center justify-between mb-4">
+<span class="text-xs font-mono uppercase text-zinc-400 tracking-wider">Tugas Selesai</span>
+<div class="w-8 h-8 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
+<span class="material-symbols-outlined text-[18px]">task_alt</span>
+</div>
+</div>
+<div class="flex flex-col">
+<div class="flex items-baseline gap-2">
+<span class="text-3xl font-bold font-mono tracking-tight text-white">98</span>
+<span class="text-xs text-zinc-500">Tugas</span>
+</div>
+<div class="flex items-center gap-2 mt-2">
+<span class="px-2 py-0.5 bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 rounded-full font-mono text-[11px] flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px]">trending_up</span> 69%
+                </span>
+<span class="text-xs text-zinc-500">Rasio tercapai</span>
+</div>
+</div>
+</div>
+<!-- Sedang Berjalan -->
+<div class="glass-card p-5 rounded-2xl flex flex-col justify-between relative overflow-hidden group">
+<div class="flex items-center justify-between mb-4">
+<span class="text-xs font-mono uppercase text-zinc-400 tracking-wider">Sedang Berjalan</span>
+<div class="w-8 h-8 rounded-xl bg-sky-500/10 border border-sky-500/20 flex items-center justify-center text-sky-400">
+<span class="material-symbols-outlined text-[18px]">pending_actions</span>
+</div>
+</div>
+<div class="flex flex-col">
+<div class="flex items-baseline gap-2">
+<span class="text-3xl font-bold font-mono tracking-tight text-white">31</span>
+<span class="text-xs text-zinc-500">Tugas</span>
+</div>
+<div class="flex items-center gap-1.5 mt-2 text-zinc-400 font-mono text-xs">
+<span>21.8% dari kapasitas tim</span>
+</div>
+</div>
+</div>
+<!-- Lewat Tenggat -->
+<div class="glass-card p-5 rounded-2xl flex flex-col justify-between relative overflow-hidden group">
+<div class="flex items-center justify-between mb-4">
+<span class="text-xs font-mono uppercase text-zinc-400 tracking-wider">Lewat Tenggat Waktu</span>
+<div class="w-8 h-8 rounded-xl bg-rose-500/10 border border-rose-500/25 flex items-center justify-center text-rose-400">
+<span class="material-symbols-outlined text-[18px]">error_outline</span>
+</div>
+</div>
+<div class="flex flex-col">
+<div class="flex items-baseline gap-2">
+<span class="text-3xl font-bold font-mono tracking-tight text-rose-400">13</span>
+<span class="text-xs text-zinc-500">Tugas</span>
+</div>
+<div class="flex items-center gap-1.5 mt-2 text-rose-400 font-mono text-xs">
+<span class="material-symbols-outlined text-[15px]">priority_high</span>
+<span>Tindakan segera diperlukan</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Main Visualizations Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-5 mb-8">
+<!-- Card 1: Donut Chart Persentase Status Tugas (4 Cols) -->
+<div class="lg:col-span-4 glass-card p-6 rounded-2xl flex flex-col justify-between">
+<div class="flex items-center justify-between mb-4">
+<div class="flex flex-col">
+<h2 class="text-sm font-semibold tracking-tight text-white">Distribusi Status Tugas</h2>
+<span class="text-xs text-zinc-400">Proporsi siklus pengerjaan sprint</span>
+</div>
+<button class="text-zinc-500 hover:text-white p-1 rounded transition-colors">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+<!-- Futuristic Donut Chart -->
+<div class="flex flex-col items-center justify-center my-3 relative">
+<div class="relative w-48 h-48 flex items-center justify-center">
+<svg class="w-full h-full -rotate-90" viewbox="0 0 100 100">
+<!-- Background Track -->
+<circle class="stroke-white/10" cx="50" cy="50" fill="none" r="38" stroke-width="10"></circle>
+<!-- Selesai (Emerald) 69% (~164.7) -->
+<circle class="transition-all duration-700" cx="50" cy="50" fill="none" r="38" stroke="#10b981" stroke-dasharray="164.7 238.8" stroke-dashoffset="0" stroke-linecap="round" stroke-width="10"></circle>
+<!-- Sedang Berjalan (Sky/White) 22% (~52.5) -->
+<circle class="transition-all duration-700" cx="50" cy="50" fill="none" r="38" stroke="#ffffff" stroke-dasharray="52.5 238.8" stroke-dashoffset="-168" stroke-linecap="round" stroke-width="10"></circle>
+<!-- Lewat / Belum (Rose) 9% (~21.5) -->
+<circle class="transition-all duration-700" cx="50" cy="50" fill="none" r="38" stroke="#f43f5e" stroke-dasharray="21.5 238.8" stroke-dashoffset="-222" stroke-linecap="round" stroke-width="10"></circle>
+</svg>
+<div class="absolute flex flex-col items-center justify-center pointer-events-none">
+<span class="text-2xl font-bold font-mono tracking-tight text-white">69%</span>
+<span class="font-mono text-[10px] uppercase text-zinc-400 tracking-widest">TUNTAS</span>
+</div>
+</div>
+</div>
+<!-- Status Breakdown Legend -->
+<div class="flex flex-col gap-2 pt-3 border-t border-white/10 text-xs">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(16,185,129,0.8)]"></span>
+<span class="text-zinc-300">Selesai (69%)</span>
+</div>
+<span class="font-mono text-zinc-400">98 Tugas</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-white shadow-[0_0_8px_rgba(255,255,255,0.8)]"></span>
+<span class="text-zinc-300">Sedang Berjalan (22%)</span>
+</div>
+<span class="font-mono text-zinc-400">31 Tugas</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-rose-500 shadow-[0_0_8px_rgba(244,63,94,0.8)]"></span>
+<span class="text-zinc-300">Tertunda / Lewat (9%)</span>
+</div>
+<span class="font-mono text-zinc-400">13 Tugas</span>
+</div>
+</div>
+</div>
+<!-- Card 2: Tren Penyelesaian Tugas Mingguan (8 Cols) -->
+<div class="lg:col-span-8 glass-card p-6 rounded-2xl flex flex-col justify-between">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-6">
+<div class="flex flex-col">
+<h2 class="text-sm font-semibold tracking-tight text-white">Tren Siklus Tugas Mingguan</h2>
+<span class="text-xs text-zinc-400">Perbandingan rasio Tugas Dibuat vs Diselesaikan (4 Minggu Terakhir)</span>
+</div>
+<div class="flex items-center gap-4 self-start sm:self-auto font-mono text-xs">
+<div class="flex items-center gap-1.5">
+<span class="w-2.5 h-2.5 rounded-sm bg-white/40"></span>
+<span class="text-zinc-400">Dibuat</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="w-2.5 h-2.5 rounded-sm bg-white shadow-[0_0_8px_rgba(255,255,255,0.4)]"></span>
+<span class="text-zinc-200">Diselesaikan</span>
+</div>
+</div>
+</div>
+<!-- Weekly Trend Bars Chart -->
+<div class="w-full flex-1 flex flex-col justify-end min-h-[220px]">
+<div class="grid grid-cols-4 gap-6 items-end h-44 px-4 bg-black/40 border border-white/5 rounded-xl pb-3 pt-6">
+<!-- Week 1 -->
+<div class="flex flex-col items-center h-full justify-end gap-1.5 group cursor-pointer">
+<div class="flex items-end justify-center gap-2 w-full h-32">
+<div class="w-4 bg-white/30 group-hover:bg-white/50 rounded-t transition-all" style="height: 65%;" title="Dibuat: 26"></div>
+<div class="w-4 bg-emerald-500/80 group-hover:bg-emerald-400 rounded-t transition-all" style="height: 55%;" title="Selesai: 22"></div>
+</div>
+<span class="text-[11px] font-mono text-zinc-400 group-hover:text-white">W1</span>
+<span class="font-mono text-[10px] text-zinc-500">22 / 26</span>
+</div>
+<!-- Week 2 -->
+<div class="flex flex-col items-center h-full justify-end gap-1.5 group cursor-pointer">
+<div class="flex items-end justify-center gap-2 w-full h-32">
+<div class="w-4 bg-white/30 group-hover:bg-white/50 rounded-t transition-all" style="height: 80%;" title="Dibuat: 32"></div>
+<div class="w-4 bg-emerald-500/80 group-hover:bg-emerald-400 rounded-t transition-all" style="height: 70%;" title="Selesai: 28"></div>
+</div>
+<span class="text-[11px] font-mono text-zinc-400 group-hover:text-white">W2</span>
+<span class="font-mono text-[10px] text-zinc-500">28 / 32</span>
+</div>
+<!-- Week 3 -->
+<div class="flex flex-col items-center h-full justify-end gap-1.5 group cursor-pointer">
+<div class="flex items-end justify-center gap-2 w-full h-32">
+<div class="w-4 bg-white/30 group-hover:bg-white/50 rounded-t transition-all" style="height: 50%;" title="Dibuat: 20"></div>
+<div class="w-4 bg-emerald-500/80 group-hover:bg-emerald-400 rounded-t transition-all" style="height: 65%;" title="Selesai: 26"></div>
+</div>
+<span class="text-[11px] font-mono text-zinc-400 group-hover:text-white">W3</span>
+<span class="font-mono text-[10px] text-emerald-400 font-medium">26 / 20</span>
+</div>
+<!-- Week 4 (Current) -->
+<div class="flex flex-col items-center h-full justify-end gap-1.5 group cursor-pointer">
+<div class="flex items-end justify-center gap-2 w-full h-32">
+<div class="w-4 bg-white/40 rounded-t transition-all" style="height: 40%;" title="Dibuat: 16"></div>
+<div class="w-4 bg-white rounded-t shadow-[0_0_12px_rgba(255,255,255,0.7)] transition-all" style="height: 55%;" title="Selesai: 22"></div>
+</div>
+<span class="text-[11px] font-mono text-white font-semibold">W4 (Kini)</span>
+<span class="font-mono text-[10px] text-emerald-400 font-bold">22 / 16</span>
+</div>
+</div>
+<!-- Footer Insights -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pt-4 mt-2 text-xs text-zinc-400 border-t border-white/5">
+<span class="flex items-center gap-2 font-mono text-[11px]">
+<span class="material-symbols-outlined text-[15px] text-emerald-400">insights</span> Kecepatan penyelesaian melampaui backlog masuk (+37.5% burn-rate)
+                </span>
+<a class="text-zinc-300 hover:text-white flex items-center gap-1 font-medium group transition-colors" href="#">
+<span>Lihat Analisis Detail</span>
+<span class="text-sm transition-transform group-hover:translate-x-0.5">→</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+<!-- Progress per Project & Workload Section -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-5 mb-8">
+<!-- Card 3: Progres per Proyek (7 Cols) -->
+<div class="lg:col-span-7 glass-card p-6 rounded-2xl flex flex-col justify-between">
+<div class="flex items-center justify-between mb-5">
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<h2 class="text-sm font-semibold tracking-tight text-white">Kesehatan &amp; Progres Proyek</h2>
+<span class="px-2 py-0.5 rounded-full bg-white/5 border border-white/10 text-zinc-400 font-mono text-[10px]">4 Aktif</span>
+</div>
+<span class="text-xs text-zinc-400 mt-0.5">Pelacakan target milestone dan integritas tenggat waktu</span>
+</div>
+<button class="text-xs font-medium text-zinc-400 hover:text-white flex items-center gap-1 transition-colors">
+<span>Kelola Proyek</span>
+<span class="material-symbols-outlined text-[15px]">chevron_right</span>
+</button>
+</div>
+<div class="flex flex-col gap-3">
+<!-- Project 1 -->
+<div class="p-4 bg-[#111115] border border-white/5 rounded-xl flex flex-col gap-2.5 hover:border-white/15 transition-all">
+<div class="flex items-start justify-between">
+<div class="flex flex-col">
+<span class="text-xs font-semibold text-white">Redesain Aplikasi Mobile v2.0</span>
+<span class="text-[11px] text-zinc-400">Desain UI/UX &amp; Implementasi Flutter UI</span>
+</div>
+<span class="px-2 py-0.5 rounded-full font-mono text-[10px] bg-emerald-500/10 border border-emerald-500/25 text-emerald-400 flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Sesuai Jadwal
+                  </span>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex justify-between items-center text-xs">
+<span class="font-mono text-[11px] text-zinc-400">36 dari 48 Tugas Selesai</span>
+<span class="font-mono text-[11px] font-semibold text-emerald-400">75%</span>
+</div>
+<div class="w-full h-1.5 bg-zinc-800 rounded-full overflow-hidden">
+<div class="h-full bg-emerald-400 rounded-full shadow-[0_0_8px_rgba(16,185,129,0.5)]" style="width: 75%;"></div>
+</div>
+</div>
+<div class="flex items-center justify-between pt-1">
+<div class="flex items-center -space-x-1.5">
+<img alt="Avatar" class="w-5 h-5 rounded-full ring-1 ring-black object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDf_LcBT-Qhuqb-G9-NjkSJo8Q3hvKTpY2B779A8kOtt5HYdxNXMlgju1gPkdsgKoogA0SsBaZRrtPbSRcXbDPjHyJCF7U9ir11-cFQB5Z3uH1KXKcn1tqfcz7KCJbbIm275a9tsct893NDZavVLU0X-PRU6SM38XBZW9BWZPWRfFobOYQyIMvsbid7ONjhcIYLMtga1YW248V01BYhpYIYKNLRrq6HqEpNWPeSFyqapzAsJqlgSVWk"/>
+<img alt="Avatar" class="w-5 h-5 rounded-full ring-1 ring-black object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAeSZJ20O0zZ2trJJ8st3mk5p5O_b-dOy2NYfFg3ZQPuMK6oKn630ex7YMaNOkNKnTWirHPoBiGVmdAGB8KQ5Zz6_z8fPTkzYqji5-Pn7LBv0jqwkO7og0rxX6hnBZPrFRuh0uxdfJReMkT8U0-QHpO4MFjuROBEIwk-mbD9E6D-Dx2vugnY6Y51nwHUZbawMQ8Y2hjBpxoe3r2sA_XS5Iy1i71h8Oem33AtQ7ZGwpsrtde162LvJXR"/>
+<img alt="Avatar" class="w-5 h-5 rounded-full ring-1 ring-black object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDi7v9--m5YIPJ3lEMNai8a3saQ3s-tztA6tSRJhQ-ovku_aBz0TKMJMXrwtDvWjUy7ZMpV3YYkjaKowFQOGYyZGLSFOhdVmMoxF22jGUHpQo-OLNz_SDBGPo9gnOx_MNy0fL1SQzhWFfPxTZOo90Mm5qw7P__hAacQ7E-xXDaRgDd31WzFYb4VKxirGfLGY8QaogpgMVY_d0YA1_uRzcL9DqPEEk0-9liyQ9QpzIjVuVmLr85pnzPm"/>
+<span class="w-5 h-5 rounded-full bg-zinc-800 text-zinc-300 font-mono text-[9px] flex items-center justify-center ring-1 ring-black">+3</span>
+</div>
+<span class="font-mono text-[11px] text-zinc-500">Target: 28 Apr 2025</span>
+</div>
+</div>
+<!-- Project 2 -->
+<div class="p-4 bg-[#111115] border border-white/5 rounded-xl flex flex-col gap-2.5 hover:border-white/15 transition-all">
+<div class="flex items-start justify-between">
+<div class="flex flex-col">
+<span class="text-xs font-semibold text-white">Payment Gateway API &amp; Webhook</span>
+<span class="text-[11px] text-zinc-400">Integrasi QRIS, VA Bank &amp; Rekonsiliasi Realtime</span>
+</div>
+<span class="px-2 py-0.5 rounded-full font-mono text-[10px] bg-rose-500/10 border border-rose-500/25 text-rose-400 flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span> Berisiko Tertunda
+                  </span>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex justify-between items-center text-xs">
+<span class="font-mono text-[11px] text-zinc-400">9 dari 20 Tugas Selesai</span>
+<span class="font-mono text-[11px] font-semibold text-white">45%</span>
+</div>
+<div class="w-full h-1.5 bg-zinc-800 rounded-full overflow-hidden">
+<div class="h-full bg-white/80 rounded-full" style="width: 45%;"></div>
+</div>
+</div>
+<div class="flex items-center justify-between pt-1">
+<div class="flex items-center -space-x-1.5">
+<img alt="Avatar" class="w-5 h-5 rounded-full ring-1 ring-black object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA9OuKBVteUQmZQPaQ4igm8_kVArN0L0fahq6xY0h_f5G0ZyEZzJzlN6d2Y_rl-ps4JtYGkcrn7o_MAMcUaz1io9EMb-ybv9ahIREqhAkaTc1H9rCWic1TBMyDpQ-gl8pzAlicSBj5AAWYppzTs2TWBcLSbzvYKH8q6xuATeY10SwCLfZtc23pk05mghFbC8QsSyzlbx36QyHpfLB-m3u1eH3Y5uITyABzuKzlH0dh9lLoIIaJB3UJ4"/>
+<img alt="Avatar" class="w-5 h-5 rounded-full ring-1 ring-black object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC7LexV9vvgqU4vVh30ncCm_WhUu9UiLext9ZU51nUE66iCsniuodiOlQePDPiBHclqyrkKahrMLwzUg_TOIorQNGzdK3K4LbN8ReCEZ3nMNh7o5DmIj4adY-Tq_3M3Jj3nnJX_P_jB4rQozjh6lNL67jDMb2AQJ00oZvDeU67B2BwQk3yHQSQ21vlP88a8dN9k5CgXUxOAWSANnu8w5HkJiugmw2X3M2NUdiMdubEg-j03VIJaGz-_"/>
+<span class="w-5 h-5 rounded-full bg-zinc-800 text-zinc-300 font-mono text-[9px] flex items-center justify-center ring-1 ring-black">+1</span>
+</div>
+<span class="font-mono text-[11px] text-rose-400">Target: 18 Apr 2025 (Kritis)</span>
+</div>
+</div>
+<!-- Project 3 -->
+<div class="p-4 bg-[#111115] border border-white/5 rounded-xl flex flex-col gap-2.5 hover:border-white/15 transition-all">
+<div class="flex items-start justify-between">
+<div class="flex flex-col">
+<span class="text-xs font-semibold text-white">Audit Keamanan &amp; Vulnerability Q2</span>
+<span class="text-[11px] text-zinc-400">Penetrasi Testing &amp; Patch CVE</span>
+</div>
+<span class="px-2 py-0.5 rounded-full font-mono text-[10px] bg-emerald-500/10 border border-emerald-500/25 text-emerald-400 flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Hampir Selesai
+                  </span>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex justify-between items-center text-xs">
+<span class="font-mono text-[11px] text-zinc-400">18 dari 20 Tugas Selesai</span>
+<span class="font-mono text-[11px] font-semibold text-emerald-400">90%</span>
+</div>
+<div class="w-full h-1.5 bg-zinc-800 rounded-full overflow-hidden">
+<div class="h-full bg-emerald-400 rounded-full shadow-[0_0_8px_rgba(16,185,129,0.5)]" style="width: 90%;"></div>
+</div>
+</div>
+<div class="flex items-center justify-between pt-1">
+<div class="flex items-center -space-x-1.5">
+<img alt="Avatar" class="w-5 h-5 rounded-full ring-1 ring-black object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAKFJNNH1rbqY-jrRQpJJbjxhuLf6hEkAh1OkjlFf1JK__6ozNbXBCfdhLhKDjDScUHYUaml3QJfQ61Ccdynal8Ybqg9mJm0QLMzAgxiwDbBGBPq547iN5hhD7Ds3YaqL6TupH_kTavWYDKmxiBB4koNTT_gnjG1xU6pY6FlTEjqzSXIWzjrgx8jOJs4BL-XeiSe0LwGMo-RwWwhT1rxhVertLNCchDgeEo8csAU5F80_2gNS_ZOQ8u"/>
+<img alt="Avatar" class="w-5 h-5 rounded-full ring-1 ring-black object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCrLZwTuYnWWWCf4z7F-KKP3VliGO94dHQdrsP44xgs2QDQlD9SoyHkhUwOVrcT0ys_8aNGBOFzl5T5R2nMKgwRyZQrL3gi6MLqZ5jV1qu7t9zF7lIrJMhr7mVneGwjgbhND0KDvuMXlAlpTsH_5qMgBzuC8OBGsZcRy7Vlg2DEPTyDGKVFKwUgkYjXMDNIeY-NMeL27W-wc0lhELCArYcJg1aIt84kOpq3ipzhmXOFNX0x4uosSU_t"/>
+</div>
+<span class="font-mono text-[11px] text-zinc-500">Target: 30 Apr 2025</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Card 4: Distribusi Beban Kerja (5 Cols) -->
+<div class="lg:col-span-5 glass-card p-6 rounded-2xl flex flex-col justify-between">
+<div class="flex items-center justify-between mb-5">
+<div class="flex flex-col">
+<h2 class="text-sm font-semibold tracking-tight text-white">Distribusi Beban Kerja</h2>
+<span class="text-xs text-zinc-400">Penyelesaian tugas per kolaborator</span>
+</div>
+<span class="material-symbols-outlined text-zinc-500 text-[20px]">leaderboard</span>
+</div>
+<div class="flex flex-col gap-4">
+<!-- Contributor 1 -->
+<div class="flex flex-col gap-1.5">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2.5">
+<img alt="Siti" class="w-6 h-6 rounded-full object-cover ring-1 ring-white/10" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA-0Hqlxl1Vue3MsZd38_M409iadA199130ZGrTHxUtQgJB8wGKq1kiom14mqLmlLVXd76CV0v4HLTAisxO3xuHkN9hTq7V5MUCbbIUiHThAwIWEJWgOKWn1Nr_zNrrbp66yBwdh4O6RCGwKJ2YB6QECyF6N6TZXUpTg5VraWdBxx3JQlCp7FAp5xPoP1uHkHn27h5GKJaU_8mcjT3-dZGzq6PLKhfUN8GYlSTqCeHhr7JdB62he6oB"/>
+<div class="flex flex-col">
+<span class="text-xs font-medium text-white leading-none">Siti Rahmawati</span>
+<span class="font-mono text-[10px] text-zinc-500 mt-0.5">UI/UX Designer</span>
+</div>
+</div>
+<div class="flex items-center gap-1 font-mono text-xs">
+<span class="text-emerald-400 font-semibold">28</span>
+<span class="text-zinc-600">/ 32</span>
+</div>
+</div>
+<div class="w-full h-1 bg-zinc-800 rounded-full overflow-hidden">
+<div class="h-full bg-emerald-400 rounded-full" style="width: 87.5%;"></div>
+</div>
+</div>
+<!-- Contributor 2 -->
+<div class="flex flex-col gap-1.5">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2.5">
+<img alt="Dimas" class="w-6 h-6 rounded-full object-cover ring-1 ring-white/10" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBhX3zglcqwr81B4MVUvp74XytQQ6Xiu7V1xLslRy8H7_1r7L9jZloIyia1FqGYzYWzxj8rTK5WQNRy8NM4S7nnVyhdcCa14imHdorOpck6vn8puw4DY6Bv15gvkP8MZPaNLp0hfYWqojDUBLCAebC7QVJ8gqe1RIp8usetQ2s5KCZasTvnAltxP3jzBMuuTgp9CllmV-SKKQPXBMSrQOAn77SjNcNRDEuP9vAoDUCHEeaXUdiSkEbC"/>
+<div class="flex flex-col">
+<span class="text-xs font-medium text-white leading-none">Dimas Kurnia</span>
+<span class="font-mono text-[10px] text-zinc-500 mt-0.5">Frontend Lead</span>
+</div>
+</div>
+<div class="flex items-center gap-1 font-mono text-xs">
+<span class="text-white font-semibold">24</span>
+<span class="text-zinc-600">/ 30</span>
+</div>
+</div>
+<div class="w-full h-1 bg-zinc-800 rounded-full overflow-hidden">
+<div class="h-full bg-white/80 rounded-full" style="width: 80%;"></div>
+</div>
+</div>
+<!-- Contributor 3 -->
+<div class="flex flex-col gap-1.5">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2.5">
+<img alt="Alberto" class="w-6 h-6 rounded-full object-cover ring-1 ring-white/10" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBQt4jO3RHVcM-rPXqoIIL8UjeEF1CM6k8eeMTg8TkeP7CTJmDJEaUpF6N1sAfWbdDi0q-c4taVwYWBRIN7R29GFNr0H275s8B8NN1KauOd4nVI3FJ0XdJWy40HyPa1v93NEuZlIWjjL3p-4aate28Dk2pgFAMvsqoKuuPHLkrS_hmodtMYMpH0Cq3PD5gc4y4x1VAKXrKq5ApnS0OAuRVIoT9krShNK7CRI9ffN9jN7Dv9ZrZO7p5M"/>
+<div class="flex flex-col">
+<span class="text-xs font-medium text-white leading-none">Alberto Tanujaya</span>
+<span class="font-mono text-[10px] text-zinc-500 mt-0.5">Backend Engineer</span>
+</div>
+</div>
+<div class="flex items-center gap-1 font-mono text-xs">
+<span class="text-white font-semibold">19</span>
+<span class="text-zinc-600">/ 29</span>
+</div>
+</div>
+<div class="w-full h-1 bg-zinc-800 rounded-full overflow-hidden">
+<div class="h-full bg-white/60 rounded-full" style="width: 65%;"></div>
+</div>
+</div>
+<!-- Contributor 4 -->
+<div class="flex flex-col gap-1.5">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2.5">
+<img alt="Nadia" class="w-6 h-6 rounded-full object-cover ring-1 ring-white/10" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAO7bjvIttpi9Wd8UXMaMsE-5DPwBOPijEn7qJD1uC_8YZu7VPcuZ5wx0EdCJqp5lsPfz-zc-Tj2sK5Oq3N8yFELjlk_ggI-E3goRUlLe-WvWRRW4S1ORdIGKzsHQKzKYwMHMxtdoC7PsFK0WJvy2EvDphpmSDdIhB5lUmY9nk4eSni4Pg8UWJB9vUh7udNeXrFkSS4cRRCrnj_4YqSBe3CdEL3IIIWusSBBUVhjOKhTF2M9tPAMnGi"/>
+<div class="flex flex-col">
+<span class="text-xs font-medium text-white leading-none">Nadia Utami</span>
+<span class="font-mono text-[10px] text-zinc-500 mt-0.5">SecOps Specialist</span>
+</div>
+</div>
+<div class="flex items-center gap-1 font-mono text-xs">
+<span class="text-emerald-400 font-semibold">18</span>
+<span class="text-zinc-600">/ 20</span>
+</div>
+</div>
+<div class="w-full h-1 bg-zinc-800 rounded-full overflow-hidden">
+<div class="h-full bg-emerald-400 rounded-full" style="width: 90%;"></div>
+</div>
+</div>
+</div>
+<!-- Top Performer Badge -->
+<div class="p-3 bg-[#111115] border border-white/10 rounded-xl flex items-center justify-between mt-4">
+<div class="flex items-center gap-2">
+<span class="w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-xs">★</span>
+<span class="text-xs text-zinc-300">Top Performer: <strong class="text-white">Siti R.</strong></span>
+</div>
+<span class="font-mono text-[11px] text-emerald-400">Efisiensi 96%</span>
+</div>
+</div>
+</div>
+<!-- Bottom Data Table: Tasks At Risk / Near Deadline -->
+<div class="glass-card rounded-2xl p-6 shadow-2xl">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-xl bg-rose-500/10 border border-rose-500/20 flex items-center justify-center text-rose-400">
+<span class="material-symbols-outlined text-[18px]">warning</span>
+</div>
+<div class="flex flex-col">
+<h2 class="text-sm font-semibold tracking-tight text-white">Tugas Berisiko &amp; Mendekati Deadline</h2>
+<span class="text-xs text-zinc-400">Tugas yang memerlukan intervensi segera atau tindak lanjut pimpinan</span>
+</div>
+</div>
+<div class="flex items-center gap-2 font-mono text-[11px] text-zinc-500">
+<span>Menampilkan 4 dari 13 tugas berisiko</span>
+</div>
+</div>
+<!-- Table Container -->
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="border-b border-white/10 bg-[#121216]/60 text-zinc-400">
+<th class="py-3 px-4 font-mono text-[10px] uppercase tracking-wider">Kode &amp; Tugas</th>
+<th class="py-3 px-4 font-mono text-[10px] uppercase tracking-wider">Proyek</th>
+<th class="py-3 px-4 font-mono text-[10px] uppercase tracking-wider">PIC / Pemilik</th>
+<th class="py-3 px-4 font-mono text-[10px] uppercase tracking-wider">Tenggat Waktu</th>
+<th class="py-3 px-4 font-mono text-[10px] uppercase tracking-wider">Prioritas</th>
+<th class="py-3 px-4 font-mono text-[10px] uppercase tracking-wider">Status Resiko</th>
+<th class="py-3 px-4 font-mono text-[10px] uppercase tracking-wider text-right">Tindakan Cepat</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-white/5 text-xs font-normal">
+<!-- Row 1 -->
+<tr class="hover:bg-white/[0.02] transition-colors">
+<td class="py-3.5 px-4">
+<div class="flex flex-col">
+<span class="text-xs font-medium text-white">Implementasi Idempotency Key Gateway</span>
+<span class="font-mono text-[11px] text-zinc-500">TGK-409 • API Service</span>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<span class="text-zinc-300">Payment Gateway</span>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex items-center gap-2">
+<img alt="Alberto" class="w-5 h-5 rounded-full object-cover ring-1 ring-white/10" src="https://lh3.googleusercontent.com/aida-public/AB6AXuApjilWQozVv7sCpSCjNf7ans77LSTS6gr-BvAlyFT2jMLMCGiLkW4NllqkwqmNhXaV1pPUdd8JcbUOPn0NX6RxKT-wyatzcFvcHd8VGAOOaqqSkLtyVfHPHphwoOROJzXHpW-rwVmFMwyJXYRrhtlrg81hDHajy9yR9jdor2A6LMTi8jUMqzqZ-TN0C_zj23le_4IIg46emZq1-66F-Dr1Z0A2KFZBt6FqTktndugoEeL-egztQof9"/>
+<span class="text-zinc-300">Alberto Tanujaya</span>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex items-center gap-1.5 text-rose-400 font-mono text-[11px]">
+<span class="material-symbols-outlined text-[15px]">event_busy</span>
+<span>Kemarin (15 Apr)</span>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<span class="px-2 py-0.5 rounded-full font-mono text-[10px] bg-rose-500/10 border border-rose-500/20 text-rose-400 font-semibold uppercase">
+                      Mendesak
+                    </span>
+</td>
+<td class="py-3.5 px-4">
+<span class="font-mono text-[11px] text-rose-400 flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span> Terlambat 1 Hari
+                    </span>
+</td>
+<td class="py-3.5 px-4 text-right">
+<div class="flex items-center justify-end gap-2">
+<button class="px-3 py-1 rounded-full bg-[#17171c] hover:bg-[#222228] border border-white/10 text-zinc-300 hover:text-white font-medium text-[11px] transition-all">
+                        Kirim Pengingat
+                      </button>
+<button class="p-1 rounded-full bg-white text-black hover:bg-zinc-200 transition-colors" title="Buka Detail Tugas">
+<span class="material-symbols-outlined text-[15px]">open_in_new</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-white/[0.02] transition-colors">
+<td class="py-3.5 px-4">
+<div class="flex flex-col">
+<span class="text-xs font-medium text-white">Validasi Enkripsi Payload Webhook</span>
+<span class="font-mono text-[11px] text-zinc-500">TGK-412 • Keamanan</span>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<span class="text-zinc-300">Payment Gateway</span>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex items-center gap-2">
+<img alt="Nadia" class="w-5 h-5 rounded-full object-cover ring-1 ring-white/10" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB6qHljiVV3eQuAzhuM_26xz5KTMvr8mGGoN0Lnrht5cICopnD-p_On0Ek2yuYkDOcZ_X16bbqlszXtTwEa8nWBFPmI9I-qqejoLMR8Lm3_YfevqrLkJb7a6ZYLLOgZ075kt_fhyrJc14s7mEWpo5cFPk3blvd3qogL4phYz04Rwx70lmflkgGGL2phOz3eMMgcv5Tg26CwoKumEf_IN76TPBg1ru9XtkbwroDaFxgYKFj3_iR5kHP1"/>
+<span class="text-zinc-300">Nadia Utami</span>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex items-center gap-1.5 text-rose-400 font-mono text-[11px]">
+<span class="material-symbols-outlined text-[15px]">schedule</span>
+<span>Hari ini (17:00)</span>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<span class="px-2 py-0.5 rounded-full font-mono text-[10px] bg-rose-500/10 border border-rose-500/20 text-rose-400 font-semibold uppercase">
+                      Tinggi
+                    </span>
+</td>
+<td class="py-3.5 px-4">
+<span class="font-mono text-[11px] text-rose-400 flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-rose-500 animate-ping"></span> Sisa 3 Jam
+                    </span>
+</td>
+<td class="py-3.5 px-4 text-right">
+<div class="flex items-center justify-end gap-2">
+<button class="px-3 py-1 rounded-full bg-[#17171c] hover:bg-[#222228] border border-white/10 text-zinc-300 hover:text-white font-medium text-[11px] transition-all">
+                        Kirim Pengingat
+                      </button>
+<button class="p-1 rounded-full bg-white text-black hover:bg-zinc-200 transition-colors" title="Buka Detail Tugas">
+<span class="material-symbols-outlined text-[15px]">open_in_new</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-white/[0.02] transition-colors">
+<td class="py-3.5 px-4">
+<div class="flex flex-col">
+<span class="text-xs font-medium text-white">Uji Kompatibilitas Dark Theme Tablet</span>
+<span class="font-mono text-[11px] text-zinc-500">TGK-388 • QA / Design</span>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<span class="text-zinc-300">Redesain Mobile v2.0</span>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex items-center gap-2">
+<img alt="Siti" class="w-5 h-5 rounded-full object-cover ring-1 ring-white/10" src="https://lh3.googleusercontent.com/aida-public/AB6AXuACwRhcp96LU4K5z9NIBmtwAK6Msg5VB5EMygrofDqU2H02ROHbb2RZmPENXBPRaKvpHEnFf-jvAu7qRVVFzgMyXSSRb-gJfEPZYGElWXdVqtWnqSXmr69cEb3hPygVHz5eg2pHCJdnx4VPU0l3mee-ahE8YjawvS_sef93B3YPUTdVE5F7YA-A1bA-1FRDRO2IYvsp6dgWKHrEJtSPk6pqixjLF9p4esPQTCzUEIcXw-QwryeC9ezp"/>
+<span class="text-zinc-300">Siti Rahmawati</span>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex items-center gap-1.5 text-zinc-400 font-mono text-[11px]">
+<span class="material-symbols-outlined text-[15px]">calendar_clock</span>
+<span>Besok (17 Apr)</span>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<span class="px-2 py-0.5 rounded-full font-mono text-[10px] bg-white/10 border border-white/20 text-zinc-300 font-semibold uppercase">
+                      Menengah
+                    </span>
+</td>
+<td class="py-3.5 px-4">
+<span class="font-mono text-[11px] text-zinc-400 flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-zinc-500"></span> QA Review
+                    </span>
+</td>
+<td class="py-3.5 px-4 text-right">
+<div class="flex items-center justify-end gap-2">
+<button class="px-3 py-1 rounded-full bg-[#17171c] hover:bg-[#222228] border border-white/10 text-zinc-300 hover:text-white font-medium text-[11px] transition-all">
+                        Kirim Pengingat
+                      </button>
+<button class="p-1 rounded-full bg-white text-black hover:bg-zinc-200 transition-colors" title="Buka Detail Tugas">
+<span class="material-symbols-outlined text-[15px]">open_in_new</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-white/[0.02] transition-colors">
+<td class="py-3.5 px-4">
+<div class="flex flex-col">
+<span class="text-xs font-medium text-white">Patch Vulnerability Log4j &amp; Library Parsing</span>
+<span class="font-mono text-[11px] text-zinc-500">TGK-355 • Infrastruktur</span>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<span class="text-zinc-300">Audit Keamanan Q2</span>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex items-center gap-2">
+<img alt="Dimas" class="w-5 h-5 rounded-full object-cover ring-1 ring-white/10" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBOqNx7uMVwDFzoi2-Qy0jtVNzQo_Io404uO6UG1czMZ6F1rGALC6MYoNOBA7idtU1xXyoOjQJboth0QNr7zn-AM4a5902KxF0F7DQui3LPuriUW_2p6IgD8IJHdji-SbM3T57WibLp89_EZ13_oBP-OswkQChsNhsdAIUP7JWS8UugQoQNZuF42OosHaypJM4GAhKO82YBAbcOm1U4o4XqoPCaf6moETSQ_frcHPYprclXqX1h-j-P"/>
+<span class="text-zinc-300">Dimas Kurnia</span>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex items-center gap-1.5 text-zinc-400 font-mono text-[11px]">
+<span class="material-symbols-outlined text-[15px]">calendar_clock</span>
+<span>18 Apr 2025</span>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<span class="px-2 py-0.5 rounded-full font-mono text-[10px] bg-rose-500/10 border border-rose-500/20 text-rose-400 font-semibold uppercase">
+                      Tinggi
+                    </span>
+</td>
+<td class="py-3.5 px-4">
+<span class="font-mono text-[11px] text-emerald-400 flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Siap Uji
+                    </span>
+</td>
+<td class="py-3.5 px-4 text-right">
+<div class="flex items-center justify-end gap-2">
+<button class="px-3 py-1 rounded-full bg-[#17171c] hover:bg-[#222228] border border-white/10 text-zinc-300 hover:text-white font-medium text-[11px] transition-all">
+                        Kirim Pengingat
+                      </button>
+<button class="p-1 rounded-full bg-white text-black hover:bg-zinc-200 transition-colors" title="Buka Detail Tugas">
+<span class="material-symbols-outlined text-[15px]">open_in_new</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Table Footer Pagination -->
+<div class="flex flex-col sm:flex-row items-center justify-between gap-3 pt-4 mt-3 border-t border-white/10 text-xs text-zinc-400">
+<span class="font-mono text-[11px]">
+              Halaman 1 dari 4 (13 total tugas teridentifikasi)
+            </span>
+<div class="flex items-center gap-1 font-mono text-xs">
+<button class="px-3 py-1 rounded-full bg-[#141418] border border-white/10 text-zinc-500 hover:text-white disabled:opacity-40" disabled="">
+                Prev
+              </button>
+<button class="w-7 h-7 rounded-full bg-white text-black font-semibold flex items-center justify-center">
+                1
+              </button>
+<button class="w-7 h-7 rounded-full bg-[#141418] border border-white/10 text-zinc-400 hover:text-white flex items-center justify-center">
+                2
+              </button>
+<button class="w-7 h-7 rounded-full bg-[#141418] border border-white/10 text-zinc-400 hover:text-white flex items-center justify-center">
+                3
+              </button>
+<button class="px-3 py-1 rounded-full bg-[#141418] border border-white/10 text-zinc-400 hover:text-white">
+                Next
+              </button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Global Footer Telemetry (matching Jara screen 2) -->
+<footer class="w-full px-8 py-5 border-t border-white/10 bg-black/60 backdrop-blur-md flex flex-col md:flex-row items-center justify-between gap-4 font-mono text-[11px] text-zinc-500">
+<div class="flex flex-wrap items-center gap-6">
+<div class="flex items-center gap-2">
+<span class="text-zinc-600">&lt;</span>
+<span class="text-zinc-300 font-medium">120ms</span>
+<span>Inference Auth</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-zinc-600">⁘</span>
+<span class="text-zinc-300 font-medium">99.33%</span>
+<span>Uptime</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-zinc-600">⁜</span>
+<span class="text-zinc-300 font-medium">24/7</span>
+<span>Autonomous Runtime</span>
+</div>
+</div>
+<div class="flex items-center gap-4 text-zinc-500">
+<a class="hover:text-zinc-300 transition-colors" href="#">Privacy Policy</a>
+<span>•</span>
+<a class="hover:text-zinc-300 transition-colors" href="#">Terms of Service</a>
+<span>•</span>
+<span>Jara Platform Enterprise</span>
+</div>
+</footer>
+</div>
+</body></html>
