@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="id"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&amp;family=Hanken+Grotesk:wght@600;700;800&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{"colors":{"zinc-neutral":"#121316","jara-card":"#12141a","jara-border":"rgba(255,255,255,0.08)","jara-surface":"#0e0f12","jara-bg":"#09090b","accent-emerald":"#10b981"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","2xl":"1rem","full":"9999px"},"fontFamily":{"sans":["Geist","sans-serif"],"display":["Hanken Grotesk","sans-serif"],"mono":["Geist Mono","monospace"]}}}}</script></head><body class="bg-[#09090b] text-zinc-200 font-sans antialiased min-h-screen selection:bg-white/20"><aside class="fixed left-0 top-0 h-full w-64 bg-[#0e0f12] border-r border-white/[0.08] z-50 flex flex-col justify-between"><div class="flex flex-col"><div class="h-16 px-5 flex items-center gap-3 border-b border-white/[0.06] bg-[#09090b]/80 backdrop-blur-md"><div class="w-8 h-8 rounded-full bg-white flex items-center justify-center text-black font-extrabold shadow-[0_0_15px_rgba(255,255,255,0.3)]"><span class="font-display text-base font-black tracking-tighter">J</span></div><div class="flex flex-col"><span class="font-display font-bold text-white text-base tracking-tight leading-none">Jara</span><span class="text-[9px] font-semibold text-zinc-400 tracking-[0.2em] uppercase mt-1">Platform</span></div></div><div class="px-3 pt-5"><p class="px-3 mb-2 text-[11px] font-semibold text-zinc-500 uppercase tracking-widest">Menu Utama</p><nav class="flex flex-col gap-1"><a class="flex items-center gap-3 px-3 py-2 rounded-xl text-zinc-400 hover:text-zinc-100 hover:bg-white/[0.04] transition-all text-sm font-medium" data-path="ringkasan-dashboard" href="#"><span class="material-symbols-outlined text-[19px]">insights</span><span>Ringkasan &amp; Progres</span></a><a aria-current="page" class="flex items-center gap-3 px-3 py-2 rounded-xl text-white bg-zinc-800/80 border border-white/10 shadow-sm transition-all text-sm font-semibold" data-path="proyek-daftar-tugas" href="#"><span class="material-symbols-outlined text-[19px] text-white">fact_check</span><span>Proyek &amp; Tugas</span></a><a class="flex items-center gap-3 px-3 py-2 rounded-xl text-zinc-400 hover:text-zinc-100 hover:bg-white/[0.04] transition-all text-sm font-medium" data-path="tim-kolaborasi" href="#"><span class="material-symbols-outlined text-[19px]">group</span><span>Anggota Tim</span></a><a class="flex items-center gap-3 px-3 py-2 rounded-xl text-zinc-400 hover:text-zinc-100 hover:bg-white/[0.04] transition-all text-sm font-medium" data-path="manajemen-akun" href="#"><span class="material-symbols-outlined text-[19px]">admin_panel_settings</span><span>Admin &amp; Akun</span></a></nav></div><div class="px-3 pt-5"><p class="px-3 mb-2 text-[11px] font-semibold text-zinc-500 uppercase tracking-widest">Sistem</p><nav class="flex flex-col gap-1"><a class="flex items-center gap-3 px-3 py-2 rounded-xl text-zinc-400 hover:text-zinc-100 hover:bg-white/[0.04] transition-all text-sm font-medium" data-path="pengaturan" href="#"><span class="material-symbols-outlined text-[19px]">settings</span><span>Pengaturan</span></a></nav></div></div><div class="p-3 m-3 rounded-xl bg-zinc-900/60 border border-white/[0.06] flex items-center justify-between"><div class="flex flex-col"><span class="text-[11px] text-zinc-400 font-medium">Status Server</span><span class="text-[11px] text-emerald-400 font-medium flex items-center gap-1.5 mt-0.5"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400 inline-block animate-pulse"></span> Operasional</span></div><span class="material-symbols-outlined text-zinc-500 text-[18px]">verified</span></div></aside><div class="pl-64 flex flex-col min-h-screen bg-[#09090b]"><header class="fixed top-0 left-64 right-0 h-16 bg-[#09090b]/80 backdrop-blur-xl border-b border-white/[0.08] z-40 px-6 flex items-center justify-between"><div class="flex items-center gap-4 flex-1 max-w-xl"><div class="relative w-full flex items-center"><span class="material-symbols-outlined absolute left-3.5 text-zinc-400 pointer-events-none text-[18px]">search</span><input class="w-full bg-[#14151a] border border-white/[0.08] text-zinc-200 text-xs pl-9 pr-3 py-2 rounded-xl focus:outline-none focus:border-white/30 placeholder:text-zinc-500 transition-colors" placeholder="Cari tugas, sprint, atau anggota tim... (Ctrl + K)" type="text"/></div></div><div class="flex items-center gap-3"><button class="flex items-center gap-1.5 bg-white text-black hover:bg-zinc-200 px-4 py-2 rounded-full text-xs font-semibold shadow-[0_0_22px_rgba(255,255,255,0.25)] transition-all transform hover:scale-[1.02] active:scale-[0.98]" type="button"><span class="material-symbols-outlined text-[16px] font-bold">add</span><span>+ Buat Tugas Cepat</span></button><button aria-label="Notifikasi Aktivitas" class="relative p-2 rounded-xl text-zinc-400 hover:bg-white/[0.06] hover:text-zinc-200 transition-colors" type="button"><span class="material-symbols-outlined text-[20px]">notifications</span><span class="absolute top-2 right-2 w-2 h-2 bg-rose-500 rounded-full"></span></button><div class="h-5 w-[1px] bg-white/[0.08] mx-1"></div><div class="flex items-center gap-2.5 pl-1"><div class="flex flex-col text-right"><span class="text-xs font-semibold text-zinc-200 leading-none">Bambang Prakoso</span><span class="text-[10px] text-zinc-400 leading-none mt-1">Project Lead</span></div><img alt="Profile" class="w-8 h-8 rounded-full object-cover border border-white/10" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAsIWrHY6OQ3WqpEO_z_e2WSVHvE0ItDvNlK7fRHkG9UXY90gYJR1ryeVWu0jgntTJAkoyabCJl9RzcjyrIidXDq0PswRsrInDXHUUOs5J2R0lF4udEMivrH6ATEzmchqO5_JIrU58MeGnNcVw0HkueYehhTQMeafqAuPNaMFrRWVURp2m7wU0V_sCG6LBny7fKu3Dc1cA-Y_XkFefePCTfQa5Nnn8FgRPoUvcTdiFpt1VphCH9Ndyw"/><a aria-label="Logout" class="p-2 rounded-xl text-zinc-400 hover:text-rose-400 hover:bg-white/[0.06] transition-colors ml-1 flex items-center justify-center" data-path="login" href="#" title="Keluar dari Sistem"><span class="material-symbols-outlined text-[19px]">logout</span></a></div></div></header><main class="w-full pt-16 px-6 pb-12 flex-1 bg-[#09090b] flex flex-col justify-between"><div class="flex flex-col w-full">
+<!-- Top Ambient Glow Field -->
+<div class="relative w-full overflow-hidden">
+<div class="absolute -top-24 left-1/4 w-96 h-40 bg-white/[0.03] rounded-full blur-3xl pointer-events-none -z-10"></div>
+<div class="absolute -top-20 right-1/4 w-80 h-36 bg-emerald-500/[0.04] rounded-full blur-3xl pointer-events-none -z-10"></div>
+</div>
+<!-- Breadcrumb & Status Telemetry -->
+<div class="flex items-center justify-between gap-4 py-3">
+<div class="flex items-center gap-1.5 text-xs text-zinc-400">
+<a class="text-zinc-400 hover:text-white transition-colors flex items-center gap-1" href="#">
+<span class="material-symbols-outlined text-[15px]">folder_open</span>
+<span>Proyek</span>
+</a>
+<span class="text-zinc-600">/</span>
+<span class="text-zinc-100 font-semibold">Redesain Aplikasi Mobile v2.0</span>
+<span class="font-mono text-[11px] ml-1 px-1.5 py-0.5 bg-zinc-900 border border-white/[0.08] rounded text-zinc-400">PRJ-MOB-08</span>
+</div>
+<!-- Telemetry Badges -->
+<div class="flex items-center gap-2">
+<div class="flex items-center gap-1.5 px-3 py-1 bg-emerald-500/10 border border-emerald-500/20 rounded-full shadow-sm">
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-400"></span>
+</span>
+<span class="text-[11px] font-semibold text-emerald-400">Sesuai Jadwal</span>
+</div>
+<div class="flex items-center gap-1.5 px-3 py-1 bg-[#14151a] border border-white/[0.08] rounded-full text-zinc-400 text-xs">
+<span class="material-symbols-outlined text-[15px] text-zinc-300">verified_user</span>
+<span class="text-[11px]">Pemilik Proyek: <strong class="text-zinc-200 font-medium">Bambang Prakoso</strong></span>
+</div>
+</div>
+</div>
+<!-- Hero Context Surface -->
+<div class="mt-2 p-6 bg-[#111317] border border-white/[0.08] rounded-2xl shadow-xl flex flex-col gap-5 relative overflow-hidden backdrop-blur-sm">
+<!-- Header Title & Action Buttons Row -->
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+<div class="flex flex-col gap-1 max-w-3xl">
+<div class="flex items-center gap-2 flex-wrap">
+<h1 class="font-display text-2xl font-bold text-white tracking-tight">Redesain Aplikasi Mobile v2.0</h1>
+<span class="px-2.5 py-0.5 bg-zinc-800 border border-white/10 text-zinc-200 text-xs font-semibold rounded-md">Sprint 14</span>
+<span class="px-2.5 py-0.5 bg-zinc-900/80 border border-white/[0.06] text-zinc-400 text-xs rounded-md flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px]">lock</span> Enterprise Zero-Trust
+          </span>
+</div>
+<p class="text-zinc-400 text-sm leading-relaxed mt-0.5">
+          Pembaruan arsitektur antarmuka Flutter, integrasi modul biometrik Face/TouchID, dan standardisasi design tokens sistem design Jara.
+        </p>
+</div>
+<!-- Action Group -->
+<div class="flex items-center gap-2.5 self-start lg:self-center flex-wrap">
+<!-- New Task White Pill Button -->
+<button class="flex items-center gap-1.5 bg-white hover:bg-zinc-200 text-black text-xs font-semibold px-4 py-2.5 rounded-full shadow-[0_0_22px_rgba(255,255,255,0.25)] transition-all hover:scale-[1.02] active:scale-[0.98]" id="btnOpenNewTaskModal">
+<span class="material-symbols-outlined text-[17px] font-bold">add_task</span>
+<span>+ Buat Tugas Baru</span>
+</button>
+<!-- Manage Members with Stack -->
+<div class="flex items-center bg-[#181a20] hover:bg-zinc-800 border border-white/10 px-3 py-1.5 rounded-full cursor-pointer transition-colors" onclick="toggleMembersDrawer()">
+<span class="text-xs font-medium text-zinc-200 mr-2.5">Kelola Anggota (4)</span>
+<div class="flex items-center -space-x-2">
+<img class="w-6 h-6 rounded-full object-cover border border-zinc-900" data-alt="Potret wajah pengembang perempuan profesional berlatar gelap bergaya studio corporate tech." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDI4An6-d84oP-UeuK7_18UTvQ06ErIcvLbdTvwNX66QGvp2eJ-z3vvy11hVU9s1fvfUp_erbhr00fFKQVD19s5qAzPrUy_ZrNgw75maYMLKtvk2iIp8iHZjHv4aIwDM_cE4nff03Yw-5dbdTMd9wbB9hzppIeN5WZwVr_u1VB52WB7aanWcI0ZaJYQT8fwITFzGyBOhO5oFniK7QUOxs08Fdh-sbbGbHsudUhS83GVzlo89rTcsKL6"/>
+<img class="w-6 h-6 rounded-full object-cover border border-zinc-900" data-alt="Potret wajah lead programmer pria muda mengenakan kacamata berpenampilan modern minimalis." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBP9eRiAMso3roljbUNOPbmUB-yXVjf-M87IWcLGcKKNUSQIS-BZlVJxAOOEfX6dr7JdAkdlpVwZhD-e5WaQke_nh0U-wTLUkQZMjDsgVE0c4_NwZBepodXH-Bnp98NwLp-AfNjnsMwy1AHxt69Qdu8-kT_8IBB6oL93jcp-a-Oe1S2GsL2-ga18-fbaZEQVDiRf2Ry-NDwMgidgshPYQwufjdmTQhIFQ5YHSJU69MIvQj7SfG-PVzb"/>
+<img class="w-6 h-6 rounded-full object-cover border border-zinc-900" data-alt="Foto close-up engineer perempuan dengan pencahayaan neon dingin dan tatapan fokus profesional." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAewAQpHkq06LigMkSxSLaymS_sTvyhlCWU9U6_V0zYUGrlTENnE-sx5yN2w1ialJrqAymFdROCm08mSnfAxI4HEdUNvs3yHVpOgMHeCU7nbnX2GjIeVc0sq0mU1DTSh59BnVflIvj7vBKv_b_EyI5tcHmeDoX32WQdVd9Qi9dlyi4jmgzAK2YGZfPKA2Mbw4dON2SuoQlFbT8dJgApZC1_m3Um6IGlLfXtUQsobyg0pDmIaFFeNLC-"/>
+<div class="w-6 h-6 rounded-full bg-zinc-800 border border-zinc-900 text-zinc-300 text-[10px] flex items-center justify-center font-bold">+1</div>
+</div>
+</div>
+<!-- Dropdown Menu Trigger -->
+<div class="relative">
+<button aria-label="Menu Opsi Proyek" class="w-8 h-8 flex items-center justify-center bg-[#181a20] hover:bg-zinc-800 border border-white/10 rounded-full text-zinc-400 hover:text-white transition-colors" id="btnProjectMenu" onclick="toggleProjectDropdown()">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+<!-- Dropdown Card -->
+<div class="hidden absolute right-0 mt-1.5 w-52 bg-[#16181e] border border-white/10 rounded-xl shadow-2xl py-1 z-50 backdrop-blur-xl" id="projectDropdownMenu">
+<button class="w-full px-3.5 py-2 text-left text-xs text-zinc-200 hover:bg-white/[0.06] flex items-center gap-2.5" onclick="openModal('editProjectModal')">
+<span class="material-symbols-outlined text-[17px] text-zinc-400">edit</span>
+<span>Edit Proyek</span>
+</button>
+<button class="w-full px-3.5 py-2 text-left text-xs text-zinc-200 hover:bg-white/[0.06] flex items-center gap-2.5" onclick="openModal('projectSettingsModal')">
+<span class="material-symbols-outlined text-[17px] text-zinc-400">tune</span>
+<span>Pengaturan Proyek</span>
+</button>
+<div class="my-1 h-px bg-white/[0.08]"></div>
+<button class="w-full px-3.5 py-2 text-left text-xs text-rose-400 hover:bg-rose-500/10 flex items-center gap-2.5" onclick="openModal('deleteProjectModal')">
+<span class="material-symbols-outlined text-[17px]">delete_forever</span>
+<span>Hapus Proyek</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Progress Summary Bar Banner -->
+<div class="bg-[#16181e] border border-white/[0.06] p-4 rounded-xl flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-inner">
+<div class="flex flex-col gap-1.5 flex-1">
+<div class="flex items-center justify-between text-zinc-200 text-xs">
+<span class="font-semibold flex items-center gap-1.5">
+<span class="material-symbols-outlined text-emerald-400 text-[18px]">timelapse</span>
+<span>Progres Proyek: <strong class="text-white font-bold">75% Selesai</strong></span>
+</span>
+<span class="text-zinc-400 font-medium">36 dari 48 Tugas Tuntas</span>
+</div>
+<!-- Neon Mint Emerald Progress Bar Line -->
+<div class="w-full bg-zinc-900 border border-white/[0.05] h-2 rounded-full overflow-hidden flex">
+<div class="h-full bg-gradient-to-r from-emerald-500 to-teal-400 transition-all duration-500 rounded-full shadow-[0_0_12px_rgba(16,185,129,0.5)]" style="width: 75%"></div>
+</div>
+</div>
+<div class="flex items-center gap-3 pl-0 md:pl-4">
+<div class="flex items-center gap-2.5 bg-zinc-900/90 border border-white/[0.08] px-3.5 py-2 rounded-lg">
+<span class="material-symbols-outlined text-emerald-400 text-[18px]">event_upcoming</span>
+<div class="flex flex-col">
+<span class="text-[10px] uppercase tracking-wider text-zinc-400 font-medium">Milestone Utama</span>
+<span class="text-xs text-zinc-100 font-semibold">Target Rilis: 28 Apr 2025</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Kanban Control Bar / Filters -->
+<div class="mt-6 mb-4 flex flex-wrap items-center justify-between gap-4">
+<div class="flex items-center gap-2 flex-wrap">
+<div class="flex items-center bg-[#14151a] border border-white/[0.08] px-2.5 py-1 rounded-xl">
+<span class="material-symbols-outlined text-[16px] text-zinc-400 mr-1.5">filter_list</span>
+<span class="text-[11px] font-semibold text-zinc-400 mr-2 uppercase tracking-wider">Filter:</span>
+<button class="px-2.5 py-1 rounded-lg bg-zinc-800 border border-white/10 text-white text-xs font-semibold mr-1">Semua Tugas</button>
+<button class="px-2.5 py-1 rounded-lg text-zinc-400 hover:text-white text-xs font-medium mr-1 transition-colors">Tugas Saya</button>
+<button class="px-2.5 py-1 rounded-lg text-zinc-400 hover:text-white text-xs font-medium transition-colors">Prioritas Tinggi</button>
+</div>
+<div class="flex items-center gap-1 bg-[#14151a] border border-white/[0.08] px-2.5 py-1 rounded-xl text-zinc-400">
+<span class="font-mono text-[11px] text-zinc-300">Urut: Tenggat Terdekat</span>
+<span class="material-symbols-outlined text-[15px]">expand_more</span>
+</div>
+</div>
+<!-- Quick Stats -->
+<div class="flex items-center gap-4 text-zinc-400 text-xs font-medium">
+<span class="flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-rose-500 inline-block shadow-[0_0_8px_rgba(244,63,94,0.5)]"></span> 4 Prioritas Mendesak
+      </span>
+<span class="flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-zinc-300 inline-block"></span> 3 Dalam Eksekusi
+      </span>
+<span class="flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-emerald-400 inline-block shadow-[0_0_8px_rgba(52,211,153,0.5)]"></span> 8 Selesai Pekan Ini
+      </span>
+</div>
+</div>
+<!-- Kanban Columns Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 items-start">
+<!-- ============================================== -->
+<!-- KOLOM 1: DAFTAR TUGAS (TODO) -->
+<!-- ============================================== -->
+<div class="flex flex-col bg-[#111317] border border-white/[0.08] rounded-2xl p-4 shadow-lg min-h-[520px]">
+<!-- Column Header -->
+<div class="flex items-center justify-between pb-3.5 border-b border-white/[0.06]">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-zinc-400 inline-block"></span>
+<h2 class="font-display font-semibold text-xs text-zinc-200 tracking-wider uppercase">Daftar Tugas (TODO)</h2>
+<span class="px-2 py-0.5 bg-zinc-800 border border-white/10 text-zinc-300 text-[11px] rounded-full font-semibold">4</span>
+</div>
+<button class="text-zinc-500 hover:text-zinc-200 p-1 rounded hover:bg-white/[0.06] transition-colors" title="Opsi Kolom">
+<span class="material-symbols-outlined text-[18px]">more_horiz</span>
+</button>
+</div>
+<!-- Task List Area -->
+<div class="flex flex-col gap-3 flex-1 pt-3">
+<!-- Task Card 1 -->
+<div class="group relative bg-[#181a20] hover:bg-[#1d2027] border border-white/[0.06] hover:border-white/20 rounded-xl p-3.5 shadow-sm transition-all duration-200 cursor-pointer">
+<div class="flex items-start justify-between gap-3">
+<div class="flex items-start gap-2.5 flex-1">
+<input class="mt-0.5 h-4 w-4 rounded bg-zinc-900 border-zinc-700 cursor-pointer accent-white" onchange="toggleTaskState(this, 'task-title-1')" type="checkbox"/>
+<div class="flex flex-col gap-1 flex-1">
+<span class="font-mono text-[10px] text-zinc-400">TSK-108</span>
+<p class="text-xs font-semibold text-zinc-200 group-hover:text-white transition-colors leading-snug" id="task-title-1">
+                  Audit Keamanan Keystore &amp; Keychain
+                </p>
+</div>
+</div>
+<span class="px-2 py-0.5 bg-rose-500/10 border border-rose-500/30 text-rose-400 text-[10px] rounded uppercase font-bold tracking-wider">
+              Tinggi
+            </span>
+</div>
+<!-- Card Metadata & Assignee Footer -->
+<div class="mt-3 pt-2 border-t border-white/[0.04] flex items-center justify-between text-zinc-400 text-xs">
+<div class="flex items-center gap-1 text-[11px] text-rose-400 font-medium">
+<span class="material-symbols-outlined text-[15px]">event</span>
+<span>22 Okt 2024</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-[11px] text-zinc-400">Siti Rahmawati</span>
+<img class="w-5 h-5 rounded-full object-cover border border-white/10" data-alt="Potret perempuan profesional berhijab ceria dengan pencahayaan korporat modern." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAcQ_tluewamLXJk1p4UsPrjXju5FyD1imgRmMDCAglJ1x45quh_iRSlxSPXv7i_NB6AxxpXXsxO_MRub932ld6t4ZV6G9Qch4RTibC0GQnCdlbhpVLS9ND4oo2mCtGnd18W2LUFmSfwqvQVgKbyC92o2YNwZMAgL03O6XHAQTfTbt1ZAnxJx6mjxlcL0biRFTkvp0N-lnP7dcGfZUY3E_D8Ul-4C8_QedWh1WfzKu_LJkSJFR1FSNS"/>
+</div>
+</div>
+</div>
+<!-- Task Card 2 -->
+<div class="group relative bg-[#181a20] hover:bg-[#1d2027] border border-white/[0.06] hover:border-white/20 rounded-xl p-3.5 shadow-sm transition-all duration-200 cursor-pointer">
+<div class="flex items-start justify-between gap-3">
+<div class="flex items-start gap-2.5 flex-1">
+<input class="mt-0.5 h-4 w-4 rounded bg-zinc-900 border-zinc-700 cursor-pointer accent-white" onchange="toggleTaskState(this, 'task-title-2')" type="checkbox"/>
+<div class="flex flex-col gap-1 flex-1">
+<span class="font-mono text-[10px] text-zinc-400">TSK-109</span>
+<p class="text-xs font-semibold text-zinc-200 group-hover:text-white transition-colors leading-snug" id="task-title-2">
+                  Rancang Panduan Haptic Feedback
+                </p>
+</div>
+</div>
+<span class="px-2 py-0.5 bg-amber-500/10 border border-amber-500/30 text-amber-300 text-[10px] rounded uppercase font-bold tracking-wider">
+              Sedang
+            </span>
+</div>
+<!-- Card Metadata & Assignee Footer -->
+<div class="mt-3 pt-2 border-t border-white/[0.04] flex items-center justify-between text-zinc-400 text-xs">
+<div class="flex items-center gap-1 text-[11px] text-zinc-400">
+<span class="material-symbols-outlined text-[15px] text-zinc-500">calendar_today</span>
+<span>26 Okt 2024</span>
+</div>
+<!-- Unassigned Badge -->
+<div class="flex items-center gap-1 px-2 py-0.5 bg-zinc-900 border border-white/[0.06] rounded-full text-zinc-400 hover:text-zinc-200 transition-colors" title="Klik untuk menugaskan anggota">
+<span class="material-symbols-outlined text-[13px]">person_add</span>
+<span class="text-[10px] font-medium">Belum Ditugaskan</span>
+</div>
+</div>
+</div>
+<!-- Inline Add Task Trigger Button -->
+<button class="mt-1 w-full py-2 px-3 rounded-xl bg-white/[0.03] hover:bg-white/[0.06] border border-dashed border-white/10 hover:border-white/20 text-zinc-400 hover:text-white text-xs font-medium flex items-center justify-center gap-1.5 transition-all group" onclick="openModal('newTaskModal')">
+<span class="material-symbols-outlined text-[16px] text-zinc-400 group-hover:scale-110 transition-transform">add_circle</span>
+<span>+ Tambah Tugas di Kolom Ini</span>
+</button>
+</div>
+</div>
+<!-- ============================================== -->
+<!-- KOLOM 2: SEDANG DIKERJAKAN (IN PROGRESS) -->
+<!-- ============================================== -->
+<div class="flex flex-col bg-[#111317] border border-white/[0.08] rounded-2xl p-4 shadow-lg min-h-[520px]">
+<!-- Column Header -->
+<div class="flex items-center justify-between pb-3.5 border-b border-white/[0.06]">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-white inline-block shadow-[0_0_6px_rgba(255,255,255,0.8)]"></span>
+<h2 class="font-display font-semibold text-xs text-zinc-200 tracking-wider uppercase">Sedang Dikerjakan (In Progress)</h2>
+<span class="px-2 py-0.5 bg-white text-black text-[11px] rounded-full font-bold">3</span>
+</div>
+<button class="text-zinc-500 hover:text-zinc-200 p-1 rounded hover:bg-white/[0.06] transition-colors" title="Opsi Kolom">
+<span class="material-symbols-outlined text-[18px]">more_horiz</span>
+</button>
+</div>
+<!-- Task List Area -->
+<div class="flex flex-col gap-3 flex-1 pt-3">
+<!-- Task Card 1 (TSK-104) -->
+<div class="group relative bg-[#181a20] hover:bg-[#1d2027] border border-white/[0.08] hover:border-white/20 rounded-xl p-3.5 shadow-sm transition-all duration-200 cursor-pointer">
+<div class="flex items-start justify-between gap-3">
+<div class="flex items-start gap-2.5 flex-1">
+<input class="mt-0.5 h-4 w-4 rounded bg-zinc-900 border-zinc-700 cursor-pointer accent-white" onchange="toggleTaskState(this, 'task-title-3')" type="checkbox"/>
+<div class="flex flex-col gap-1 flex-1">
+<div class="flex items-center gap-1.5">
+<span class="font-mono text-[10px] text-zinc-300 font-semibold">TSK-104</span>
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+</div>
+<p class="text-xs font-semibold text-zinc-100 group-hover:text-white transition-colors leading-snug" id="task-title-3">
+                  Implementasi Autentikasi Biometrik &amp; Face ID
+                </p>
+</div>
+</div>
+<span class="px-2 py-0.5 bg-rose-500/10 border border-rose-500/30 text-rose-400 text-[10px] rounded uppercase font-bold tracking-wider">
+              Tinggi
+            </span>
+</div>
+<!-- Subtasks Pill Indicator -->
+<div class="mt-2.5 flex items-center justify-between bg-zinc-900/90 border border-white/[0.06] px-2.5 py-1.5 rounded-lg">
+<span class="text-[11px] text-zinc-400 flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[14px] text-emerald-400">checklist</span>
+<span>Progres Subtugas</span>
+</span>
+<span class="text-[11px] text-emerald-400 font-semibold">3/5 Subtugas (60%)</span>
+</div>
+<!-- Card Metadata & Assignee Footer -->
+<div class="mt-3 pt-2 border-t border-white/[0.04] flex items-center justify-between text-zinc-400 text-xs">
+<div class="flex items-center gap-1 text-[11px] text-rose-400 font-medium">
+<span class="material-symbols-outlined text-[15px]">warning</span>
+<span>24 Okt 2024 (Sisa 3 Hari)</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-[11px] text-zinc-400">Raden Pratama</span>
+<img class="w-5 h-5 rounded-full object-cover border border-white/10" data-alt="Potret wajah developer laki-laki dengan tatapan optimis dan latar belakang gelap." src="https://lh3.googleusercontent.com/aida-public/AB6AXuArw6BBY6k_KElzY5V1l79nw5G6uDV_4Ed3FV-txcmIIMWWTy_PnSdtx5y1tVz8GVUsdRelw27jB8ozeKSW0QUvXaIbV1ZjFptQtf86LLKVNbyfdGynFQ13O4Qnks0dx4a19OrVWLz6-M1pgbLhnxWPVk3Fodw3ray4o1hbyk6L5ViAs06Zof6Rb6A2sPKqoqb1gs_ekZM_g8MKY4ZLe3amPUrubXJooDu1dAP-_5rSjDapO4B1l7oe"/>
+</div>
+</div>
+</div>
+<!-- Task Card 2 -->
+<div class="group relative bg-[#181a20] hover:bg-[#1d2027] border border-white/[0.06] hover:border-white/20 rounded-xl p-3.5 shadow-sm transition-all duration-200 cursor-pointer">
+<div class="flex items-start justify-between gap-3">
+<div class="flex items-start gap-2.5 flex-1">
+<input class="mt-0.5 h-4 w-4 rounded bg-zinc-900 border-zinc-700 cursor-pointer accent-white" onchange="toggleTaskState(this, 'task-title-4')" type="checkbox"/>
+<div class="flex flex-col gap-1 flex-1">
+<span class="font-mono text-[10px] text-zinc-400">TSK-106</span>
+<p class="text-xs font-semibold text-zinc-200 group-hover:text-white transition-colors leading-snug" id="task-title-4">
+                  Integrasi Refresh Token Handshake
+                </p>
+</div>
+</div>
+<span class="px-2 py-0.5 bg-rose-500/10 border border-rose-500/30 text-rose-400 text-[10px] rounded uppercase font-bold tracking-wider">
+              Tinggi
+            </span>
+</div>
+<!-- Card Metadata & Assignee Footer -->
+<div class="mt-3 pt-2 border-t border-white/[0.04] flex items-center justify-between text-zinc-400 text-xs">
+<div class="flex items-center gap-1 text-[11px] text-rose-400 font-medium">
+<span class="material-symbols-outlined text-[15px]">alarm</span>
+<span>25 Okt 2024</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-[11px] text-zinc-400">Dimas Kurnia</span>
+<img class="w-5 h-5 rounded-full object-cover border border-white/10" data-alt="Potret headshot engineer senior berjanggut rapi dalam pencahayaan kontras lembut." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD6btBKVQBBMhMyBKK-DvpsKcePk8P-WyWBVMTih4BOFrpowv9T_rYQgygTLcgedAJte3E6KMUjNhPm_To9zI6iLnWtmNRBbgDZzsWPS_4c0LXN52UDpW8nNtFSNepdjJUrWXzK0j5H9DuMYu7dvfXCsFCb4K5KT6ge3odaTsapeCk9mbtWb1U0aq4C_8EoUqZo8C2KYiJNHw_8UZTGPTXs9kkVp488QGi5I6FKOshugmluW63OsKoq"/>
+</div>
+</div>
+</div>
+<!-- Inline Add Task Trigger Button -->
+<button class="mt-1 w-full py-2 px-3 rounded-xl bg-white/[0.03] hover:bg-white/[0.06] border border-dashed border-white/10 hover:border-white/20 text-zinc-400 hover:text-white text-xs font-medium flex items-center justify-center gap-1.5 transition-all group" onclick="openModal('newTaskModal')">
+<span class="material-symbols-outlined text-[16px] text-zinc-400 group-hover:scale-110 transition-transform">add_circle</span>
+<span>+ Tambah Tugas di Kolom Ini</span>
+</button>
+</div>
+</div>
+<!-- ============================================== -->
+<!-- KOLOM 3: SELESAI (DONE) -->
+<!-- ============================================== -->
+<div class="flex flex-col bg-[#111317] border border-white/[0.08] rounded-2xl p-4 shadow-lg min-h-[520px]">
+<!-- Column Header -->
+<div class="flex items-center justify-between pb-3.5 border-b border-white/[0.06]">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-emerald-400 inline-block shadow-[0_0_6px_rgba(52,211,153,0.8)]"></span>
+<h2 class="font-display font-semibold text-xs text-zinc-200 tracking-wider uppercase">Selesai (Done)</h2>
+<span class="px-2 py-0.5 bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 text-[11px] rounded-full font-bold">8</span>
+</div>
+<button class="text-zinc-500 hover:text-zinc-200 p-1 rounded hover:bg-white/[0.06] transition-colors" title="Opsi Kolom">
+<span class="material-symbols-outlined text-[18px]">more_horiz</span>
+</button>
+</div>
+<!-- Task List Area -->
+<div class="flex flex-col gap-3 flex-1 pt-3">
+<!-- Task Card 1 (Completed) -->
+<div class="group relative bg-[#181a20]/70 hover:bg-[#181a20] border border-white/[0.05] hover:border-white/10 rounded-xl p-3.5 shadow-sm transition-all duration-200 cursor-pointer opacity-80 hover:opacity-100">
+<div class="flex items-start justify-between gap-3">
+<div class="flex items-start gap-2.5 flex-1">
+<input checked="" class="mt-0.5 h-4 w-4 rounded bg-zinc-900 border-zinc-700 cursor-pointer accent-emerald-400" onchange="toggleTaskState(this, 'task-title-5')" type="checkbox"/>
+<div class="flex flex-col gap-1 flex-1">
+<span class="font-mono text-[10px] text-zinc-500">TSK-098</span>
+<p class="text-xs font-medium text-zinc-400 line-through leading-snug" id="task-title-5">
+                  Wireframing Alur Registrasi Biometrik
+                </p>
+</div>
+</div>
+<span class="px-2 py-0.5 bg-zinc-800 text-zinc-400 text-[10px] rounded uppercase font-medium">
+              Sedang
+            </span>
+</div>
+<!-- Card Metadata & Assignee Footer -->
+<div class="mt-3 pt-2 border-t border-white/[0.04] flex items-center justify-between text-zinc-400 text-xs">
+<div class="flex items-center gap-1 text-[11px] text-emerald-400 font-medium">
+<span class="material-symbols-outlined text-[15px]">check_circle</span>
+<span>Selesai 18 Okt</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-[11px] text-zinc-400">Alberto Tanujaya</span>
+<img class="w-5 h-5 rounded-full object-cover border border-white/10" data-alt="Potret desainer UX muda berlatar belakang ruang kerja modern dengan nada warna gelap." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDzuc94xvOWjO4KxLzp5_u3Ts6xfzUsQUpGaKgg-sXtmU_0fFTYm_wkyIzKP_6jwGNlSH2PeM_4MVLU6N0MlPhZbY52iiNub9It5ffHVY4ZTU_J3AQlXzLJwwfIR2xwPTtrJYQOEPKzy_yyQArmtWyzQGvxBq0X0iEyUyYLH4wEaw4m4580gMxdWcJQrS9JHDyFcSxZfyVbXNm7un1DqXGcTIbSBS9-lpOYOxUtu9aay-xq5RTiW4PG"/>
+</div>
+</div>
+</div>
+<!-- Task Card 2 (Completed) -->
+<div class="group relative bg-[#181a20]/70 hover:bg-[#181a20] border border-white/[0.05] hover:border-white/10 rounded-xl p-3.5 shadow-sm transition-all duration-200 cursor-pointer opacity-80 hover:opacity-100">
+<div class="flex items-start justify-between gap-3">
+<div class="flex items-start gap-2.5 flex-1">
+<input checked="" class="mt-0.5 h-4 w-4 rounded bg-zinc-900 border-zinc-700 cursor-pointer accent-emerald-400" onchange="toggleTaskState(this, 'task-title-6')" type="checkbox"/>
+<div class="flex flex-col gap-1 flex-1">
+<span class="font-mono text-[10px] text-zinc-500">TSK-095</span>
+<p class="text-xs font-medium text-zinc-400 line-through leading-snug" id="task-title-6">
+                  Penyusunan Kontrak API Endpoint Auth
+                </p>
+</div>
+</div>
+<span class="px-2 py-0.5 bg-zinc-800 text-zinc-400 text-[10px] rounded uppercase font-medium">
+              Tinggi
+            </span>
+</div>
+<!-- Card Metadata & Assignee Footer -->
+<div class="mt-3 pt-2 border-t border-white/[0.04] flex items-center justify-between text-zinc-400 text-xs">
+<div class="flex items-center gap-1 text-[11px] text-emerald-400 font-medium">
+<span class="material-symbols-outlined text-[15px]">check_circle</span>
+<span>Selesai 16 Okt</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-[11px] text-zinc-400">Raden Pratama</span>
+<img class="w-5 h-5 rounded-full object-cover border border-white/10" data-alt="Potret wajah engineer berlatar belakang ruang kerja gelap." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAYuGgXBlEdnDFdxcF9srfmWNdKnjDcLbjrg5qfiZby8zuOG1ZPqcI8Hya9LzSIznMg_Eb1EUBiGd0a5-v4I0PdWnbBfyOrziDUGrDEqT-SyCd4FNzYjjCcrkNbqcPaNx09_as57W19_kxEkqMcf48pfsylqiZZ9bjKHcX923htkzvWeP3s7A2HJd3qimBpPz8Sv2IHgApDwkgN9gONgEw2xfMKNxId1HTQ3JqxSVzOKceKLyIsJV2e"/>
+</div>
+</div>
+</div>
+<!-- Task Card 3 (Completed Extra) -->
+<div class="group relative bg-[#181a20]/70 hover:bg-[#181a20] border border-white/[0.05] hover:border-white/10 rounded-xl p-3.5 shadow-sm transition-all duration-200 cursor-pointer opacity-80 hover:opacity-100">
+<div class="flex items-start justify-between gap-3">
+<div class="flex items-start gap-2.5 flex-1">
+<input checked="" class="mt-0.5 h-4 w-4 rounded bg-zinc-900 border-zinc-700 cursor-pointer accent-emerald-400" onchange="toggleTaskState(this, 'task-title-7')" type="checkbox"/>
+<div class="flex flex-col gap-1 flex-1">
+<span class="font-mono text-[10px] text-zinc-500">TSK-089</span>
+<p class="text-xs font-medium text-zinc-400 line-through leading-snug" id="task-title-7">
+                  Setup Dependency Injection Service Locator
+                </p>
+</div>
+</div>
+<span class="px-2 py-0.5 bg-zinc-800 text-zinc-400 text-[10px] rounded uppercase font-medium">
+              Rendah
+            </span>
+</div>
+<!-- Card Metadata & Assignee Footer -->
+<div class="mt-3 pt-2 border-t border-white/[0.04] flex items-center justify-between text-zinc-400 text-xs">
+<div class="flex items-center gap-1 text-[11px] text-emerald-400 font-medium">
+<span class="material-symbols-outlined text-[15px]">check_circle</span>
+<span>Selesai 12 Okt</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-[11px] text-zinc-400">Dimas Kurnia</span>
+<img class="w-5 h-5 rounded-full object-cover border border-white/10" data-alt="Potret headshot engineer Dimas Kurnia dengan ekspresi tenang dan fokus." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDzOSg4n6Z5ukx3x2H5HESzSxXGFw7SNfs5zrNRrMVi6k-GHYjh3NDDtiispJhyEmmJO2iwVB2DglER9bjNEaTYwhsvcApstFcm2j4zQKDg4vAD-D7ExCffFVWAfniklReeb9_OEHHOzydtIDGjnszFYyORDrD3yAlsmyh79stckFmY7hMBkZ9kIo4OMk9VYjaaAr0URxteDa9t6FU0hOO909gsLMaocUj1ecYJhKMi9rKcCgYesCdV"/>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer Telemetry Jara Platform -->
+<footer class="mt-12 pt-6 pb-2 border-t border-white/[0.06] flex flex-col md:flex-row items-center justify-between gap-3 text-zinc-500 text-xs font-mono">
+<div class="flex items-center gap-2 flex-wrap">
+<span class="flex items-center gap-1 text-emerald-400/90 font-medium">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> &lt; 120ms Inference Auth
+</span>
+<span>•</span>
+<span>99.33% Uptime</span>
+<span>•</span>
+<span>24/7 Autonomous Runtime</span>
+</div>
+<div class="text-zinc-500 font-semibold tracking-wider uppercase text-[11px]">
+Jara Platform v2.4
+</div>
+</footer>
+<!-- ============================================================== -->
+<!-- MODALS OVERLAY SYSTEM                                         -->
+<!-- ============================================================== -->
+<!-- 1. Modal: Buat Tugas Baru -->
+<div class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4" id="newTaskModal">
+<div class="w-full max-w-xl bg-[#12141a] border border-white/10 rounded-2xl shadow-2xl overflow-hidden flex flex-col animate-in fade-in zoom-in duration-150">
+<div class="px-6 py-4 bg-[#16181f] border-b border-white/[0.08] flex items-center justify-between">
+<div class="flex items-center gap-3">
+<span class="w-8 h-8 rounded-lg bg-white text-black flex items-center justify-center font-bold">
+<span class="material-symbols-outlined text-[20px]">add_task</span>
+</span>
+<div>
+<h3 class="font-display font-bold text-base text-white">Buat Tugas Baru</h3>
+<p class="text-xs text-zinc-400">Tambahkan item tugas ke sprint aktif proyek ini</p>
+</div>
+</div>
+<button class="text-zinc-400 hover:text-white p-1 rounded-lg hover:bg-white/[0.06] transition-colors" onclick="closeModal('newTaskModal')">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<div class="p-6 flex flex-col gap-4">
+<div>
+<label class="block text-xs font-semibold text-zinc-300 mb-1.5">Judul Tugas</label>
+<input class="w-full bg-[#09090b] border border-white/10 text-zinc-100 text-sm px-3.5 py-2 rounded-xl focus:outline-none focus:border-white/40 placeholder:text-zinc-600" placeholder="Contoh: Implementasi Push Notification FCM..." type="text"/>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div>
+<label class="block text-xs font-semibold text-zinc-300 mb-1.5">Kolom Status</label>
+<select class="w-full bg-[#09090b] border border-white/10 text-zinc-200 text-xs px-3 py-2 rounded-xl focus:outline-none focus:border-white/40">
+<option>Daftar Tugas (TODO)</option>
+<option>Sedang Dikerjakan (IN PROGRESS)</option>
+<option>Selesai (DONE)</option>
+</select>
+</div>
+<div>
+<label class="block text-xs font-semibold text-zinc-300 mb-1.5">Tingkat Prioritas</label>
+<select class="w-full bg-[#09090b] border border-white/10 text-zinc-200 text-xs px-3 py-2 rounded-xl focus:outline-none focus:border-white/40">
+<option>Tinggi (Mendesak)</option>
+<option selected="">Sedang (Standar)</option>
+<option>Rendah (Backlog)</option>
+</select>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div>
+<label class="block text-xs font-semibold text-zinc-300 mb-1.5">Penanggung Jawab (Assignee)</label>
+<select class="w-full bg-[#09090b] border border-white/10 text-zinc-200 text-xs px-3 py-2 rounded-xl focus:outline-none focus:border-white/40">
+<option>Pilih Anggota Tim...</option>
+<option>Siti Rahmawati (Mobile Eng)</option>
+<option>Raden Pratama (Lead Eng)</option>
+<option>Dimas Kurnia (Backend)</option>
+<option>Alberto Tanujaya (UI/UX)</option>
+</select>
+</div>
+<div>
+<label class="block text-xs font-semibold text-zinc-300 mb-1.5">Batas Tenggat</label>
+<input class="w-full bg-[#09090b] border border-white/10 text-zinc-200 text-xs px-3 py-2 rounded-xl focus:outline-none focus:border-white/40" type="date" value="2024-10-30"/>
+</div>
+</div>
+<div>
+<label class="block text-xs font-semibold text-zinc-300 mb-1.5">Deskripsi &amp; Spesifikasi Teknis</label>
+<textarea class="w-full bg-[#09090b] border border-white/10 text-zinc-200 text-xs p-3 rounded-xl focus:outline-none focus:border-white/40 placeholder:text-zinc-600" placeholder="Sertakan kriteria penerimaan, tautan Figma, atau payload API..." rows="3"></textarea>
+</div>
+</div>
+<div class="px-6 py-3.5 bg-[#16181f] border-t border-white/[0.08] flex items-center justify-end gap-3">
+<button class="px-4 py-2 rounded-xl text-zinc-400 hover:text-white text-xs font-medium hover:bg-white/[0.06] transition-colors" onclick="closeModal('newTaskModal')">
+          Batal
+        </button>
+<button class="px-5 py-2 rounded-full bg-white hover:bg-zinc-200 text-black text-xs font-semibold shadow-[0_0_20px_rgba(255,255,255,0.25)] transition-all flex items-center gap-1.5" onclick="closeModal('newTaskModal')">
+<span class="material-symbols-outlined text-[17px] font-bold">check</span>
+<span>Simpan &amp; Rilis Tugas</span>
+</button>
+</div>
+</div>
+</div>
+<!-- 2. Modal: Edit Proyek -->
+<div class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4" id="editProjectModal">
+<div class="w-full max-w-lg bg-[#12141a] border border-white/10 rounded-2xl shadow-2xl overflow-hidden flex flex-col">
+<div class="px-6 py-4 bg-[#16181f] border-b border-white/[0.08] flex items-center justify-between">
+<div class="flex items-center gap-2.5">
+<span class="w-8 h-8 rounded-lg bg-zinc-800 border border-white/10 text-white flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</span>
+<h3 class="font-display font-bold text-base text-white">Edit Data Proyek</h3>
+</div>
+<button class="text-zinc-400 hover:text-white p-1 rounded-lg hover:bg-white/[0.06]" onclick="closeModal('editProjectModal')">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<div class="p-6 flex flex-col gap-4">
+<div>
+<label class="block text-xs font-semibold text-zinc-300 mb-1.5">Nama Proyek</label>
+<input class="w-full bg-[#09090b] border border-white/10 text-zinc-100 text-sm px-3.5 py-2 rounded-xl focus:outline-none focus:border-white/40" type="text" value="Redesain Aplikasi Mobile v2.0"/>
+</div>
+<div>
+<label class="block text-xs font-semibold text-zinc-300 mb-1.5">Deskripsi Ringkas</label>
+<textarea class="w-full bg-[#09090b] border border-white/10 text-zinc-200 text-xs p-3 rounded-xl focus:outline-none focus:border-white/40" rows="3">Pembaruan arsitektur antarmuka Flutter, integrasi modul biometrik Face/TouchID, dan standardisasi design tokens sistem design Jara.</textarea>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div>
+<label class="block text-xs font-semibold text-zinc-300 mb-1.5">Target Selesai</label>
+<input class="w-full bg-[#09090b] border border-white/10 text-zinc-200 text-xs px-3 py-2 rounded-xl" type="date" value="2025-04-28"/>
+</div>
+<div>
+<label class="block text-xs font-semibold text-zinc-300 mb-1.5">Status Alur Kerja</label>
+<select class="w-full bg-[#09090b] border border-white/10 text-zinc-200 text-xs px-3 py-2 rounded-xl">
+<option selected="">Sesuai Jadwal</option>
+<option>Mengalami Kendala</option>
+<option>Tertunda</option>
+</select>
+</div>
+</div>
+</div>
+<div class="px-6 py-3.5 bg-[#16181f] border-t border-white/[0.08] flex items-center justify-end gap-3">
+<button class="px-4 py-2 rounded-xl text-zinc-400 hover:text-white text-xs font-medium" onclick="closeModal('editProjectModal')">Batal</button>
+<button class="px-5 py-2 rounded-full bg-white hover:bg-zinc-200 text-black text-xs font-semibold shadow-[0_0_20px_rgba(255,255,255,0.25)]" onclick="closeModal('editProjectModal')">Simpan Perubahan</button>
+</div>
+</div>
+</div>
+<!-- 3. Modal: Pengaturan Proyek -->
+<div class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4" id="projectSettingsModal">
+<div class="w-full max-w-lg bg-[#12141a] border border-white/10 rounded-2xl shadow-2xl overflow-hidden flex flex-col">
+<div class="px-6 py-4 bg-[#16181f] border-b border-white/[0.08] flex items-center justify-between">
+<div class="flex items-center gap-2.5">
+<span class="w-8 h-8 rounded-lg bg-zinc-800 border border-white/10 text-white flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]">tune</span>
+</span>
+<h3 class="font-display font-bold text-base text-white">Pengaturan Proyek &amp; Akses</h3>
+</div>
+<button class="text-zinc-400 hover:text-white p-1 rounded-lg hover:bg-white/[0.06]" onclick="closeModal('projectSettingsModal')">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<div class="p-6 flex flex-col gap-4">
+<div class="flex items-center justify-between p-3 rounded-xl bg-zinc-900/60 border border-white/[0.06]">
+<div>
+<h4 class="text-xs font-semibold text-zinc-200">Notifikasi Webhook Slack &amp; Teams</h4>
+<p class="text-[11px] text-zinc-400">Kirim peringatan otomatis setiap tugas berpindah status</p>
+</div>
+<input checked="" class="h-4 w-4 rounded accent-white cursor-pointer" type="checkbox"/>
+</div>
+<div class="flex items-center justify-between p-3 rounded-xl bg-zinc-900/60 border border-white/[0.06]">
+<div>
+<h4 class="text-xs font-semibold text-zinc-200">Wajib Review Code (PR Check)</h4>
+<p class="text-[11px] text-zinc-400">Tugas biometrik tidak dapat ditandai Selesai tanpa QA sign-off</p>
+</div>
+<input checked="" class="h-4 w-4 rounded accent-white cursor-pointer" type="checkbox"/>
+</div>
+<div class="flex items-center justify-between p-3 rounded-xl bg-zinc-900/60 border border-white/[0.06]">
+<div>
+<h4 class="text-xs font-semibold text-zinc-200">Visibilitas Repositori</h4>
+<p class="text-[11px] text-zinc-400">Batasi akses hanya untuk anggota internal organisasi</p>
+</div>
+<input checked="" class="h-4 w-4 rounded accent-white cursor-pointer" type="checkbox"/>
+</div>
+</div>
+<div class="px-6 py-3.5 bg-[#16181f] border-t border-white/[0.08] flex items-center justify-end">
+<button class="px-5 py-2 rounded-full bg-white hover:bg-zinc-200 text-black text-xs font-semibold shadow-[0_0_20px_rgba(255,255,255,0.25)]" onclick="closeModal('projectSettingsModal')">Tutup &amp; Terapkan</button>
+</div>
+</div>
+</div>
+<!-- 4. Modal: Konfirmasi Hapus Proyek (Destructive) -->
+<div class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-md p-4" id="deleteProjectModal">
+<div class="w-full max-w-md bg-[#12141a] border border-white/10 rounded-2xl shadow-2xl overflow-hidden flex flex-col">
+<div class="p-6 flex flex-col items-center text-center gap-3">
+<div class="w-12 h-12 rounded-full bg-rose-500/10 border border-rose-500/20 text-rose-400 flex items-center justify-center shadow-lg">
+<span class="material-symbols-outlined text-[28px]">warning</span>
+</div>
+<div class="flex flex-col gap-1">
+<h3 class="font-display font-bold text-lg text-white">Hapus Proyek Ini?</h3>
+<p class="text-xs text-zinc-400 leading-relaxed">
+            Tindakan ini akan menghapus permanen proyek <strong>"Redesain Aplikasi Mobile v2.0"</strong> beserta 48 tugas, log aktivitas, dan berkas lampiran. Tindakan ini tidak dapat dibatalkan.
+          </p>
+</div>
+</div>
+<div class="px-6 py-4 bg-[#16181f] border-t border-white/[0.08] flex items-center justify-center gap-3">
+<button class="w-1/2 py-2 rounded-xl text-zinc-400 hover:text-white hover:bg-white/[0.06] text-xs font-semibold transition-colors" onclick="closeModal('deleteProjectModal')">
+          Batalkan
+        </button>
+<button class="w-1/2 py-2 rounded-full bg-rose-600 hover:bg-rose-500 text-white text-xs font-bold transition-all shadow-[0_0_15px_rgba(225,29,72,0.4)]" onclick="confirmProjectDeletion()">
+          Ya, Hapus Proyek
+        </button>
+</div>
+</div>
+</div>
+<!-- 5. Drawer / Modal: Kelola Anggota Proyek -->
+<div class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4" id="membersDrawer">
+<div class="w-full max-w-md bg-[#12141a] border border-white/10 rounded-2xl shadow-2xl overflow-hidden flex flex-col">
+<div class="px-6 py-4 bg-[#16181f] border-b border-white/[0.08] flex items-center justify-between">
+<div class="flex items-center gap-2.5">
+<span class="material-symbols-outlined text-white text-[20px]">group</span>
+<h3 class="font-display font-bold text-base text-white">Anggota Tim Proyek (4)</h3>
+</div>
+<button class="text-zinc-400 hover:text-white p-1 rounded-lg hover:bg-white/[0.06]" onclick="toggleMembersDrawer()">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<div class="p-6 flex flex-col gap-3 divide-y divide-white/[0.06]">
+<div class="flex items-center justify-between pb-3">
+<div class="flex items-center gap-3">
+<img class="w-9 h-9 rounded-full object-cover border border-white/10" data-alt="Potret Siti Rahmawati tim engineer mobile." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAlFJhRT1ogFcfFh1--jRMyDuCAkUO_zfAghvlX29MWdnbhJ4hn-aEBIspfbJyVLx1Ff-8hTQLkZcNvZuk-Ar2ve4DmvhEJjYQZy4bw_S96nV3rrl-jsR48ZUszQocfI-YpPv9ywmAO_pipkIZjqwmEVNBI12602uMqX482HPp3_a_9nD6QjsbP8I2kfEx1bIN3fjVDbFRTNJfsfnajRale5F8xOIc5-VwsfW0e7J46nNuSy1dDgXl1"/>
+<div>
+<p class="text-xs font-semibold text-zinc-100">Siti Rahmawati</p>
+<p class="text-[11px] text-zinc-400">Mobile Security Engineer</p>
+</div>
+</div>
+<span class="px-2 py-0.5 bg-zinc-800 border border-white/10 text-zinc-200 text-[10px] font-semibold rounded">Editor</span>
+</div>
+<div class="flex items-center justify-between py-3">
+<div class="flex items-center gap-3">
+<img class="w-9 h-9 rounded-full object-cover border border-white/10" data-alt="Potret Raden Pratama lead engineer mobile." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAVP7ahbq4FOU4CWCU5r2iAvEXOzMzo18zAqiaL9yLQk7I7aqYRj2N8XRqgtlj0PolDBqTxeiDTucXWmEASapOnvgyEqZDrwPqz2q4xwOTl3BnwdoUzW1b7IbIKX23bnOLpAe7BTUONtOtme570PW0aszSDt83sSHiWjLym9dQB_TJla55c8stVAG-EBs_7J8JSGtR2daILmRcIB-0Stln0XxFeSxWlHSGWmPBwH2Ks4W_2-YHDTnDH"/>
+<div>
+<p class="text-xs font-semibold text-zinc-100">Raden Pratama</p>
+<p class="text-[11px] text-zinc-400">Tech Lead Flutter</p>
+</div>
+</div>
+<span class="px-2 py-0.5 bg-zinc-800 border border-white/10 text-zinc-200 text-[10px] font-semibold rounded">Admin</span>
+</div>
+<div class="flex items-center justify-between py-3">
+<div class="flex items-center gap-3">
+<img class="w-9 h-9 rounded-full object-cover border border-white/10" data-alt="Potret Dimas Kurnia backend engineer." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB-7Vrh9Y6vSaoSZhrdUty8AAl0wCMaGs_guuvBJ0BsOJKXWAvgKA_s_QqBfp7XXIMN-oF48Xd8n9K7lGhir4pcOsnEJGcDH8WgfIWU-lizxgIUHyJZ0qofMTUIOUzkSQhozFkpq_krLra9uj9u4yvwkpZN4s2_aS2Sz19OQM5aL8gLyelTKrt8UU4q6NYQlxgYZIBjBXQkJI0qWC_t7LfhBiKUrlReL9VQhhaZPYlrDbw7kRqISmre"/>
+<div>
+<p class="text-xs font-semibold text-zinc-100">Dimas Kurnia</p>
+<p class="text-[11px] text-zinc-400">Auth &amp; API Specialist</p>
+</div>
+</div>
+<span class="px-2 py-0.5 bg-zinc-900 border border-white/[0.06] text-zinc-400 text-[10px] rounded">Kontributor</span>
+</div>
+<div class="flex items-center justify-between pt-3">
+<div class="flex items-center gap-3">
+<img class="w-9 h-9 rounded-full object-cover border border-white/10" data-alt="Potret Alberto Tanujaya UI/UX designer." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD_tsMly6pnqfm_JEj7FrZYelpgcFL35QZ2WcJ-nFrsJ52iYAdZKS4ZjCV1r5zpUQ5c57trg3OFk-6eg3dRYq4T16bQonYDhlOJqjmMIaRGoVsgzDXJBSB1PrQOq6lc5pYqIfWKpaLvWIKEl4ni99fyrmBngEZZyZZtTrOPMsxNlId3P6ErAu3d1WN6SKFRdBuyAjFMcitOcGMFx4sGpqL_MU7AQiSdjRkkGJTDjsqcStcvyEKnXJnZ"/>
+<div>
+<p class="text-xs font-semibold text-zinc-100">Alberto Tanujaya</p>
+<p class="text-[11px] text-zinc-400">Design System Lead</p>
+</div>
+</div>
+<span class="px-2 py-0.5 bg-zinc-900 border border-white/[0.06] text-zinc-400 text-[10px] rounded">Kontributor</span>
+</div>
+</div>
+<div class="p-4 bg-[#16181f] border-t border-white/[0.08] flex justify-between items-center">
+<button class="text-xs text-white hover:underline flex items-center gap-1.5 font-medium">
+<span class="material-symbols-outlined text-[16px]">person_add</span>
+<span>Undang Anggota Baru</span>
+</button>
+<button class="px-4 py-1.5 rounded-full bg-white hover:bg-zinc-200 text-black text-xs font-semibold" onclick="toggleMembersDrawer()">
+          Selesai
+        </button>
+</div>
+</div>
+</div>
+<!-- Micro-interactions Controller -->
+<script>
+    function toggleProjectDropdown() {
+      const menu = document.getElementById('projectDropdownMenu');
+      menu.classList.toggle('hidden');
+    }
+
+    function toggleMembersDrawer() {
+      const drawer = document.getElementById('membersDrawer');
+      drawer.classList.toggle('hidden');
+    }
+
+    function openModal(modalId) {
+      const dropdown = document.getElementById('projectDropdownMenu');
+      if (dropdown && !dropdown.classList.contains('hidden')) {
+        dropdown.classList.add('hidden');
+      }
+      const target = document.getElementById(modalId);
+      if (target) {
+        target.classList.remove('hidden');
+      }
+    }
+
+    function closeModal(modalId) {
+      const target = document.getElementById(modalId);
+      if (target) {
+        target.classList.add('hidden');
+      }
+    }
+
+    function toggleTaskState(checkbox, textId) {
+      const textElem = document.getElementById(textId);
+      if (!textElem) return;
+      if (checkbox.checked) {
+        textElem.classList.add('line-through', 'text-zinc-500');
+        textElem.classList.remove('text-zinc-200', 'text-zinc-100');
+      } else {
+        textElem.classList.remove('line-through', 'text-zinc-500');
+        textElem.classList.add('text-zinc-200');
+      }
+    }
+
+    function confirmProjectDeletion() {
+      closeModal('deleteProjectModal');
+      alert('Proyek "Redesain Aplikasi Mobile v2.0" telah berhasil dihapus dari arsip kerja.');
+    }
+
+    // Bind signature Pill button to modal
+    document.getElementById('btnOpenNewTaskModal')?.addEventListener('click', () => {
+      openModal('newTaskModal');
+    });
+
+    // Close popups on outer click
+    window.addEventListener('click', function(e) {
+      const btn = document.getElementById('btnProjectMenu');
+      const menu = document.getElementById('projectDropdownMenu');
+      if (menu && !menu.classList.contains('hidden')) {
+        if (!btn.contains(e.target) && !menu.contains(e.target)) {
+          menu.classList.add('hidden');
+        }
+      }
+    });
+  </script>
+</main></div></body></html>

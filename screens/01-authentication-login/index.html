@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Sign In — Jara Intelligence</title>
+<!-- Tailwind CSS v3 -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Configuration -->
+<script data-purpose="tailwind-config">
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              black: '#000000',
+              surface: '#0d0d0f',
+              card: 'rgba(22, 22, 26, 0.65)',
+              input: '#111113',
+              muted: '#8e8e93',
+              border: 'rgba(255, 255, 255, 0.12)',
+              borderFocus: 'rgba(255, 255, 255, 0.35)',
+              glow: 'rgba(255, 255, 255, 0.28)'
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+            mono: ['JetBrains Mono', 'SF Mono', 'Roboto Mono', 'Menlo', 'monospace']
+          }
+        }
+      }
+    };
+  </script>
+<!-- Google Fonts: Inter & JetBrains Mono -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<!-- Core Layout & Custom Styling -->
+<style data-purpose="typography-and-effects">
+    :root {
+      --bg: #000000;
+      --text: #ffffff;
+      --muted: #8e8e8e;
+      --pill-dark: #1e1e20;
+      --pill-border: rgba(255, 255, 255, 0.15);
+      --trust-border: rgba(255, 255, 255, 0.2);
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    /* Ambient background grid & vignette */
+    .bg-ambient-vignette {
+      background-image: 
+        radial-gradient(circle at 50% 18%, rgba(255, 255, 255, 0.08) 0%, transparent 60%),
+        radial-gradient(circle at 50% 100%, rgba(255, 255, 255, 0.03) 0%, transparent 70%);
+    }
+
+    /* Subdued tactical dot-matrix simulation */
+    .pixel-text {
+      font-family: 'JetBrains Mono', monospace;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    /* Glowing CTA matching the hero button */
+    .glow-button {
+      background-color: #ffffff;
+      color: #000000;
+      box-shadow: 0 0 28px rgba(255, 255, 255, 0.24), 0 0 55px rgba(255, 255, 255, 0.08);
+      transition: all 0.25s ease-out;
+    }
+    .glow-button:hover {
+      box-shadow: 0 0 36px rgba(255, 255, 255, 0.45), 0 0 70px rgba(255, 255, 255, 0.16);
+      transform: translateY(-1px);
+    }
+
+    /* Glass card backdrop */
+    .glass-card {
+      background: rgba(18, 18, 22, 0.72);
+      backdrop-filter: blur(28px);
+      -webkit-backdrop-filter: blur(28px);
+      border: 1px solid rgba(255, 255, 255, 0.11);
+    }
+
+    /* Subtle custom checkbox */
+    .custom-checkbox:checked {
+      background-color: #ffffff;
+      border-color: #ffffff;
+      background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='%23000000' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M12.207 4.793a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L6.5 9.086l4.293-4.293a1 1 0 011.414 0z'/%3e%3c/svg%3e");
+    }
+  </style>
+</head>
+<body class="bg-black text-white relative flex flex-col justify-between min-h-screen bg-ambient-vignette selection:bg-white selection:text-black">
+<!-- BEGIN: TopNavigation -->
+<header class="w-full max-w-7xl mx-auto px-6 py-6 flex items-center justify-between relative z-20" data-purpose="site-header">
+<!-- Jara Logo & Brand Identifier -->
+<a class="flex items-center gap-3 group" data-purpose="brand-logo" href="#" title="Jara Home">
+<div class="w-9 h-9 rounded-full bg-white flex items-center justify-center shadow-[0_0_15px_rgba(255,255,255,0.3)] transition-transform group-hover:scale-105 duration-200">
+<!-- Jara Checkmark / Neural Node Mark -->
+<svg class="w-5 h-5 text-black stroke-[2.75]" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" viewbox="0 0 24 24">
+<polyline points="20 6 9 17 4 12"></polyline>
+</svg>
+</div>
+<div class="flex items-baseline gap-1.5">
+<span class="font-semibold text-lg tracking-tight text-white">Jara</span>
+<span class="text-[10px] uppercase font-mono tracking-widest text-zinc-500 font-medium">Platform</span>
+</div>
+</a>
+<!-- Center Navigation Pill -->
+<nav class="hidden md:flex items-center bg-[#111113]/80 border border-white/15 px-6 py-2 rounded-full text-xs font-medium text-zinc-300 backdrop-blur-md shadow-inner shadow-black/40 space-x-7" data-purpose="nav-links">
+<a class="hover:text-white transition-colors duration-150" href="#">Home</a>
+<a class="hover:text-white transition-colors duration-150" href="#">Product</a>
+<a class="hover:text-white transition-colors duration-150" href="#">Case Studies</a>
+<a class="hover:text-white transition-colors duration-150" href="#">Documentation</a>
+<a class="hover:text-white transition-colors duration-150" href="#">Security</a>
+</nav>
+<!-- Top Right Controls: Status & Back Link -->
+<div class="flex items-center gap-3" data-purpose="header-controls">
+<!-- System Operational Indicator -->
+<div class="hidden sm:flex items-center gap-2 bg-[#17171a] border border-white/10 px-3 py-1.5 rounded-full text-[11px] text-zinc-300 font-mono">
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+</span>
+<span>Operational</span>
+</div>
+<!-- Back to Landing Link -->
+<a class="flex items-center gap-1.5 text-xs font-medium text-zinc-400 hover:text-white bg-[#141416] hover:bg-[#1e1e22] border border-white/10 hover:border-white/20 px-3.5 py-1.5 rounded-full transition-all duration-200" href="#">
+<span>←</span>
+<span>Back to site</span>
+</a>
+</div>
+</header>
+<!-- END: TopNavigation -->
+<!-- BEGIN: MainContent -->
+<main class="flex-1 flex flex-col items-center justify-center px-4 py-8 relative z-10 w-full" data-purpose="authentication-stage">
+<!-- Top Trust Micro-Pill -->
+<div class="mb-6 flex items-center gap-2 bg-[#121215] border border-white/15 rounded-full px-3.5 py-1.5 shadow-lg backdrop-blur-md text-[11px] text-zinc-300" data-purpose="security-badge">
+<div class="flex -space-x-1.5 items-center">
+<!-- Micro Brand / Security Emblems -->
+<span class="w-4 h-4 rounded-full bg-zinc-800 border border-white/20 flex items-center justify-center text-[8px] font-mono text-white">◬</span>
+<span class="w-4 h-4 rounded-full bg-zinc-700 border border-white/20 flex items-center justify-center text-[8px] font-mono text-white">#</span>
+<span class="w-4 h-4 rounded-full bg-zinc-600 border border-white/20 flex items-center justify-center text-[8px] font-mono text-white">✓</span>
+</div>
+<span class="font-mono text-zinc-400 pl-1 tracking-wider uppercase text-[10px]">Zero-Trust Perimeter Active</span>
+</div>
+<!-- Central Authentication Card -->
+<div class="glass-card rounded-[28px] w-full max-w-[460px] p-7 sm:p-9 shadow-[0_28px_80px_rgba(0,0,0,0.85)] relative" data-purpose="auth-card">
+<!-- Card Sub-Badge & Title -->
+<div class="text-center mb-6" data-purpose="auth-header">
+<span class="pixel-text text-[10px] text-zinc-400 px-3 py-1 bg-white/5 border border-white/10 rounded-md inline-block mb-3">
+          AUTHENTICATION GATEWAY
+        </span>
+<h1 class="text-2xl sm:text-3xl font-semibold tracking-tight text-white mb-2">
+          Sign in to Jara
+        </h1>
+<p class="text-xs sm:text-sm text-zinc-400 font-normal leading-relaxed">
+          Autonomous intelligence platform for production systems.
+        </p>
+</div>
+<!-- Segmented Tab Switcher -->
+<div class="grid grid-cols-2 p-1 bg-[#101012] border border-white/10 rounded-xl mb-6 text-xs font-medium" data-purpose="auth-mode-toggle">
+<button aria-selected="true" class="py-2 rounded-lg bg-zinc-800 text-white shadow-sm font-semibold transition-all" type="button">
+          Sign In
+        </button>
+<button aria-selected="false" class="py-2 rounded-lg text-zinc-400 hover:text-white transition-colors" type="button">
+          Request Access
+        </button>
+</div>
+<!-- SSO / Fast Enterprise Actions -->
+<div class="space-y-2.5 mb-5" data-purpose="sso-providers">
+<!-- Continue with Google Button -->
+<button class="w-full flex items-center justify-center gap-3 bg-[#161619] hover:bg-[#1e1e24] text-zinc-200 hover:text-white border border-white/15 hover:border-white/30 rounded-xl py-2.5 px-4 text-xs font-medium transition-all duration-200 group" type="button">
+<svg class="w-4 h-4" viewbox="0 0 24 24">
+<path d="M12 5c1.56 0 2.97.55 4.09 1.6l3.07-3.07C17.3 1.76 14.83 1 12 1 7.37 1 3.42 3.66 1.5 7.54l3.77 2.92C6.18 7.46 8.84 5 12 5z" fill="#EA4335"></path>
+<path d="M23.49 12.28c0-.85-.07-1.53-.22-2.28H12v4.51h6.47c-.29 1.48-1.14 2.73-2.4 3.58l3.74 2.9c2.19-2.02 3.68-5 3.68-8.71z" fill="#4285F4"></path>
+<path d="M5.27 14.29c-.25-.74-.39-1.53-.39-2.29s.14-1.55.39-2.29L1.5 6.79C.54 8.7 0 10.79 0 12s.54 3.3 1.5 5.21l3.77-2.92z" fill="#FBBC05"></path>
+<path d="M12 23c3.24 0 5.96-1.07 7.95-2.91l-3.74-2.9c-1.08.73-2.47 1.16-4.21 1.16-3.16 0-5.82-2.46-6.73-5.46L1.5 15.81C3.42 19.69 7.37 23 12 23z" fill="#34A853"></path>
+</svg>
+<span>Continue with Google</span>
+</button>
+<!-- Continue with Enterprise SSO -->
+<button class="w-full flex items-center justify-center gap-3 bg-[#161619] hover:bg-[#1e1e24] text-zinc-200 hover:text-white border border-white/15 hover:border-white/30 rounded-xl py-2.5 px-4 text-xs font-medium transition-all duration-200" type="button">
+<svg class="w-4 h-4 text-zinc-400 group-hover:text-white" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24">
+<rect height="11" rx="2" ry="2" width="18" x="3" y="11"></rect>
+<path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+</svg>
+<span>Single Sign-On (SAML / Okta)</span>
+</button>
+</div>
+<!-- Elegant Divider -->
+<div class="flex items-center gap-3 my-5" data-purpose="auth-divider">
+<div class="h-[1px] flex-1 bg-white/10"></div>
+<span class="text-[11px] font-mono uppercase tracking-wider text-zinc-500">or credentials</span>
+<div class="h-[1px] flex-1 bg-white/10"></div>
+</div>
+<!-- Authentication Form -->
+<form action="#" class="space-y-4" data-purpose="login-form" method="POST" onsubmit="event.preventDefault();">
+<!-- Work Email Address Input -->
+<div data-purpose="form-field-email">
+<label class="block text-xs font-medium text-zinc-300 mb-1.5" for="email">Work Email</label>
+<div class="relative">
+<input class="w-full bg-[#111114] border border-white/15 focus:border-white/40 rounded-xl text-white text-xs sm:text-sm px-3.5 py-2.5 outline-none transition-all placeholder:text-zinc-600 focus:ring-1 focus:ring-white/30" id="email" name="email" placeholder="name@enterprise.com" required="" type="email"/>
+</div>
+</div>
+<!-- Password Input -->
+<div data-purpose="form-field-password">
+<div class="flex items-center justify-between mb-1.5">
+<label class="block text-xs font-medium text-zinc-300" for="password">Password</label>
+<a class="text-[11px] text-zinc-400 hover:text-white transition-colors underline-offset-2 hover:underline" href="#">Forgot password?</a>
+</div>
+<div class="relative">
+<input class="w-full bg-[#111114] border border-white/15 focus:border-white/40 rounded-xl text-white text-xs sm:text-sm px-3.5 py-2.5 outline-none transition-all placeholder:text-zinc-600 focus:ring-1 focus:ring-white/30 pr-10" id="password" name="password" placeholder="••••••••••••" required="" type="password"/>
+<!-- Password Toggle Visibility Icon -->
+<button class="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-zinc-300 transition-colors" title="Toggle password visibility" type="button">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+<path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" stroke-linecap="round" stroke-linejoin="round"></path>
+<path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</button>
+</div>
+</div>
+<!-- Security & Remember Controls -->
+<div class="flex items-center justify-between pt-1 text-xs">
+<label class="flex items-center gap-2 cursor-pointer select-none text-zinc-400 hover:text-zinc-300">
+<input checked="" class="custom-checkbox w-3.5 h-3.5 rounded border-white/20 bg-[#161619] focus:ring-0 focus:ring-offset-0 cursor-pointer text-black" type="checkbox"/>
+<span>Remember 30 days</span>
+</label>
+<div class="flex items-center gap-1.5 text-zinc-400 hover:text-white cursor-pointer transition-colors" title="Authenticate with FIDO2 or TouchID">
+<svg class="w-3.5 h-3.5 text-zinc-400" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+<path d="M12 11c0 3.517-1.009 6.799-2.753 9.571m-3.44-2.04l.054-.09A13.916 13.916 0 008 11a4 4 0 118 0c0 1.017-.07 2.019-.203 3m-2.118 6.844A21.88 21.88 0 0015.171 17m3.839 1.132c.645-2.266.99-4.659.99-7.132A8 8 0 004 11a7.968 7.968 0 001.378 4.469m9.774 2.684a10.96 10.96 0 01-3.152 2.847" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+<span class="text-[11px]">Passkey</span>
+</div>
+</div>
+<!-- Primary CTA: Glowing Button -->
+<div class="pt-3">
+<button class="glow-button w-full py-3 px-6 rounded-full font-semibold text-xs tracking-wide uppercase flex items-center justify-center gap-2 text-black cursor-pointer" data-purpose="submit-button" type="submit">
+<span>Continue to Jara</span>
+<span class="text-sm font-bold">→</span>
+</button>
+</div>
+</form>
+<!-- Trust Badges Under Form -->
+<div class="mt-6 pt-5 border-t border-white/10 flex items-center justify-center gap-2 text-[11px] text-zinc-400 font-mono" data-purpose="compliance-callout">
+<svg class="w-3.5 h-3.5 text-emerald-400" fill="currentColor" viewbox="0 0 24 24">
+<path clip-rule="evenodd" d="M12 1.5a5.25 5.25 0 00-5.25 5.25v3a3 3 0 00-3 3v6.75a3 3 0 003 3h10.5a3 3 0 003-3v-6.75a3 3 0 00-3-3v-3c0-2.9-2.35-5.25-5.25-5.25zm3.75 8.25v-3a3.75 3.75 0 10-7.5 0v3h7.5z" fill-rule="evenodd"></path>
+</svg>
+<span>SOC2 Type II • 256-bit TLS Gateway</span>
+</div>
+</div>
+</main>
+<!-- END: MainContent -->
+<!-- BEGIN: BottomStatsAndFooter -->
+<footer class="w-full max-w-7xl mx-auto px-6 py-6 relative z-20 flex flex-col md:flex-row items-center justify-between gap-4 border-t border-white/5 text-xs text-zinc-400" data-purpose="viewport-footer">
+<!-- Micro Stats matching landing telemetry metrics -->
+<div class="flex flex-wrap items-center justify-center gap-6 sm:gap-8 font-mono text-[11px]" data-purpose="telemetry-bar">
+<div class="flex items-center gap-2">
+<span class="text-zinc-600">&lt;</span>
+<span class="text-zinc-200 font-medium">120ms</span>
+<span class="text-zinc-500">Inference Auth</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-zinc-600">⁘</span>
+<span class="text-zinc-200 font-medium">99.33%</span>
+<span class="text-zinc-500">Uptime</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-zinc-600">⁜</span>
+<span class="text-zinc-200 font-medium">23/7</span>
+<span class="text-zinc-500">Autonomous Runtime</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-zinc-600">#</span>
+<span class="text-zinc-200 font-medium">2.3M</span>
+<span class="text-zinc-500">Tokens/Sec</span>
+</div>
+</div>
+<!-- Legal & Help Links -->
+<div class="flex items-center gap-5 text-zinc-400 text-[11px]" data-purpose="footer-links">
+<a class="hover:text-white transition-colors" href="#">Privacy Policy</a>
+<span class="text-zinc-700">•</span>
+<a class="hover:text-white transition-colors" href="#">Terms of Service</a>
+<span class="text-zinc-700">•</span>
+<a class="hover:text-white transition-colors" href="#">Security Overview</a>
+<span class="text-zinc-700">•</span>
+<a class="hover:text-white transition-colors" href="#">Contact Support</a>
+</div>
+</footer>
+<!-- END: BottomStatsAndFooter -->
+<!-- Interactivity Script for State Feedback -->
+<script data-purpose="auth-state-handler">
+    document.addEventListener('DOMContentLoaded', () => {
+      const tabs = document.querySelectorAll('[data-purpose="auth-mode-toggle"] button');
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          tabs.forEach(t => {
+            t.classList.remove('bg-zinc-800', 'text-white', 'shadow-sm');
+            t.classList.add('text-zinc-400');
+          });
+          tab.classList.add('bg-zinc-800', 'text-white', 'shadow-sm');
+          tab.classList.remove('text-zinc-400');
+        });
+      });
+    });
+  </script>
+</body></html>

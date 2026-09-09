@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+
+<html lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Kelola Pengguna Sistem — Jara Platform</title>
+<!-- Tailwind CSS v3 -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Fonts & Material Symbols -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<script data-purpose="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              black: '#000000',
+              surface: '#0a0b0e',
+              subsurface: '#111216',
+              card: 'rgba(18, 18, 22, 0.72)',
+              input: '#101014',
+              muted: '#8e8e93',
+              border: 'rgba(255, 255, 255, 0.10)',
+              borderFocus: 'rgba(255, 255, 255, 0.35)',
+              glow: 'rgba(255, 255, 255, 0.25)'
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+            mono: ['JetBrains Mono', 'SF Mono', 'monospace']
+          }
+        }
+      }
+    };
+  </script>
+<style data-purpose="custom-jara-styling">
+    :root {
+      --bg: #000000;
+      --text: #ffffff;
+      --muted: #8e8e93;
+    }
+    body {
+      background-color: #000000;
+      color: #ffffff;
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+    }
+    ::-webkit-scrollbar {
+      display: none;
+    }
+    .bg-ambient-vignette {
+      background-image: 
+        radial-gradient(circle at 45% 10%, rgba(255, 255, 255, 0.06) 0%, transparent 50%),
+        radial-gradient(circle at 85% 25%, rgba(255, 255, 255, 0.03) 0%, transparent 60%);
+    }
+    .glass-card {
+      background: rgba(16, 17, 21, 0.75);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .glass-card-hover:hover {
+      border-color: rgba(255, 255, 255, 0.18);
+      background: rgba(22, 23, 29, 0.85);
+    }
+    .glow-button {
+      background-color: #ffffff;
+      color: #000000;
+      box-shadow: 0 0 24px rgba(255, 255, 255, 0.22), 0 0 50px rgba(255, 255, 255, 0.06);
+      transition: all 0.2s ease-out;
+    }
+    .glow-button:hover {
+      box-shadow: 0 0 32px rgba(255, 255, 255, 0.45);
+      transform: translateY(-1px);
+    }
+    .pixel-text {
+      font-family: 'JetBrains Mono', monospace;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+  </style>
+</head>
+<body class="bg-black text-zinc-100 min-h-screen antialiased flex bg-ambient-vignette selection:bg-white selection:text-black">
+<!-- SIDEBAR: Jara Enterprise Platform Style -->
+<aside class="fixed left-0 top-0 h-full w-64 bg-[#090a0d]/90 backdrop-blur-2xl border-r border-white/10 z-50 flex flex-col justify-between">
+<div class="flex flex-col">
+<!-- Brand & Header -->
+<div class="h-16 px-6 flex items-center justify-between border-b border-white/10">
+<a class="flex items-center gap-3 group" href="#">
+<div class="w-8 h-8 rounded-full bg-white flex items-center justify-center shadow-[0_0_14px_rgba(255,255,255,0.3)] transition-transform group-hover:scale-105 duration-200">
+<svg class="w-4 h-4 text-black stroke-[2.75]" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" viewbox="0 0 24 24">
+<polyline points="20 6 9 17 4 12"></polyline>
+</svg>
+</div>
+<div class="flex items-baseline gap-1.5">
+<span class="font-semibold text-base tracking-tight text-white">Jara</span>
+<span class="text-[9px] uppercase font-mono tracking-widest text-zinc-500 font-semibold">Platform</span>
+</div>
+</a>
+</div>
+<!-- Nav Menu -->
+<div class="px-4 pt-5">
+<p class="px-3 mb-2 font-mono text-[10px] text-zinc-500 uppercase tracking-widest">Menu Utama</p>
+<nav class="flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2 rounded-xl text-zinc-400 hover:text-white hover:bg-white/5 transition-all text-xs font-medium" data-path="ringkasan-dashboard" href="#">
+<span class="material-symbols-outlined text-[18px]">insights</span>
+<span>Ringkasan &amp; Progres</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-xl text-zinc-400 hover:text-white hover:bg-white/5 transition-all text-xs font-medium" data-path="proyek-daftar-tugas" href="#">
+<span class="material-symbols-outlined text-[18px]">fact_check</span>
+<span>Proyek &amp; Tugas</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-xl text-zinc-400 hover:text-white hover:bg-white/5 transition-all text-xs font-medium" data-path="tim-kolaborasi" href="#">
+<span class="material-symbols-outlined text-[18px]">group</span>
+<span>Anggota Tim</span>
+</a>
+<a aria-current="page" class="flex items-center gap-3 px-3 py-2 rounded-xl bg-white/10 text-white border border-white/15 font-medium text-xs shadow-inner shadow-black/50" data-path="manajemen-akun" href="#">
+<span class="material-symbols-outlined text-[18px] text-zinc-200">admin_panel_settings</span>
+<span>Admin &amp; Akun</span>
+</a>
+</nav>
+</div>
+<div class="px-4 pt-5">
+<p class="px-3 mb-2 font-mono text-[10px] text-zinc-500 uppercase tracking-widest">Sistem</p>
+<nav class="flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2 rounded-xl text-zinc-400 hover:text-white hover:bg-white/5 transition-all text-xs font-medium" data-path="pengaturan" href="#">
+<span class="material-symbols-outlined text-[18px]">settings</span>
+<span>Pengaturan</span>
+</a>
+</nav>
+</div>
+</div>
+<!-- Telemetry Status Card in Sidebar bottom -->
+<div class="p-3.5 m-3.5 rounded-xl bg-[#111216] border border-white/10 flex items-center justify-between">
+<div class="flex flex-col">
+<span class="text-[10px] uppercase font-mono tracking-wider text-zinc-400">Zero-Trust Node</span>
+<div class="flex items-center gap-2 mt-1">
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+</span>
+<span class="text-xs text-zinc-200 font-mono">Operational</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-zinc-500 text-[18px]">verified_user</span>
+</div>
+</aside>
+<!-- CONTENT WRAPPER -->
+<div class="pl-64 flex flex-col min-h-screen w-full">
+<!-- Top Header Navigation -->
+<header class="fixed top-0 left-64 right-0 h-16 bg-[#050608]/85 backdrop-blur-xl z-40 px-8 flex items-center justify-between border-b border-white/10">
+<div class="flex items-center gap-4 flex-1 max-w-lg">
+<div class="relative w-full flex items-center">
+<span class="material-symbols-outlined absolute left-3 text-zinc-500 pointer-events-none text-[18px]">search</span>
+<input class="w-full bg-[#111216] border border-white/10 hover:border-white/20 focus:border-white/40 text-xs text-zinc-200 pl-9 pr-3 py-2 rounded-full focus:outline-none transition-all placeholder:text-zinc-500 font-sans" placeholder="Cari tugas, sprint, atau anggota... (Ctrl + K)" type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<!-- Quick Fast Action Button -->
+<button class="hidden sm:flex items-center gap-1.5 bg-[#17181c] hover:bg-[#202128] border border-white/10 hover:border-white/25 text-zinc-200 hover:text-white px-3.5 py-1.5 rounded-full text-xs font-medium transition-all" type="button">
+<span class="material-symbols-outlined text-[16px]">add</span>
+<span>Buat Tugas Cepat</span>
+</button>
+<button aria-label="Notifikasi Aktivitas" class="relative p-2 rounded-full text-zinc-400 hover:text-white hover:bg-white/5 transition-colors border border-transparent hover:border-white/10" type="button">
+<span class="material-symbols-outlined text-[18px]">notifications</span>
+<span class="absolute top-1.5 right-1.5 w-1.5 h-1.5 bg-rose-500 rounded-full shadow-[0_0_8px_rgba(244,63,94,0.8)]"></span>
+</button>
+<div class="h-5 w-[1px] bg-white/10 mx-1"></div>
+<!-- User Profile -->
+<div class="flex items-center gap-3 pl-1">
+<div class="flex flex-col text-right">
+<span class="text-xs font-semibold text-white leading-none">Bambang Prakoso</span>
+<span class="text-[10px] font-mono text-zinc-400 leading-none mt-1">Platform Admin</span>
+</div>
+<img alt="Profile" class="w-8 h-8 rounded-full object-cover border border-white/20 ring-1 ring-white/10" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAsIWrHY6OQ3WqpEO_z_e2WSVHvE0ItDvNlK7fRHkG9UXY90gYJR1ryeVWu0jgntTJAkoyabCJl9RzcjyrIidXDq0PswRsrInDXHUUOs5J2R0lF4udEMivrH6ATEzmchqO5_JIrU58MeGnNcVw0HkueYehhTQMeafqAuPNaMFrRWVURp2m7wU0V_sCG6LBny7fKu3Dc1cA-Y_XkFefePCTfQa5Nnn8FgRPoUvcTdiFpt1VphCH9Ndyw"/>
+<a aria-label="Logout" class="p-1.5 rounded-lg text-zinc-500 hover:text-rose-400 hover:bg-rose-500/10 transition-colors ml-1" data-path="login" href="#" title="Keluar dari Sistem">
+<span class="material-symbols-outlined text-[18px]">logout</span>
+</a>
+</div>
+</div>
+</header>
+<!-- MAIN BODY -->
+<main class="w-full pt-20 px-8 pb-16 flex-1 bg-black">
+<div class="flex flex-col w-full max-w-7xl mx-auto">
+<!-- Header Section -->
+<div class="relative pt-4 pb-6 flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div>
+<div class="flex items-center gap-2 mb-2">
+<span class="pixel-text text-[10px] text-zinc-400 px-2.5 py-0.5 bg-white/5 border border-white/10 rounded-full">Sistem Keamanan &amp; Otoritas</span>
+<span class="text-zinc-600 text-xs">•</span>
+<span class="font-mono text-[11px] text-zinc-500">SRS-01 / FR-1.1 / FR-1.2</span>
+</div>
+<h1 class="text-2xl sm:text-3xl font-semibold tracking-tight text-white">Kelola Pengguna Sistem</h1>
+<p class="text-xs sm:text-sm text-zinc-400 mt-1 max-w-2xl">
+              Pantau status pengguna aktif, tambahkan akun baru, dan kelola peran sistem secara tersentralisasi dalam arsitektur zero-trust.
+            </p>
+</div>
+<!-- Actions CTA: White Glow Pill Button matching Jara hero -->
+<div class="flex items-center gap-2.5 self-start md:self-auto">
+<button class="flex items-center gap-2 bg-[#141519] hover:bg-[#1e1f25] border border-white/10 hover:border-white/20 text-zinc-300 hover:text-white text-xs font-medium px-4 py-2 rounded-full transition-all" type="button">
+<span class="material-symbols-outlined text-[16px]">file_download</span>
+<span>Ekspor CSV</span>
+</button>
+<button class="glow-button flex items-center gap-2 text-black font-semibold text-xs tracking-wide px-5 py-2.5 rounded-full cursor-pointer transition-all" id="openModalBtn" type="button">
+<span class="material-symbols-outlined text-[18px]">person_add</span>
+<span>+ Tambah Akun Baru</span>
+</button>
+</div>
+</div>
+<!-- KPI Metric Glass Cards -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<!-- Total Users -->
+<div class="glass-card glass-card-hover p-5 rounded-2xl relative overflow-hidden transition-all duration-200">
+<div class="flex items-center justify-between">
+<span class="font-mono text-[10px] tracking-wider uppercase text-zinc-400">Total Pengguna</span>
+<div class="w-7 h-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-zinc-300">
+<span class="material-symbols-outlined text-[16px]">badge</span>
+</div>
+</div>
+<div class="mt-3 flex items-baseline gap-2">
+<span class="text-3xl font-semibold tracking-tight text-white">248</span>
+<span class="text-[11px] font-mono text-emerald-400 flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[13px]">trending_up</span> +12 bln ini
+              </span>
+</div>
+<div class="mt-4 w-full bg-white/5 h-1 rounded-full overflow-hidden">
+<div class="bg-white h-full rounded-full" style="width: 82%;"></div>
+</div>
+</div>
+<!-- Active Users -->
+<div class="glass-card glass-card-hover p-5 rounded-2xl relative overflow-hidden transition-all duration-200">
+<div class="flex items-center justify-between">
+<span class="font-mono text-[10px] tracking-wider uppercase text-zinc-400">Pengguna Aktif</span>
+<div class="w-7 h-7 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
+<span class="material-symbols-outlined text-[16px]">check_circle</span>
+</div>
+</div>
+<div class="mt-3 flex items-baseline gap-2">
+<span class="text-3xl font-semibold tracking-tight text-emerald-400">215</span>
+<span class="text-[11px] font-mono text-zinc-400">86.7% aktif</span>
+</div>
+<div class="mt-4 w-full bg-white/5 h-1 rounded-full overflow-hidden">
+<div class="bg-emerald-400 h-full rounded-full" style="width: 86%;"></div>
+</div>
+</div>
+<!-- Admins -->
+<div class="glass-card glass-card-hover p-5 rounded-2xl relative overflow-hidden transition-all duration-200">
+<div class="flex items-center justify-between">
+<span class="font-mono text-[10px] tracking-wider uppercase text-zinc-400">Admin Sistem</span>
+<div class="w-7 h-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-zinc-200">
+<span class="material-symbols-outlined text-[16px]">shield_person</span>
+</div>
+</div>
+<div class="mt-3 flex items-baseline gap-2">
+<span class="text-3xl font-semibold tracking-tight text-white">6</span>
+<span class="text-[11px] font-mono text-zinc-400">Akses Penuh</span>
+</div>
+<div class="mt-4 w-full bg-white/5 h-1 rounded-full overflow-hidden">
+<div class="bg-zinc-300 h-full rounded-full" style="width: 15%;"></div>
+</div>
+</div>
+<!-- Suspended -->
+<div class="glass-card glass-card-hover p-5 rounded-2xl relative overflow-hidden transition-all duration-200">
+<div class="flex items-center justify-between">
+<span class="font-mono text-[10px] tracking-wider uppercase text-zinc-400">Ditangguhkan</span>
+<div class="w-7 h-7 rounded-lg bg-rose-500/10 border border-rose-500/20 flex items-center justify-center text-rose-400">
+<span class="material-symbols-outlined text-[16px]">person_off</span>
+</div>
+</div>
+<div class="mt-3 flex items-baseline gap-2">
+<span class="text-3xl font-semibold tracking-tight text-rose-400">3</span>
+<span class="text-[10px] font-mono uppercase bg-rose-500/15 border border-rose-500/30 text-rose-300 px-2 py-0.5 rounded-full">Perlu Tinjauan</span>
+</div>
+<div class="mt-4 w-full bg-white/5 h-1 rounded-full overflow-hidden">
+<div class="bg-rose-500 h-full rounded-full" style="width: 5%;"></div>
+</div>
+</div>
+</div>
+<!-- Table Container Card -->
+<div class="glass-card rounded-2xl overflow-hidden border border-white/10 shadow-2xl">
+<!-- Filter Bar -->
+<div class="p-4 bg-[#0d0e12]/80 border-b border-white/10 flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-3">
+<!-- Search Input -->
+<div class="relative flex-1 max-w-md">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500 text-[18px]">search</span>
+<input class="w-full bg-[#14151a] border border-white/10 focus:border-white/30 text-xs text-white pl-9 pr-3 py-2 rounded-xl focus:outline-none transition-colors placeholder:text-zinc-500" id="userSearchInput" placeholder="Filter menurut nama lengkap atau email..." type="text"/>
+</div>
+<!-- Filter Controls -->
+<div class="flex flex-wrap items-center gap-2">
+<div class="flex items-center gap-1.5 bg-[#14151a] border border-white/10 rounded-xl px-3 py-1.5">
+<span class="material-symbols-outlined text-zinc-400 text-[16px]">tune</span>
+<select class="bg-transparent text-zinc-200 text-xs focus:outline-none cursor-pointer pr-2" id="roleFilter">
+<option class="bg-[#14151a] text-zinc-200" value="all">Semua Peran</option>
+<option class="bg-[#14151a] text-zinc-200" value="Admin">Admin</option>
+<option class="bg-[#14151a] text-zinc-200" value="Project Owner">Project Owner</option>
+<option class="bg-[#14151a] text-zinc-200" value="Member">Member</option>
+</select>
+</div>
+<div class="flex items-center gap-1.5 bg-[#14151a] border border-white/10 rounded-xl px-3 py-1.5">
+<span class="material-symbols-outlined text-zinc-400 text-[16px]">filter_alt</span>
+<select class="bg-transparent text-zinc-200 text-xs focus:outline-none cursor-pointer pr-2" id="statusFilter">
+<option class="bg-[#14151a] text-zinc-200" value="all">Semua Status</option>
+<option class="bg-[#14151a] text-zinc-200" value="Aktif">Aktif</option>
+<option class="bg-[#14151a] text-zinc-200" value="Nonaktif">Nonaktif</option>
+</select>
+</div>
+<button class="px-3 py-1.5 rounded-xl border border-white/10 hover:border-white/20 text-zinc-400 hover:text-white text-xs font-mono transition-colors flex items-center gap-1" id="resetFilters">
+<span class="material-symbols-outlined text-[15px]">restart_alt</span> Reset
+              </button>
+</div>
+</div>
+<!-- Data Table -->
+<div class="overflow-x-auto w-full">
+<table class="w-full text-left text-xs text-zinc-300 divide-y divide-white/5">
+<thead class="bg-[#0b0c0f] text-zinc-400 font-mono text-[10px] uppercase tracking-wider">
+<tr>
+<th class="py-3 px-6 font-medium">Profil &amp; Nama</th>
+<th class="py-3 px-4 font-medium">Email Kerja</th>
+<th class="py-3 px-4 font-medium">Departemen</th>
+<th class="py-3 px-4 font-medium">Peran Akses</th>
+<th class="py-3 px-4 font-medium">Dibuat</th>
+<th class="py-3 px-4 font-medium">Status</th>
+<th class="py-3 px-6 text-right font-medium">Aksi</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-white/5" id="userTableBody">
+<!-- Row 1 -->
+<tr class="hover:bg-white/[0.03] transition-colors user-row" data-email="budi.santoso@tugasku.co.id" data-name="Budi Santoso" data-role="Admin" data-status="Aktif">
+<td class="py-3.5 px-6">
+<div class="flex items-center gap-3">
+<img class="w-8 h-8 rounded-full object-cover border border-white/15 shrink-0" data-alt="Budi Santoso portrait" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCeQxk-zFb71pHhj0cyWXeZaXwJan4JPWkxrU3aWEdvZxWgk_vX7AhpEUiMcdr_L2cNA1Sd4RM-A2ymA5ywEkcM8p48aCcQhkPSdkA7-C-wzUQkbNaN9qiUKEA8RGk9ujoDw7fDEY0vh-VJeLXNbE070ZAVXoWMAzmOWhcI7DTAreASiRlfGpvsebulY35fYgMp7OZXCq39ZqICkN1NCpjrSoPZqcOSfbrqPugt2iaz8ttMhktSnF9t"/>
+<div class="flex flex-col min-w-0">
+<span class="font-medium text-white text-xs truncate">Budi Santoso</span>
+<span class="text-[11px] text-zinc-400">Lead Frontend</span>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-4 font-mono text-[11px] text-zinc-300">budi.santoso@tugasku.co.id</td>
+<td class="py-3.5 px-4 text-zinc-300">Teknologi &amp; Produk</td>
+<td class="py-3.5 px-4">
+<span class="inline-flex items-center gap-1.5 text-[11px] font-mono px-2.5 py-0.5 rounded-full bg-white/10 text-white border border-white/20">
+<span class="w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_6px_rgba(255,255,255,0.8)]"></span> Admin
+                    </span>
+</td>
+<td class="py-3.5 px-4 text-zinc-400 font-mono text-[11px]">12 Jan 2023</td>
+<td class="py-3.5 px-4">
+<span class="inline-flex items-center gap-1.5 text-[11px] font-mono px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.8)]"></span> Aktif
+                    </span>
+</td>
+<td class="py-3.5 px-6 text-right">
+<div class="relative inline-flex items-center justify-end gap-1.5">
+<button class="px-2.5 py-1 rounded-lg bg-[#18191e] hover:bg-[#23252c] border border-white/10 text-zinc-300 hover:text-white text-[11px] font-medium transition-colors" type="button">
+                        Edit Akses
+                      </button>
+<button class="delete-trigger p-1 rounded-lg text-zinc-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors" title="Hapus Akun" type="button">
+<span class="material-symbols-outlined text-[17px]">delete</span>
+</button>
+<!-- Popover Konfirmasi Hapus -->
+<div class="delete-popover hidden absolute right-0 bottom-full mb-2 w-60 p-4 bg-[#14151a] border border-white/15 text-white rounded-xl shadow-2xl z-30 text-left">
+<p class="text-xs font-semibold text-rose-400 flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">warning</span> Hapus Pengguna
+                        </p>
+<p class="text-[11px] text-zinc-400 mt-1">Hapus akun pengguna ini secara permanen dari sistem?</p>
+<div class="mt-3 flex justify-end gap-1.5">
+<button class="popover-cancel px-2.5 py-1 rounded-md bg-[#22232a] text-zinc-300 hover:text-white text-[11px]" type="button">Batal</button>
+<button class="popover-confirm px-2.5 py-1 rounded-md bg-rose-600 hover:bg-rose-500 text-white text-[11px] font-medium" type="button">Ya, Hapus</button>
+</div>
+</div>
+</div>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-white/[0.03] transition-colors user-row" data-email="siti.aminah@tugasku.co.id" data-name="Siti Aminah" data-role="Project Owner" data-status="Aktif">
+<td class="py-3.5 px-6">
+<div class="flex items-center gap-3">
+<img class="w-8 h-8 rounded-full object-cover border border-white/15 shrink-0" data-alt="Siti Aminah portrait" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBr1qp0EdUiEQNDCX-3L6MiWmvQHNK5XzpKb7rXBxjUyXd5gDZFWlFbhGybvN1dvOk6MS8xqi0RBHO5a4R1BAr2zHDZlajC5VF2y1pb2iZjJ3AGNoEInwHGAIyJUvZ4WGx1xDs41wuLtOwoo__3L95XxrBeFg7IRv9Fmkdo7nAgq427hFTGfXAdgAo1Q1ouj0T5uAAF65OcqzhLk5viOtNOHCMecSum-das5P1OPZfzlc8RZaLUraGF"/>
+<div class="flex flex-col min-w-0">
+<span class="font-medium text-white text-xs truncate">Siti Aminah</span>
+<span class="text-[11px] text-zinc-400">UI/UX Designer Lead</span>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-4 font-mono text-[11px] text-zinc-300">siti.aminah@tugasku.co.id</td>
+<td class="py-3.5 px-4 text-zinc-300">Desain Produk</td>
+<td class="py-3.5 px-4">
+<span class="inline-flex items-center gap-1.5 text-[11px] font-mono px-2.5 py-0.5 rounded-full bg-zinc-800 text-zinc-200 border border-white/10">
+<span class="w-1.5 h-1.5 rounded-full bg-zinc-400"></span> Project Owner
+                    </span>
+</td>
+<td class="py-3.5 px-4 text-zinc-400 font-mono text-[11px]">04 Mar 2023</td>
+<td class="py-3.5 px-4">
+<span class="inline-flex items-center gap-1.5 text-[11px] font-mono px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.8)]"></span> Aktif
+                    </span>
+</td>
+<td class="py-3.5 px-6 text-right">
+<div class="relative inline-flex items-center justify-end gap-1.5">
+<button class="px-2.5 py-1 rounded-lg bg-[#18191e] hover:bg-[#23252c] border border-white/10 text-zinc-300 hover:text-white text-[11px] font-medium transition-colors" type="button">
+                        Edit Akses
+                      </button>
+<button class="delete-trigger p-1 rounded-lg text-zinc-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors" title="Hapus Akun" type="button">
+<span class="material-symbols-outlined text-[17px]">delete</span>
+</button>
+<div class="delete-popover hidden absolute right-0 bottom-full mb-2 w-60 p-4 bg-[#14151a] border border-white/15 text-white rounded-xl shadow-2xl z-30 text-left">
+<p class="text-xs font-semibold text-rose-400 flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">warning</span> Hapus Pengguna
+                        </p>
+<p class="text-[11px] text-zinc-400 mt-1">Hapus akun pengguna ini secara permanen?</p>
+<div class="mt-3 flex justify-end gap-1.5">
+<button class="popover-cancel px-2.5 py-1 rounded-md bg-[#22232a] text-zinc-300 hover:text-white text-[11px]" type="button">Batal</button>
+<button class="popover-confirm px-2.5 py-1 rounded-md bg-rose-600 hover:bg-rose-500 text-white text-[11px] font-medium" type="button">Ya, Hapus</button>
+</div>
+</div>
+</div>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-white/[0.03] transition-colors user-row" data-email="raden.pratama@tugasku.co.id" data-name="Raden Pratama" data-role="Member" data-status="Aktif">
+<td class="py-3.5 px-6">
+<div class="flex items-center gap-3">
+<img class="w-8 h-8 rounded-full object-cover border border-white/15 shrink-0" data-alt="Raden Pratama portrait" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBzyLCd9SoplquH7DCKAs1DTp94ws4Bu61StJG6pLLz-uw3Q9sWzUcIa_yi1coWKFTno3V-UBO8fS6OIV9Ql_DEBmYxtTjGNzX3P6qQEp5JW0wv26-R8Smx8yxL6MTvrTR2OBLjUPPB_RbpF5XHbJe6QnGYH-OGI_xNQRaPNcLvqHtue6Cv1dLryTvGHR0Axf3bzMKj6Nvz0I-mD9yESXAGmP57xmph8haBaIpjZoP7Dq_k496BlI4E"/>
+<div class="flex flex-col min-w-0">
+<span class="font-medium text-white text-xs truncate">Raden Pratama</span>
+<span class="text-[11px] text-zinc-400">Senior Backend Developer</span>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-4 font-mono text-[11px] text-zinc-300">raden.pratama@tugasku.co.id</td>
+<td class="py-3.5 px-4 text-zinc-300">Teknologi &amp; Produk</td>
+<td class="py-3.5 px-4">
+<span class="inline-flex items-center gap-1.5 text-[11px] font-mono px-2.5 py-0.5 rounded-full bg-zinc-800 text-zinc-400 border border-white/5">
+<span class="w-1.5 h-1.5 rounded-full bg-zinc-500"></span> Member
+                    </span>
+</td>
+<td class="py-3.5 px-4 text-zinc-400 font-mono text-[11px]">19 Mei 2023</td>
+<td class="py-3.5 px-4">
+<span class="inline-flex items-center gap-1.5 text-[11px] font-mono px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.8)]"></span> Aktif
+                    </span>
+</td>
+<td class="py-3.5 px-6 text-right">
+<div class="relative inline-flex items-center justify-end gap-1.5">
+<button class="px-2.5 py-1 rounded-lg bg-[#18191e] hover:bg-[#23252c] border border-white/10 text-zinc-300 hover:text-white text-[11px] font-medium transition-colors" type="button">
+                        Edit Akses
+                      </button>
+<button class="delete-trigger p-1 rounded-lg text-zinc-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors" title="Hapus Akun" type="button">
+<span class="material-symbols-outlined text-[17px]">delete</span>
+</button>
+<div class="delete-popover hidden absolute right-0 bottom-full mb-2 w-60 p-4 bg-[#14151a] border border-white/15 text-white rounded-xl shadow-2xl z-30 text-left">
+<p class="text-xs font-semibold text-rose-400 flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">warning</span> Hapus Pengguna
+                        </p>
+<p class="text-[11px] text-zinc-400 mt-1">Hapus akun pengguna ini secara permanen?</p>
+<div class="mt-3 flex justify-end gap-1.5">
+<button class="popover-cancel px-2.5 py-1 rounded-md bg-[#22232a] text-zinc-300 hover:text-white text-[11px]" type="button">Batal</button>
+<button class="popover-confirm px-2.5 py-1 rounded-md bg-rose-600 hover:bg-rose-500 text-white text-[11px] font-medium" type="button">Ya, Hapus</button>
+</div>
+</div>
+</div>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-white/[0.03] transition-colors user-row" data-email="diana.putri@tugasku.co.id" data-name="Diana Putri" data-role="Member" data-status="Nonaktif">
+<td class="py-3.5 px-6">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-zinc-800 border border-white/15 flex items-center justify-center text-zinc-300 font-mono text-[11px] font-semibold shrink-0">
+                        DP
+                      </div>
+<div class="flex flex-col min-w-0">
+<span class="font-medium text-white text-xs truncate">Diana Putri</span>
+<span class="text-[11px] text-zinc-400">QA Automation Engineer</span>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-4 font-mono text-[11px] text-zinc-300">diana.putri@tugasku.co.id</td>
+<td class="py-3.5 px-4 text-zinc-300">Jaminan Kualitas (QA)</td>
+<td class="py-3.5 px-4">
+<span class="inline-flex items-center gap-1.5 text-[11px] font-mono px-2.5 py-0.5 rounded-full bg-zinc-800 text-zinc-400 border border-white/5">
+<span class="w-1.5 h-1.5 rounded-full bg-zinc-500"></span> Member
+                    </span>
+</td>
+<td class="py-3.5 px-4 text-zinc-400 font-mono text-[11px]">14 Agu 2023</td>
+<td class="py-3.5 px-4">
+<span class="inline-flex items-center gap-1.5 text-[11px] font-mono px-2.5 py-0.5 rounded-full bg-zinc-800 text-zinc-400 border border-white/10">
+<span class="w-1.5 h-1.5 rounded-full bg-zinc-500"></span> Nonaktif
+                    </span>
+</td>
+<td class="py-3.5 px-6 text-right">
+<div class="relative inline-flex items-center justify-end gap-1.5">
+<button class="px-2.5 py-1 rounded-lg bg-[#18191e] hover:bg-[#23252c] border border-white/10 text-zinc-300 hover:text-white text-[11px] font-medium transition-colors" type="button">
+                        Edit Akses
+                      </button>
+<button class="delete-trigger p-1 rounded-lg text-zinc-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors" title="Hapus Akun" type="button">
+<span class="material-symbols-outlined text-[17px]">delete</span>
+</button>
+<div class="delete-popover hidden absolute right-0 bottom-full mb-2 w-60 p-4 bg-[#14151a] border border-white/15 text-white rounded-xl shadow-2xl z-30 text-left">
+<p class="text-xs font-semibold text-rose-400 flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">warning</span> Hapus Pengguna
+                        </p>
+<p class="text-[11px] text-zinc-400 mt-1">Hapus akun pengguna ini secara permanen?</p>
+<div class="mt-3 flex justify-end gap-1.5">
+<button class="popover-cancel px-2.5 py-1 rounded-md bg-[#22232a] text-zinc-300 hover:text-white text-[11px]" type="button">Batal</button>
+<button class="popover-confirm px-2.5 py-1 rounded-md bg-rose-600 hover:bg-rose-500 text-white text-[11px] font-medium" type="button">Ya, Hapus</button>
+</div>
+</div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination Bar -->
+<div class="p-4 bg-[#0d0e12]/80 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-zinc-400">
+<div class="font-mono text-[11px] flex items-center gap-1">
+              Menampilkan <span class="font-medium text-white">1 - 4</span> dari <span class="font-medium text-white">248</span> pengguna sistem
+            </div>
+<div class="flex items-center gap-1">
+<button class="p-1 rounded-lg text-zinc-600 cursor-not-allowed flex items-center justify-center" disabled="" type="button">
+<span class="material-symbols-outlined text-[18px]">chevron_left</span>
+</button>
+<button class="w-7 h-7 rounded-lg bg-white text-black font-semibold text-xs flex items-center justify-center shadow-sm" type="button">1</button>
+<button class="w-7 h-7 rounded-lg hover:bg-white/10 text-zinc-300 hover:text-white text-xs flex items-center justify-center transition-colors" type="button">2</button>
+<button class="w-7 h-7 rounded-lg hover:bg-white/10 text-zinc-300 hover:text-white text-xs flex items-center justify-center transition-colors" type="button">3</button>
+<span class="text-zinc-600 px-1 font-mono">...</span>
+<button class="w-7 h-7 rounded-lg hover:bg-white/10 text-zinc-300 hover:text-white text-xs flex items-center justify-center transition-colors" type="button">25</button>
+<button class="p-1 rounded-lg text-zinc-400 hover:text-white hover:bg-white/5 flex items-center justify-center transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Telemetry Footer matching Jara Authentication screen -->
+<footer class="w-full max-w-7xl mx-auto px-8 py-5 border-t border-white/10 text-xs text-zinc-500 flex flex-col md:flex-row items-center justify-between gap-4">
+<div class="flex flex-wrap items-center justify-center gap-6 sm:gap-8 font-mono text-[11px]">
+<div class="flex items-center gap-2">
+<span class="text-zinc-600">&lt;</span>
+<span class="text-zinc-300 font-medium">120ms</span>
+<span class="text-zinc-500">Inference Auth</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-zinc-600">⁘</span>
+<span class="text-zinc-300 font-medium">99.33%</span>
+<span class="text-zinc-500">Uptime</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-zinc-600">⁜</span>
+<span class="text-zinc-300 font-medium">23/7</span>
+<span class="text-zinc-500">Autonomous Runtime</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-zinc-600">#</span>
+<span class="text-zinc-300 font-medium">2.3M</span>
+<span class="text-zinc-500">Tokens/Sec</span>
+</div>
+</div>
+<div class="flex items-center gap-4 text-zinc-400 text-[11px]">
+<span class="flex items-center gap-1.5 text-emerald-400 font-mono">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> SOC2 Type II
+        </span>
+<span class="text-zinc-700">•</span>
+<a class="hover:text-white transition-colors" href="#">Security Overview</a>
+<span class="text-zinc-700">•</span>
+<a class="hover:text-white transition-colors" href="#">Dokumentasi API</a>
+</div>
+</footer>
+</div>
+<!-- SLIDE-OVER OVERLAY MODAL: Tambah Akun Pengguna Baru (FR-1.1) styled in Jara aesthetic -->
+<div class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 transition-opacity duration-300 opacity-0 pointer-events-none flex justify-end" id="addUserModalOverlay">
+<div class="w-full max-w-lg bg-[#0e0f13] border-l border-white/10 h-full flex flex-col justify-between shadow-2xl transform translate-x-full transition-transform duration-300" id="addUserModalPanel">
+<!-- Modal Header -->
+<div class="p-6 bg-[#08090c] border-b border-white/10 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-full bg-white flex items-center justify-center text-black shadow-[0_0_12px_rgba(255,255,255,0.3)]">
+<span class="material-symbols-outlined text-[19px]">person_add</span>
+</div>
+<div>
+<h2 class="text-base font-semibold text-white tracking-tight">Tambah Akun Baru</h2>
+<span class="pixel-text text-[9px] text-zinc-400">Modul Akses Otoritas FR-1.1</span>
+</div>
+</div>
+<button class="p-1.5 rounded-lg text-zinc-400 hover:text-white hover:bg-white/10 transition-colors" id="closeModalBtn" type="button">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<!-- Modal Body (Form Fields) -->
+<form class="p-6 flex-1 overflow-y-auto space-y-4" id="addUserForm">
+<!-- Field 1: Nama Lengkap -->
+<div>
+<label class="block text-xs font-medium text-zinc-300 mb-1.5" for="fullName">
+            Nama Lengkap <span class="text-rose-400">*</span>
+</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500 text-[18px]">badge</span>
+<input class="w-full bg-[#14151a] border border-white/15 focus:border-white/40 text-xs text-white pl-9 pr-3 py-2.5 rounded-xl focus:outline-none transition-all placeholder:text-zinc-600" id="fullName" placeholder="mis. Aditya Kurniawan" required="" type="text"/>
+</div>
+</div>
+<!-- Field 2: Alamat Email Kerja -->
+<div>
+<label class="block text-xs font-medium text-zinc-300 mb-1.5" for="workEmail">
+            Alamat Email Kerja <span class="text-rose-400">*</span>
+</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500 text-[18px]">mail</span>
+<input class="w-full bg-[#14151a] border border-white/15 focus:border-white/40 text-xs text-white pl-9 pr-3 py-2.5 rounded-xl focus:outline-none transition-all placeholder:text-zinc-600" id="workEmail" placeholder="aditya@jara.ai" required="" type="email"/>
+</div>
+</div>
+<!-- Field 3: Departemen -->
+<div>
+<label class="block text-xs font-medium text-zinc-300 mb-1.5" for="userDept">
+            Departemen Organisasi
+          </label>
+<select class="w-full bg-[#14151a] border border-white/15 focus:border-white/40 text-xs text-white px-3 py-2.5 rounded-xl focus:outline-none transition-all cursor-pointer" id="userDept">
+<option class="bg-[#14151a] text-white" value="Teknologi &amp; Produk">Teknologi &amp; Produk</option>
+<option class="bg-[#14151a] text-white" value="Desain Produk">Desain Produk</option>
+<option class="bg-[#14151a] text-white" value="Jaminan Kualitas (QA)">Jaminan Kualitas (QA)</option>
+<option class="bg-[#14151a] text-white" value="Operasional &amp; Bisnis">Operasional &amp; Bisnis</option>
+</select>
+</div>
+<!-- Field 4: Peran Akses Sistem -->
+<div>
+<label class="block text-xs font-medium text-zinc-300 mb-1.5">
+            Peran Akses <span class="text-rose-400">*</span>
+</label>
+<div class="grid grid-cols-2 gap-2.5">
+<label class="flex items-start gap-2.5 p-3 rounded-xl bg-[#14151a] border border-white/10 hover:border-white/20 cursor-pointer transition-colors">
+<input checked="" class="accent-white mt-0.5 w-3.5 h-3.5 cursor-pointer" name="accountRole" type="radio" value="Member"/>
+<div>
+<span class="block text-xs font-medium text-white">Anggota Proyek</span>
+<span class="block text-[11px] text-zinc-500">Akses penugasan standar</span>
+</div>
+</label>
+<label class="flex items-start gap-2.5 p-3 rounded-xl bg-[#14151a] border border-white/10 hover:border-white/20 cursor-pointer transition-colors">
+<input class="accent-white mt-0.5 w-3.5 h-3.5 cursor-pointer" name="accountRole" type="radio" value="Admin"/>
+<div>
+<span class="block text-xs font-medium text-white">Admin Sistem</span>
+<span class="block text-[11px] text-zinc-500">Hak akses penuh SRS-01</span>
+</div>
+</label>
+</div>
+</div>
+<!-- Field 5: Password Sementara -->
+<div>
+<label class="block text-xs font-medium text-zinc-300 mb-1.5" for="tempPassword">
+            Password Sementara <span class="text-rose-400">*</span>
+</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500 text-[18px]">key</span>
+<input class="w-full bg-[#14151a] border border-white/15 focus:border-white/40 text-xs font-mono text-white pl-9 pr-9 py-2.5 rounded-xl focus:outline-none transition-all" id="tempPassword" required="" type="password" value="Jara#ZeroTrust2025!"/>
+<button class="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-white" id="togglePasswordBtn" type="button">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+</div>
+<span class="text-[11px] text-zinc-500 mt-1 block font-mono">Dipaksa reset kata sandi pada login perdana.</span>
+</div>
+<!-- Field 6: Checkbox Notifikasi Email -->
+<div class="pt-1">
+<label class="flex items-start gap-2.5 cursor-pointer select-none">
+<input checked="" class="accent-white w-3.5 h-3.5 mt-0.5 cursor-pointer rounded" id="sendInviteEmail" type="checkbox"/>
+<span class="text-xs text-zinc-300">
+              Kirim kredensial sementara &amp; token aktivasi via email kerja terdaftar secara otomatis.
+            </span>
+</label>
+</div>
+</form>
+<!-- Modal Footer -->
+<div class="p-4 bg-[#08090c] border-t border-white/10 flex items-center justify-end gap-2.5">
+<button class="px-4 py-2 rounded-full border border-white/10 hover:border-white/20 text-zinc-300 hover:text-white text-xs font-medium transition-colors" id="cancelModalBtn" type="button">
+          Batal
+        </button>
+<button class="glow-button flex items-center gap-1.5 px-5 py-2 rounded-full text-black font-semibold text-xs tracking-wide transition-all shadow-sm" form="addUserForm" id="saveUserBtn" type="submit">
+<span class="material-symbols-outlined text-[16px]">check</span>
+<span>Simpan Akun</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Toast Notification Feedback -->
+<div class="fixed bottom-6 right-6 z-50 transform translate-y-24 opacity-0 transition-all duration-300 flex items-center gap-2.5 px-4 py-3 rounded-xl bg-[#14151a] border border-white/15 text-white shadow-2xl" id="toastNotification">
+<span class="material-symbols-outlined text-emerald-400 text-[18px]" id="toastIcon">check_circle</span>
+<span class="text-xs text-zinc-200" id="toastMsg">Operasi berhasil dilaksanakan.</span>
+</div>
+<script>
+    // --- Interactive Logic for FR-1.1 & FR-1.2 ---
+    const openModalBtn = document.getElementById('openModalBtn');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+    const cancelModalBtn = document.getElementById('cancelModalBtn');
+    const modalOverlay = document.getElementById('addUserModalOverlay');
+    const modalPanel = document.getElementById('addUserModalPanel');
+    const addUserForm = document.getElementById('addUserForm');
+    const togglePasswordBtn = document.getElementById('togglePasswordBtn');
+    const tempPasswordInput = document.getElementById('tempPassword');
+
+    // Search and Filter Elements
+    const searchInput = document.getElementById('userSearchInput');
+    const roleFilter = document.getElementById('roleFilter');
+    const statusFilter = document.getElementById('statusFilter');
+    const resetFiltersBtn = document.getElementById('resetFilters');
+
+    // Toast Utility
+    function showToast(message, isError = false) {
+      const toast = document.getElementById('toastNotification');
+      const toastMsg = document.getElementById('toastMsg');
+      const toastIcon = document.getElementById('toastIcon');
+
+      toastMsg.textContent = message;
+      if (isError) {
+        toastIcon.textContent = 'error';
+        toastIcon.className = 'material-symbols-outlined text-rose-400 text-[18px]';
+      } else {
+        toastIcon.textContent = 'check_circle';
+        toastIcon.className = 'material-symbols-outlined text-emerald-400 text-[18px]';
+      }
+
+      toast.classList.remove('translate-y-24', 'opacity-0');
+      setTimeout(() => {
+        toast.classList.add('translate-y-24', 'opacity-0');
+      }, 3500);
+    }
+
+    // Modal Opening / Closing
+    function openModal() {
+      modalOverlay.classList.remove('pointer-events-none', 'opacity-0');
+      modalPanel.classList.remove('translate-x-full');
+    }
+
+    function closeModal() {
+      modalPanel.classList.add('translate-x-full');
+      modalOverlay.classList.add('opacity-0');
+      setTimeout(() => {
+        modalOverlay.classList.add('pointer-events-none');
+      }, 300);
+    }
+
+    openModalBtn.addEventListener('click', openModal);
+    closeModalBtn.addEventListener('click', closeModal);
+    cancelModalBtn.addEventListener('click', closeModal);
+
+    modalOverlay.addEventListener('click', (e) => {
+      if (e.target === modalOverlay) closeModal();
+    });
+
+    // Password Toggle
+    togglePasswordBtn.addEventListener('click', () => {
+      const isPassword = tempPasswordInput.type === 'password';
+      tempPasswordInput.type = isPassword ? 'text' : 'password';
+      togglePasswordBtn.firstElementChild.textContent = isPassword ? 'visibility_off' : 'visibility';
+    });
+
+    // Add User Form Submission (FR-1.1)
+    addUserForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('fullName').value.trim();
+      const email = document.getElementById('workEmail').value.trim();
+      const dept = document.getElementById('userDept').value;
+      const role = document.querySelector('input[name="accountRole"]:checked').value;
+
+      if (!name || !email) {
+        showToast('Mohon lengkapi seluruh field wajib!', true);
+        return;
+      }
+
+      // Append dynamically into table
+      const tbody = document.getElementById('userTableBody');
+      const tr = document.createElement('tr');
+      tr.className = 'hover:bg-white/[0.03] transition-colors user-row';
+      tr.setAttribute('data-role', role);
+      tr.setAttribute('data-status', 'Aktif');
+      tr.setAttribute('data-name', name);
+      tr.setAttribute('data-email', email);
+
+      const initials = name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+
+      tr.innerHTML = `
+        <td class="py-3.5 px-6">
+          <div class="flex items-center gap-3">
+            <div class="w-8 h-8 rounded-full bg-zinc-800 border border-white/20 text-white flex items-center justify-center font-mono text-[11px] font-semibold shrink-0">
+              ${initials}
+            </div>
+            <div class="flex flex-col min-w-0">
+              <span class="font-medium text-white text-xs truncate">${name}</span>
+              <span class="text-[11px] text-zinc-400">Staf Baru</span>
+            </div>
+          </div>
+        </td>
+        <td class="py-3.5 px-4 font-mono text-[11px] text-zinc-300">${email}</td>
+        <td class="py-3.5 px-4 text-zinc-300">${dept}</td>
+        <td class="py-3.5 px-4">
+          <span class="inline-flex items-center gap-1.5 text-[11px] font-mono px-2.5 py-0.5 rounded-full ${role === 'Admin' ? 'bg-white/10 text-white border border-white/20' : 'bg-zinc-800 text-zinc-400 border border-white/5'}">
+            <span class="w-1.5 h-1.5 rounded-full ${role === 'Admin' ? 'bg-white' : 'bg-zinc-500'}"></span> ${role}
+          </span>
+        </td>
+        <td class="py-3.5 px-4 text-zinc-400 font-mono text-[11px]">Hari ini</td>
+        <td class="py-3.5 px-4">
+          <span class="inline-flex items-center gap-1.5 text-[11px] font-mono px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.8)]"></span> Aktif
+          </span>
+        </td>
+        <td class="py-3.5 px-6 text-right">
+          <div class="relative inline-flex items-center justify-end gap-1.5">
+            <button type="button" class="px-2.5 py-1 rounded-lg bg-[#18191e] hover:bg-[#23252c] border border-white/10 text-zinc-300 hover:text-white text-[11px] font-medium transition-colors">
+              Edit Akses
+            </button>
+            <button type="button" class="delete-trigger p-1 rounded-lg text-zinc-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors" title="Hapus Akun">
+              <span class="material-symbols-outlined text-[17px]">delete</span>
+            </button>
+            <div class="delete-popover hidden absolute right-0 bottom-full mb-2 w-60 p-4 bg-[#14151a] border border-white/15 text-white rounded-xl shadow-2xl z-30 text-left">
+              <p class="text-xs font-semibold text-rose-400 flex items-center gap-1">
+                <span class="material-symbols-outlined text-[16px]">warning</span> Hapus Pengguna
+              </p>
+              <p class="text-[11px] text-zinc-400 mt-1">Hapus akun pengguna ini secara permanen?</p>
+              <div class="mt-3 flex justify-end gap-1.5">
+                <button type="button" class="popover-cancel px-2.5 py-1 rounded-md bg-[#22232a] text-zinc-300 hover:text-white text-[11px]">Batal</button>
+                <button type="button" class="popover-confirm px-2.5 py-1 rounded-md bg-rose-600 hover:bg-rose-500 text-white text-[11px] font-medium">Ya, Hapus</button>
+              </div>
+            </div>
+          </div>
+        </td>
+      `;
+
+      tbody.insertBefore(tr, tbody.firstChild);
+      attachDeleteEvents(tr);
+      addUserForm.reset();
+      document.getElementById('tempPassword').value = 'Jara#ZeroTrust2025!';
+      closeModal();
+      showToast(`Akun ${name} berhasil didaftarkan ke Jara Platform!`);
+    });
+
+    // Delete Confirmation Logic (FR-1.2)
+    function attachDeleteEvents(container = document) {
+      const deleteButtons = container.querySelectorAll('.delete-trigger');
+      deleteButtons.forEach(btn => {
+        btn.onclick = (e) => {
+          e.stopPropagation();
+          const popover = btn.parentElement.querySelector('.delete-popover');
+          document.querySelectorAll('.delete-popover').forEach(p => {
+            if (p !== popover) p.classList.add('hidden');
+          });
+          popover.classList.toggle('hidden');
+        };
+      });
+
+      const cancelButtons = container.querySelectorAll('.popover-cancel');
+      cancelButtons.forEach(btn => {
+        btn.onclick = (e) => {
+          e.stopPropagation();
+          btn.closest('.delete-popover').classList.add('hidden');
+        };
+      });
+
+      const confirmButtons = container.querySelectorAll('.popover-confirm');
+      confirmButtons.forEach(btn => {
+        btn.onclick = (e) => {
+          e.stopPropagation();
+          const row = btn.closest('tr');
+          const userName = row.querySelector('.truncate')?.textContent || 'Pengguna';
+          row.remove();
+          showToast(`Akun ${userName} telah dihapus permanen (FR-1.2).`);
+        };
+      });
+    }
+
+    // Dismiss Popovers on outside click
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.delete-popover') && !e.target.closest('.delete-trigger')) {
+        document.querySelectorAll('.delete-popover').forEach(p => p.classList.add('hidden'));
+      }
+    });
+
+    // Filtering logic
+    function applyFilters() {
+      const q = searchInput.value.toLowerCase().trim();
+      const roleVal = roleFilter.value;
+      const statusVal = statusFilter.value;
+
+      document.querySelectorAll('.user-row').forEach(row => {
+        const name = (row.getAttribute('data-name') || '').toLowerCase();
+        const email = (row.getAttribute('data-email') || '').toLowerCase();
+        const role = row.getAttribute('data-role');
+        const status = row.getAttribute('data-status');
+
+        const matchQuery = !q || name.includes(q) || email.includes(q);
+        const matchRole = roleVal === 'all' || role === roleVal;
+        const matchStatus = statusVal === 'all' || status === statusVal;
+
+        if (matchQuery && matchRole && matchStatus) {
+          row.style.display = '';
+        } else {
+          row.style.display = 'none';
+        }
+      });
+    }
+
+    searchInput.addEventListener('input', applyFilters);
+    roleFilter.addEventListener('change', applyFilters);
+    statusFilter.addEventListener('change', applyFilters);
+
+    resetFiltersBtn.addEventListener('click', () => {
+      searchInput.value = '';
+      roleFilter.value = 'all';
+      statusFilter.value = 'all';
+      applyFilters();
+    });
+
+    // Initialize initial delete handlers
+    attachDeleteEvents();
+  </script>
+</body></html>

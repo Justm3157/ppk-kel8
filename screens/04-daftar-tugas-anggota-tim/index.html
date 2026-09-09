@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Jara Platform — Workspace &amp; Proyek Aktif</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              black: '#000000',
+              surface: '#09090b',
+              sidebar: '#0d0d10',
+              card: '#121316',
+              input: '#111114',
+              muted: '#8e8e93',
+              border: 'rgba(255, 255, 255, 0.10)',
+              borderFocus: 'rgba(255, 255, 255, 0.35)',
+              glow: 'rgba(255, 255, 255, 0.28)'
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+            mono: ['JetBrains Mono', 'SF Mono', 'Roboto Mono', 'Menlo', 'monospace']
+          }
+        }
+      }
+    };
+  </script>
+<style>
+    @layer base {
+      html, body {
+        margin: 0;
+        padding: 0;
+        background-color: #000000;
+        color: #ffffff;
+        font-family: 'Inter', sans-serif;
+      }
+      body {
+        overscroll-behavior: none;
+      }
+    }
+    ::-webkit-scrollbar {
+      display: none;
+    }
+    .bg-ambient-vignette {
+      background-image: 
+        radial-gradient(circle at 50% 12%, rgba(255, 255, 255, 0.06) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.03) 0%, transparent 60%);
+    }
+    .glow-button {
+      background-color: #ffffff;
+      color: #000000;
+      box-shadow: 0 0 24px rgba(255, 255, 255, 0.22), 0 0 45px rgba(255, 255, 255, 0.08);
+      transition: all 0.2s ease-out;
+    }
+    .glow-button:hover {
+      box-shadow: 0 0 32px rgba(255, 255, 255, 0.4), 0 0 60px rgba(255, 255, 255, 0.15);
+      transform: translateY(-1px);
+    }
+    .glass-modal {
+      background: rgba(18, 19, 22, 0.92);
+      backdrop-filter: blur(28px);
+      -webkit-backdrop-filter: blur(28px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: 0 24px 70px rgba(0, 0, 0, 0.85), 0 0 40px rgba(255, 255, 255, 0.03);
+    }
+    .pixel-text {
+      font-family: 'JetBrains Mono', monospace;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+  </style>
+</head>
+<body class="bg-black text-white antialiased selection:bg-white selection:text-black min-h-screen bg-ambient-vignette flex">
+<!-- Jara Sidebar Navigation -->
+<aside class="fixed left-0 top-0 h-full w-64 bg-[#0a0a0c] border-r border-white/10 z-50 flex flex-col justify-between">
+<div class="flex flex-col">
+<!-- Jara Platform Brand -->
+<div class="h-16 px-5 flex items-center justify-between border-b border-white/10">
+<a class="flex items-center gap-3 group" href="#" title="Jara Platform">
+<div class="w-8 h-8 rounded-full bg-white flex items-center justify-center shadow-[0_0_15px_rgba(255,255,255,0.3)] transition-transform group-hover:scale-105 duration-200">
+<svg class="w-4 h-4 text-black stroke-[2.75]" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" viewbox="0 0 24 24">
+<polyline points="20 6 9 17 4 12"></polyline>
+</svg>
+</div>
+<div class="flex items-baseline gap-1.5">
+<span class="font-semibold text-base tracking-tight text-white">Jara</span>
+<span class="text-[9px] uppercase font-mono tracking-widest text-zinc-500 font-medium">Platform</span>
+</div>
+</a>
+<div class="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.6)]"></div>
+</div>
+<!-- Main Navigation Menu -->
+<div class="px-3 pt-5">
+<p class="px-3 mb-2 font-mono text-[10px] text-zinc-500 uppercase tracking-widest">Menu Utama</p>
+<nav class="flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2 rounded-xl text-zinc-400 hover:text-white hover:bg-white/[0.06] text-xs font-medium transition-all" data-path="ringkasan-dashboard" href="#">
+<span class="material-symbols-outlined text-[18px]">insights</span>
+<span>Ringkasan &amp; Progres</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-xl bg-white/[0.08] text-white border border-white/15 text-xs font-medium shadow-sm" data-path="proyek-daftar-tugas" href="#">
+<span class="material-symbols-outlined text-[18px]">fact_check</span>
+<span class="font-semibold">Proyek &amp; Tugas</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-xl text-zinc-400 hover:text-white hover:bg-white/[0.06] text-xs font-medium transition-all" data-path="tim-kolaborasi" href="#">
+<span class="material-symbols-outlined text-[18px]">group</span>
+<span>Anggota Tim</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-xl text-zinc-400 hover:text-white hover:bg-white/[0.06] text-xs font-medium transition-all" data-path="manajemen-akun" href="#">
+<span class="material-symbols-outlined text-[18px]">admin_panel_settings</span>
+<span>Admin &amp; Akun</span>
+</a>
+</nav>
+</div>
+<div class="px-3 pt-4">
+<p class="px-3 mb-2 font-mono text-[10px] text-zinc-500 uppercase tracking-widest">Sistem</p>
+<nav class="flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2 rounded-xl text-zinc-400 hover:text-white hover:bg-white/[0.06] text-xs font-medium transition-all" data-path="pengaturan" href="#">
+<span class="material-symbols-outlined text-[18px]">settings</span>
+<span>Pengaturan</span>
+</a>
+</nav>
+</div>
+</div>
+<!-- Server Status Indicator -->
+<div class="p-3 m-3 bg-[#111114] border border-white/10 rounded-2xl flex items-center justify-between">
+<div class="flex flex-col">
+<span class="text-[10px] font-mono text-zinc-400 uppercase tracking-wider">Status Cluster</span>
+<span class="text-[11px] font-mono text-emerald-400 flex items-center gap-1.5 mt-0.5 font-medium">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> Operasional
+        </span>
+</div>
+<div class="text-[9px] font-mono text-zinc-500 border border-white/10 px-2 py-0.5 rounded-full bg-black/40">
+        SOC2 • 99.9%
+      </div>
+</div>
+</aside>
+<!-- Main View Area -->
+<div class="pl-64 flex flex-col min-h-screen flex-1 bg-black">
+<!-- Top Header Navigation Bar -->
+<header class="fixed top-0 left-64 right-0 h-16 bg-[#09090b]/80 backdrop-blur-xl border-b border-white/10 z-40 px-6 flex items-center justify-between">
+<div class="flex items-center gap-4 flex-1 max-w-lg">
+<div class="relative w-full flex items-center">
+<span class="material-symbols-outlined absolute left-3 text-zinc-500 pointer-events-none text-[18px]">search</span>
+<input class="w-full bg-[#111114] border border-white/10 text-zinc-200 text-xs pl-9 pr-3 py-2 rounded-full focus:outline-none focus:border-white/30 placeholder:text-zinc-500 transition-all font-sans" placeholder="Cari tugas, sprint, atau anggota tim... (Ctrl + K)" type="text"/>
+</div>
+</div>
+<!-- Header Action Controls -->
+<div class="flex items-center gap-3">
+<!-- Zero-Trust Indicator Pill -->
+<div class="hidden xl:flex items-center gap-1.5 bg-[#121215] border border-white/15 rounded-full px-3 py-1 text-[10px] text-zinc-300 font-mono">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+<span>ZERO-TRUST ENCLAVE</span>
+</div>
+<button class="flex items-center gap-1.5 glow-button text-black text-xs font-semibold px-4 py-2 rounded-full" type="button">
+<span class="material-symbols-outlined text-[16px] font-bold">add</span>
+<span>Buat Tugas Cepat</span>
+</button>
+<button aria-label="Notifikasi Aktivitas" class="relative p-2 rounded-full text-zinc-400 hover:text-white hover:bg-white/[0.06] border border-transparent hover:border-white/10 transition-all" type="button">
+<span class="material-symbols-outlined text-[18px]">notifications</span>
+<span class="absolute top-1.5 right-1.5 w-1.5 h-1.5 bg-emerald-400 rounded-full"></span>
+</button>
+<div class="h-5 w-[1px] bg-white/10 mx-1"></div>
+<!-- User Profile Pill -->
+<div class="flex items-center gap-2 pl-1">
+<div class="flex flex-col text-right">
+<span class="text-xs font-medium text-white leading-none">Bambang Prakoso</span>
+<span class="text-[10px] text-zinc-500 font-mono leading-none mt-1">Project Lead</span>
+</div>
+<img alt="Profile" class="w-8 h-8 rounded-full object-cover ring-1 ring-white/20" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAsIWrHY6OQ3WqpEO_z_e2WSVHvE0ItDvNlK7fRHkG9UXY90gYJR1ryeVWu0jgntTJAkoyabCJl9RzcjyrIidXDq0PswRsrInDXHUUOs5J2R0lF4udEMivrH6ATEzmchqO5_JIrU58MeGnNcVw0HkueYehhTQMeafqAuPNaMFrRWVURp2m7wU0V_sCG6LBny7fKu3Dc1cA-Y_XkFefePCTfQa5Nnn8FgRPoUvcTdiFpt1VphCH9Ndyw"/>
+<a aria-label="Logout" class="p-1.5 rounded-lg text-zinc-400 hover:text-red-400 hover:bg-white/[0.06] transition-all ml-1 flex items-center justify-center" data-path="login" href="#" title="Keluar dari Sistem">
+<span class="material-symbols-outlined text-[18px]">logout</span>
+</a>
+</div>
+</div>
+</header>
+<!-- Main Workspace Body -->
+<main class="w-full pt-20 px-8 pb-16 flex-1 bg-black">
+<div class="flex flex-col w-full max-w-7xl mx-auto">
+<!-- Breadcrumb & Page Title -->
+<div class="flex flex-col lg:flex-row lg:items-end justify-between gap-4 mb-8">
+<div class="flex flex-col">
+<div class="flex items-center gap-2 mb-2">
+<span class="pixel-text text-[9px] text-zinc-400 px-2.5 py-0.5 bg-white/5 border border-white/10 rounded-full inline-flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-400 inline-block"></span>
+                SRS-02 • WORKSPACE KOLABORATIF
+              </span>
+</div>
+<h1 class="text-2xl sm:text-3xl font-semibold tracking-tight text-white">Ruang Kerja Tim &amp; Proyek Aktif</h1>
+<p class="text-xs sm:text-sm text-zinc-400 mt-1 max-w-2xl font-normal">Kelola daftar tugas tim, distribusi proyek, dan kolaborator lintas divisi dalam arsitektur terpusat.</p>
+</div>
+<div class="flex items-center gap-3 self-start lg:self-auto">
+<button class="flex items-center gap-1.5 bg-[#141417] hover:bg-[#1a1a1f] text-zinc-300 hover:text-white border border-white/10 px-4 py-2 rounded-full text-xs font-medium transition-all" type="button">
+<span class="material-symbols-outlined text-[16px]">folder_special</span>
+<span>Arsip Proyek</span>
+</button>
+<button class="flex items-center gap-1.5 glow-button text-black text-xs font-semibold px-4 py-2 rounded-full" id="btn-create-project" type="button">
+<span class="material-symbols-outlined text-[18px]">add_circle</span>
+<span>+ Buat Daftar/Proyek Baru</span>
+</button>
+</div>
+</div>
+<!-- Filter Bar -->
+<div class="bg-[#0f0f12] border border-white/10 p-2.5 rounded-2xl mb-8 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3 shadow-lg">
+<div class="flex flex-wrap items-center gap-1.5">
+<button class="bg-white text-black font-semibold text-xs px-3.5 py-1.5 rounded-full shadow-sm">Semua (8)</button>
+<button class="bg-[#17171c] hover:bg-white/10 text-zinc-400 hover:text-white border border-white/10 text-xs px-3.5 py-1.5 rounded-full transition-all">Milik Saya (4)</button>
+<button class="bg-[#17171c] hover:bg-white/10 text-zinc-400 hover:text-white border border-white/10 text-xs px-3.5 py-1.5 rounded-full transition-all">Kolaborasi Tim (3)</button>
+<button class="bg-[#17171c] hover:bg-white/10 text-zinc-400 hover:text-white border border-white/10 text-xs px-3.5 py-1.5 rounded-full transition-all">Selesai (1)</button>
+</div>
+<div class="flex items-center gap-2">
+<div class="relative flex-1 md:w-64">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500 text-[16px] pointer-events-none">filter_list</span>
+<input class="w-full bg-[#151518] border border-white/10 text-zinc-200 placeholder:text-zinc-500 text-xs pl-8 pr-3 py-1.5 rounded-full focus:outline-none focus:border-white/30 transition-all font-sans" placeholder="Filter proyek atau owner..." type="text"/>
+</div>
+<div class="flex items-center bg-[#151518] border border-white/10 rounded-full p-0.5">
+<button class="p-1.5 bg-white/10 rounded-full text-white text-xs" title="Tampilan Grid"><span class="material-symbols-outlined text-[16px]">grid_view</span></button>
+<button class="p-1.5 text-zinc-500 hover:text-zinc-200 rounded-full text-xs transition-colors" title="Tampilan Daftar"><span class="material-symbols-outlined text-[16px]">view_list</span></button>
+</div>
+</div>
+</div>
+<!-- Project Cards Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- Card 1 -->
+<div class="group bg-[#111114] hover:bg-[#141418] border border-white/10 hover:border-white/20 rounded-2xl p-6 transition-all duration-200 flex flex-col justify-between shadow-xl relative overflow-hidden">
+<div class="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-emerald-500 to-white/40"></div>
+<div>
+<div class="flex items-start justify-between gap-3 mb-3">
+<div class="flex flex-col">
+<span class="font-mono text-[10px] text-emerald-400 bg-emerald-950/40 border border-emerald-500/20 px-2 py-0.5 rounded-full w-fit mb-2">FR-2.1 • Sprint Aktif</span>
+<h2 class="text-base font-semibold text-white group-hover:text-zinc-100 transition-colors">Redesain Aplikasi Mobile v2.0</h2>
+</div>
+<div class="relative">
+<button class="p-1 text-zinc-400 hover:text-white hover:bg-white/10 rounded-lg transition-colors" onclick="toggleMenu('menu-card-1')" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+<div class="hidden absolute right-0 top-7 w-40 bg-[#161619] border border-white/15 rounded-xl shadow-2xl py-1 z-30" id="menu-card-1">
+<button class="w-full text-left px-3 py-1.5 text-xs text-zinc-300 hover:bg-white/10 hover:text-white flex items-center gap-2"><span class="material-symbols-outlined text-[14px]">edit</span>Edit Proyek</button>
+<button class="w-full text-left px-3 py-1.5 text-xs text-zinc-300 hover:bg-white/10 hover:text-white flex items-center gap-2"><span class="material-symbols-outlined text-[14px]">archive</span>Arsipkan</button>
+<div class="my-1 h-[1px] bg-white/10"></div>
+<button class="w-full text-left px-3 py-1.5 text-xs text-red-400 hover:bg-red-500/10 flex items-center gap-2"><span class="material-symbols-outlined text-[14px]">delete</span>Hapus Proyek</button>
+</div>
+</div>
+</div>
+<p class="text-xs text-zinc-400 line-clamp-2 mb-4 leading-relaxed">Pembaruan komprehensif alur onboarding pengguna baru, sinkronisasi design system token, dan perbaikan performa widget realtime.</p>
+<div class="flex items-center gap-2.5 mb-5 bg-[#161619] border border-white/5 p-2.5 rounded-xl">
+<div class="w-7 h-7 rounded-full bg-white text-black flex items-center justify-center font-bold text-xs">BP</div>
+<div class="flex flex-col">
+<span class="text-[10px] text-zinc-500 font-mono">Owner</span>
+<span class="text-xs text-zinc-200 flex items-center gap-1.5 font-medium">Bambang Prakoso <span class="bg-white/10 border border-white/10 text-zinc-300 text-[9px] px-1.5 py-[1px] rounded-full font-mono">Saya</span></span>
+</div>
+</div>
+<div class="space-y-1.5 mb-4">
+<div class="flex items-center justify-between text-xs">
+<span class="text-zinc-400 flex items-center gap-1.5"><span class="material-symbols-outlined text-[14px] text-white">task_alt</span>24 Total Tugas</span>
+<span class="text-emerald-400 font-mono text-[11px] font-medium">75% (18/24)</span>
+</div>
+<div class="w-full bg-white/10 h-1.5 rounded-full overflow-hidden flex">
+<div class="bg-emerald-400 h-full rounded-full transition-all duration-500 shadow-[0_0_8px_rgba(52,211,153,0.5)]" style="width: 75%"></div>
+</div>
+</div>
+</div>
+<!-- Footer of card -->
+<div class="pt-4 border-t border-white/10 flex items-center justify-between mt-2">
+<div class="flex -space-x-1.5 overflow-hidden">
+<img class="inline-block h-6 w-6 rounded-full ring-2 ring-[#111114] object-cover" data-alt="Senior designer" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDDokvl0MZcMAQ7ZqqYqmdhfUM_yxx4X3H1aysOFlRSp2oDkJBCQ_R1QjkDUq1u_BTsuy0Gc-H1ZIuJFuGT27C5sRxYxaj3gFcRUgPdA539QLy2_FqDjEtAVo8GSJGGwxN6G3ui1EFDbuZ7fzcyGUDeNP-a0WXgw6w_myvOoYbFJfIs5FtyqNgLJRlOAVxx6PFhJ_Evn5S-KCdRL5Qzz_HVSq7m2GXJKPdtYkmNAIOct21m02L4aNBa"/>
+<img class="inline-block h-6 w-6 rounded-full ring-2 ring-[#111114] object-cover" data-alt="Software engineer" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBneDN67xQnygER3gxahpgWNYO-NLOVumWy2dMJZUO5frQ8u7H5PQjycvjsoRE6uUAoYWS12l5uYGCP9NzF35L7VuSvgNrShu592g1ZiUOqsh8Ht7-9fSDVzOaAVqswCy5IRZT-NuwCH3cl2NLNIsNt4vNQRY9ve896VGoK9_FyrfIT4Fr050H-8_L-avLQ0Vi_KEAe8O-SC8HYj3nQunHJXOsawVLphAmoC83hVhvgCCCfn_bJzv70"/>
+<img class="inline-block h-6 w-6 rounded-full ring-2 ring-[#111114] object-cover" data-alt="Developer" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCbY6g3QmxP1XL7Bscty02cPISFb8L7HiDOKdPKXXAiOSUSShh7WyhOZ86kArWVDl3uNYW_pCrnk-mQ7o7jKAV3Kyzj1IF2duAXUYDYkyYTlublOX9Mjc80mbPY9mNIp71sw1VdM3hogcrmE0W7U5zWscieajXlxqWJ_NTojyl5DOuWWNNoQ2TK_S-C5WUjYskjLAwJFI5NiI1c7VpzU7m1wo0bGokpMhOAsgqI8fj7Tehn_-7m0mTn"/>
+<span class="inline-flex items-center justify-center h-6 w-6 rounded-full bg-zinc-800 text-zinc-300 font-mono text-[9px] ring-2 ring-[#111114]">+3</span>
+</div>
+<button class="flex items-center gap-1.5 bg-[#1a1a1f] hover:bg-white hover:text-black text-zinc-300 text-[11px] font-medium px-3 py-1.5 rounded-full border border-white/10 transition-all duration-200" onclick="openMemberModal()" type="button">
+<span class="material-symbols-outlined text-[14px]">person_add</span>
+<span>Undang Anggota</span>
+</button>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="group bg-[#111114] hover:bg-[#141418] border border-white/10 hover:border-white/20 rounded-2xl p-6 transition-all duration-200 flex flex-col justify-between shadow-xl relative overflow-hidden">
+<div class="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-blue-500 to-indigo-500"></div>
+<div>
+<div class="flex items-start justify-between gap-3 mb-3">
+<div class="flex flex-col">
+<span class="font-mono text-[10px] text-blue-400 bg-blue-950/40 border border-blue-500/20 px-2 py-0.5 rounded-full w-fit mb-2">Fintech Core</span>
+<h2 class="text-base font-semibold text-white group-hover:text-zinc-100 transition-colors">Integrasi Payment Gateway QRIS</h2>
+</div>
+<div class="relative">
+<button class="p-1 text-zinc-400 hover:text-white hover:bg-white/10 rounded-lg transition-colors" onclick="toggleMenu('menu-card-2')" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+<div class="hidden absolute right-0 top-7 w-40 bg-[#161619] border border-white/15 rounded-xl shadow-2xl py-1 z-30" id="menu-card-2">
+<button class="w-full text-left px-3 py-1.5 text-xs text-zinc-300 hover:bg-white/10 hover:text-white flex items-center gap-2"><span class="material-symbols-outlined text-[14px]">edit</span>Edit Proyek</button>
+<button class="w-full text-left px-3 py-1.5 text-xs text-zinc-300 hover:bg-white/10 hover:text-white flex items-center gap-2"><span class="material-symbols-outlined text-[14px]">archive</span>Arsipkan</button>
+<div class="my-1 h-[1px] bg-white/10"></div>
+<button class="w-full text-left px-3 py-1.5 text-xs text-red-400 hover:bg-red-500/10 flex items-center gap-2"><span class="material-symbols-outlined text-[14px]">delete</span>Hapus Proyek</button>
+</div>
+</div>
+</div>
+<p class="text-xs text-zinc-400 line-clamp-2 mb-4 leading-relaxed">Koneksi modul webhook pembayaran dinamis, standardisasi callback settlement instan, dan rekonsiliasi kas harian otomatis.</p>
+<div class="flex items-center gap-2.5 mb-5 bg-[#161619] border border-white/5 p-2.5 rounded-xl">
+<div class="w-7 h-7 rounded-full bg-white text-black flex items-center justify-center font-bold text-xs">BP</div>
+<div class="flex flex-col">
+<span class="text-[10px] text-zinc-500 font-mono">Owner</span>
+<span class="text-xs text-zinc-200 flex items-center gap-1.5 font-medium">Bambang Prakoso <span class="bg-white/10 border border-white/10 text-zinc-300 text-[9px] px-1.5 py-[1px] rounded-full font-mono">Saya</span></span>
+</div>
+</div>
+<div class="space-y-1.5 mb-4">
+<div class="flex items-center justify-between text-xs">
+<span class="text-zinc-400 flex items-center gap-1.5"><span class="material-symbols-outlined text-[14px] text-white">task_alt</span>14 Total Tugas</span>
+<span class="text-blue-400 font-mono text-[11px] font-medium">45% (6/14)</span>
+</div>
+<div class="w-full bg-white/10 h-1.5 rounded-full overflow-hidden flex">
+<div class="bg-blue-400 h-full rounded-full transition-all duration-500 shadow-[0_0_8px_rgba(96,165,250,0.5)]" style="width: 45%"></div>
+</div>
+</div>
+</div>
+<!-- Footer of card -->
+<div class="pt-4 border-t border-white/10 flex items-center justify-between mt-2">
+<div class="flex -space-x-1.5 overflow-hidden">
+<img class="inline-block h-6 w-6 rounded-full ring-2 ring-[#111114] object-cover" data-alt="Backend engineer" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAHxX8tlzwvTsRALsnE_qq2mnwzqZg0I7m5rG4UEawLVOzXfeGnlX08jRvM5PDca__d9RIPa7T9F4AtQP-TW3TnmLYZfeZTXmXflIAqB580M-qk4AsCV_AVh2Mg7jE-JD1JphJ7ywQx-6UA13Vp5Rv5e7Jv87ulbj43_duVy-CQ4WkQ72yQeYcVG6jag2DwwpbzZXe8BT9zEHlsV3Sw_rv6wjOPhlGfhzl0i7jk3i1YF-xbV63-9mTl"/>
+<img class="inline-block h-6 w-6 rounded-full ring-2 ring-[#111114] object-cover" data-alt="QA engineer" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBryEDH98OdwzXSHPPouREWjystMMWX1pZ0VkqTiaIw5w9YMaB8oxP48mNC7O4QD0ms9kJFII_RIhPRTuvxOJxmdgYzvNwIiiQzsXQmV-veWIZkXTo7OwZ2kdcNcxjSeeFQFyTtv4Y8M_lBpVdt4BsJAQyhZBdlvtU1hj0SVhx7-lShpGzc670k4WHZyzAEDrcVHtAt5IurTovBFMTdQESgDTfC4c1asX8XDvQsuU5pncMRzJZEpk6f"/>
+<span class="inline-flex items-center justify-center h-6 w-6 rounded-full bg-zinc-800 text-zinc-300 font-mono text-[9px] ring-2 ring-[#111114]">+2</span>
+</div>
+<button class="flex items-center gap-1.5 bg-[#1a1a1f] hover:bg-white hover:text-black text-zinc-300 text-[11px] font-medium px-3 py-1.5 rounded-full border border-white/10 transition-all duration-200" onclick="openMemberModal()" type="button">
+<span class="material-symbols-outlined text-[14px]">person_add</span>
+<span>Undang Anggota</span>
+</button>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="group bg-[#111114] hover:bg-[#141418] border border-white/10 hover:border-white/20 rounded-2xl p-6 transition-all duration-200 flex flex-col justify-between shadow-xl relative overflow-hidden">
+<div class="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-purple-500 to-pink-500"></div>
+<div>
+<div class="flex items-start justify-between gap-3 mb-3">
+<div class="flex flex-col">
+<span class="font-mono text-[10px] text-purple-400 bg-purple-950/40 border border-purple-500/20 px-2 py-0.5 rounded-full w-fit mb-2">Compliance &amp; SecOps</span>
+<h2 class="text-base font-semibold text-white group-hover:text-zinc-100 transition-colors">Audit Keamanan &amp; Penetrasi Cloud</h2>
+</div>
+<div class="relative">
+<button class="p-1 text-zinc-400 hover:text-white hover:bg-white/10 rounded-lg transition-colors" onclick="toggleMenu('menu-card-3')" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+<div class="hidden absolute right-0 top-7 w-40 bg-[#161619] border border-white/15 rounded-xl shadow-2xl py-1 z-30" id="menu-card-3">
+<button class="w-full text-left px-3 py-1.5 text-xs text-zinc-300 hover:bg-white/10 hover:text-white flex items-center gap-2"><span class="material-symbols-outlined text-[14px]">edit</span>Edit Proyek</button>
+<button class="w-full text-left px-3 py-1.5 text-xs text-zinc-300 hover:bg-white/10 hover:text-white flex items-center gap-2"><span class="material-symbols-outlined text-[14px]">archive</span>Arsipkan</button>
+<div class="my-1 h-[1px] bg-white/10"></div>
+<button class="w-full text-left px-3 py-1.5 text-xs text-red-400 hover:bg-red-500/10 flex items-center gap-2"><span class="material-symbols-outlined text-[14px]">delete</span>Hapus Proyek</button>
+</div>
+</div>
+</div>
+<p class="text-xs text-zinc-400 line-clamp-2 mb-4 leading-relaxed">Evaluasi celah keamanan enkripsi transit, vulnerability scanning klaster Kubernetes, dan hardening IAM privilege level.</p>
+<div class="flex items-center gap-2.5 mb-5 bg-[#161619] border border-white/5 p-2.5 rounded-xl">
+<div class="w-7 h-7 rounded-full bg-purple-900/60 text-purple-200 border border-purple-500/30 flex items-center justify-center font-bold text-xs">DP</div>
+<div class="flex flex-col">
+<span class="text-[10px] text-zinc-500 font-mono">Owner</span>
+<span class="text-xs text-zinc-200 font-medium">Diana P. (Security Lead)</span>
+</div>
+</div>
+<div class="space-y-1.5 mb-4">
+<div class="flex items-center justify-between text-xs">
+<span class="text-zinc-400 flex items-center gap-1.5"><span class="material-symbols-outlined text-[14px] text-white">task_alt</span>8 Total Tugas</span>
+<span class="text-emerald-400 font-mono text-[11px] font-medium">90% (7/8)</span>
+</div>
+<div class="w-full bg-white/10 h-1.5 rounded-full overflow-hidden flex">
+<div class="bg-emerald-400 h-full rounded-full transition-all duration-500 shadow-[0_0_8px_rgba(52,211,153,0.5)]" style="width: 90%"></div>
+</div>
+</div>
+</div>
+<!-- Footer of card -->
+<div class="pt-4 border-t border-white/10 flex items-center justify-between mt-2">
+<div class="flex -space-x-1.5 overflow-hidden">
+<img class="inline-block h-6 w-6 rounded-full ring-2 ring-[#111114] object-cover" data-alt="Security specialist" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC0sI3sGrHjRanrtCeZ5SgXZgLoO6ZqloqDBquzHlun0SPO_aNIrJki8WF7GIHeU4C16G6mHAo1clJD-gFE1FW_EXQ603oIiGIbTGGGFb1BJnJH2PNApLAeGzuQn_akjyCyjP1PLFL3q4fzSdF_jokEERohCtRc0yiWFOZaKRTJ6XPmcPXM2xQxILSFazpy6_2sRfw-Q12Mcmuqbp8No80NwtM6JlbgiAgxaaWIR8z1I8iRntbcjKD0"/>
+<img class="inline-block h-6 w-6 rounded-full ring-2 ring-[#111114] object-cover" data-alt="DevOps engineer" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDeg985tUNPMWYzys1DzR6vgyzH-zky5x2p0X6WNjvw0vz_OWBDSVY6-iEf_eHw1trjJkqSRRsY6zpuntrq811qrMhtpTuyo2QS-QTQTPLfqchWSNG0YmHmTdGPxzCMau_MfN3J15fz-zlCw1PToKcrJ0X4VricEFcDY_gL0AMXmZ8v7zix6ioKAS64WXzaWLPLHS7VUi_s5BDS32McHa8kViQCMoJaVrRnmqbbrc9ykG0h_zHUY072"/>
+<span class="inline-flex items-center justify-center h-6 w-6 rounded-full bg-zinc-800 text-zinc-300 font-mono text-[9px] ring-2 ring-[#111114]">+1</span>
+</div>
+<button class="flex items-center gap-1.5 bg-[#1a1a1f] hover:bg-white hover:text-black text-zinc-300 text-[11px] font-medium px-3 py-1.5 rounded-full border border-white/10 transition-all duration-200" onclick="openMemberModal()" type="button">
+<span class="material-symbols-outlined text-[14px]">person_add</span>
+<span>Undang Anggota</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Telemetry Stats Bottom Row -->
+<div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-5">
+<div class="bg-[#101013] border border-white/10 p-5 rounded-2xl flex items-center gap-4">
+<div class="w-11 h-11 rounded-xl bg-white/5 border border-white/10 text-white flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[24px]">assignment_turned_in</span>
+</div>
+<div class="flex flex-col">
+<span class="text-[10px] font-mono text-zinc-500 uppercase tracking-wider">Total Proyek Dipantau</span>
+<span class="text-xl font-semibold text-white mt-0.5">3 Proyek Aktif</span>
+</div>
+</div>
+<div class="bg-[#101013] border border-white/10 p-5 rounded-2xl flex items-center gap-4">
+<div class="w-11 h-11 rounded-xl bg-white/5 border border-white/10 text-white flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[24px]">groups</span>
+</div>
+<div class="flex flex-col">
+<span class="text-[10px] font-mono text-zinc-500 uppercase tracking-wider">Kolaborator Lintas Divisi</span>
+<span class="text-xl font-semibold text-white mt-0.5">13 Personil</span>
+</div>
+</div>
+<div class="bg-[#101013] border border-white/10 p-5 rounded-2xl flex items-center gap-4">
+<div class="w-11 h-11 rounded-xl bg-white/5 border border-white/10 text-white flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[24px]">speed</span>
+</div>
+<div class="flex flex-col">
+<span class="text-[10px] font-mono text-zinc-500 uppercase tracking-wider">Rata-rata Sprint Health</span>
+<span class="text-xl font-semibold text-white mt-0.5 font-mono">70.0% Optimal</span>
+</div>
+</div>
+</div>
+</div>
+<!-- JARA SIGNATURE MODAL: Frosted Obsidian Glass Team Management -->
+<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4 transition-opacity duration-300" id="member-modal">
+<div class="glass-modal rounded-[28px] w-full max-w-2xl overflow-hidden flex flex-col max-h-[90vh] relative shadow-[0_32px_90px_rgba(0,0,0,0.95)]">
+<!-- Modal Header -->
+<div class="p-6 sm:p-7 border-b border-white/10 flex items-start justify-between bg-white/[0.02]">
+<div class="flex items-center gap-3.5">
+<div class="w-10 h-10 rounded-full bg-white flex items-center justify-center text-black shadow-[0_0_20px_rgba(255,255,255,0.3)] shrink-0">
+<span class="material-symbols-outlined text-[20px] font-bold">group_add</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-2 mb-1">
+<span class="pixel-text text-[9px] text-zinc-400 bg-white/5 border border-white/10 px-2 py-0.5 rounded-full inline-block">
+                    FR-2.3 • FR-2.4 • SRS-04
+                  </span>
+</div>
+<h3 class="text-lg sm:text-xl font-semibold tracking-tight text-white">Anggota Proyek: Redesain Aplikasi Mobile v2.0</h3>
+<p class="text-xs text-zinc-400 mt-0.5 font-normal">Atur izin kolaborasi, undang rekan tim baru, atau hapus akses.</p>
+</div>
+</div>
+<button class="text-zinc-400 hover:text-white p-1.5 rounded-full hover:bg-white/10 transition-colors" onclick="closeMemberModal()" type="button">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<!-- Modal Scrollable Content -->
+<div class="p-6 sm:p-7 overflow-y-auto space-y-6">
+<!-- Invite Action Container -->
+<div class="bg-[#151518]/90 border border-white/10 p-5 rounded-2xl space-y-3.5 shadow-inner">
+<label class="block text-xs font-medium text-zinc-200">Undang Kolaborator Baru</label>
+<div class="flex flex-col sm:flex-row gap-2.5">
+<div class="relative flex-1">
+<span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-zinc-500 text-[18px]">mail</span>
+<input class="w-full bg-[#101013] border border-white/15 focus:border-white/40 text-white placeholder:text-zinc-500 text-xs pl-10 pr-3 py-2.5 rounded-xl focus:outline-none focus:ring-1 focus:ring-white/20 transition-all font-sans" id="invite-email-input" placeholder="Ketik email rekan tim (contoh: ryan@jara.internal)..." type="email"/>
+</div>
+<div class="relative">
+<select class="w-full sm:w-auto bg-[#101013] border border-white/15 focus:border-white/40 text-zinc-200 text-xs px-3 py-2.5 rounded-xl focus:outline-none cursor-pointer appearance-none pr-8 font-sans" id="invite-role-select">
+<option value="Editor Tugas">Editor Tugas</option>
+<option value="Pelihat">Pelihat (Read-Only)</option>
+<option value="Manajer Proyek">Manajer Proyek</option>
+</select>
+<span class="material-symbols-outlined absolute right-2.5 top-1/2 -translate-y-1/2 text-zinc-500 pointer-events-none text-[16px]">expand_more</span>
+</div>
+<button class="glow-button text-black font-semibold text-xs px-5 py-2.5 rounded-xl whitespace-nowrap flex items-center justify-center gap-1.5" onclick="handleSendInvite()" type="button">
+<span class="material-symbols-outlined text-[16px]">send</span>
+<span>Kirim Undangan</span>
+</button>
+</div>
+<!-- Fast Copy Link Row -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between pt-1 gap-2 border-t border-white/5 mt-3">
+<div class="flex items-center gap-1.5 text-zinc-400 text-[11px]">
+<span class="material-symbols-outlined text-[14px] text-emerald-400">lock</span>
+<span>Hanya anggota workspace terverifikasi yang dapat bergabung via tautan.</span>
+</div>
+<button class="text-zinc-300 hover:text-white text-[11px] font-mono flex items-center gap-1.5 self-start sm:self-auto transition-colors" id="btn-copy-link" onclick="copyInviteLink()" type="button">
+<span class="material-symbols-outlined text-[14px]">content_copy</span>
+<span id="copy-text-label">Salin Tautan Undangan</span>
+</button>
+</div>
+</div>
+<!-- Active Members Section -->
+<div>
+<div class="flex items-center justify-between mb-3">
+<span class="text-xs font-semibold text-white tracking-wide">Daftar Anggota Aktif (4)</span>
+<span class="font-mono text-[10px] text-zinc-500 uppercase">Directory SSO Sync • Active</span>
+</div>
+<div class="space-y-2" id="member-list-container">
+<!-- Member 0 (Owner) -->
+<div class="flex items-center justify-between p-3 bg-[#131317] border border-white/5 rounded-xl hover:border-white/15 transition-all">
+<div class="flex items-center gap-3 min-w-0">
+<img class="w-9 h-9 rounded-full object-cover shrink-0 ring-1 ring-white/20" data-alt="Bambang Prakoso" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA6SBk8KXkZC5yFDDqYsxkg15js63WaXBl5MASHGNystTSPbJRDsElsUYA2ReRL86TI7rnopqsnD5pi8LIuIMvqnJQHzrt7DHVR4e43GS2fwoaLDa9OSjt08R6HN795ts0PwdT370B7-4qIFUcu87x4RpCx1jAzgD5Hc-Q_ZV_-hHmpcDHjoQxvivjZn9uLfstca-4txU-_6JBeH-7nuLRNk9CsuinSiS4iSyA4JlCYaP08RwaR_3KV"/>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-2">
+<span class="text-xs font-medium text-white truncate">Bambang Prakoso</span>
+<span class="bg-white/10 text-zinc-200 border border-white/15 font-mono text-[9px] px-2 py-0.5 rounded-full uppercase tracking-wider">Pemilik Proyek</span>
+</div>
+<span class="text-[11px] text-zinc-500 truncate font-mono">bambang@perusahaan.co.id • Akses Penuh</span>
+</div>
+</div>
+<span class="text-zinc-500 font-mono text-[10px] px-3 py-1">Owner Default</span>
+</div>
+<!-- Member 1 -->
+<div class="flex items-center justify-between p-3 bg-[#131317] border border-white/5 rounded-xl hover:border-white/15 transition-all" id="member-row-1">
+<div class="flex items-center gap-3 min-w-0">
+<img class="w-9 h-9 rounded-full object-cover shrink-0 ring-1 ring-white/20" data-alt="Siti Rahmawati" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDEv0_n2QSg6HYFtI9VkjUi2KIfOW0ZimsosFQNPIDmIWvX7liAzQBIiWrZ3dJ56jFu1mjwsjxBToX0z39qmBbbRZBOz0JFzH1j4kBTRluk1TiPrYw8beTEUrD8QSfhI7bTTHMcag5njsCVHLHZsl7zM2_q_ZN_Ybmx1_faaAAaa27EVo2KRSw-5YLdihTAtcG56klVH0_ms4KWiWkZsV1TWjYJRC70dlIQ07lPLilcBY7X_2ZJFSEn"/>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-2">
+<span class="text-xs font-medium text-white truncate">Siti Rahmawati</span>
+<span class="bg-[#1b1b22] border border-white/10 text-zinc-300 font-mono text-[9px] px-2 py-0.5 rounded-full">Kontributor (Editor)</span>
+</div>
+<span class="text-[11px] text-zinc-500 truncate font-mono">siti.rahma@perusahaan.co.id • Hak Tulis &amp; Hapus</span>
+</div>
+</div>
+<button class="flex items-center gap-1 text-zinc-400 hover:text-red-400 hover:bg-red-500/10 px-3 py-1 rounded-full text-xs transition-colors" onclick="removeMember('member-row-1', 'Siti Rahmawati')" title="Keluarkan anggota ini" type="button">
+<span class="material-symbols-outlined text-[14px]">person_remove</span>
+<span class="hidden sm:inline">Keluarkan</span>
+</button>
+</div>
+<!-- Member 2 -->
+<div class="flex items-center justify-between p-3 bg-[#131317] border border-white/5 rounded-xl hover:border-white/15 transition-all" id="member-row-2">
+<div class="flex items-center gap-3 min-w-0">
+<img class="w-9 h-9 rounded-full object-cover shrink-0 ring-1 ring-white/20" data-alt="Fajar Nugraha" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAXniTSw51Yc33hJO77LBSCIDqlSATG5x4n0_oZS2ESUCfWtnOFywaZEOsAqBqNaSyjreM1UAol_kqj_7uvXA2npu2qxkw05pVrNZYu2kjgYY-2itNHfERciWivaXc0Gzq4vHvBLubzk773UWvVyXSJUCi79JI-VFcBJoUrSMtJ-fiL0NP8g-DCIBxAQ3M2VWEVvy8wu1JdUON3JU1wkDTQ6FPFPtKG855EqhIv3QiAALHU7ICg6f13"/>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-2">
+<span class="text-xs font-medium text-white truncate">Fajar Nugraha</span>
+<span class="bg-[#1b1b22] border border-white/10 text-zinc-300 font-mono text-[9px] px-2 py-0.5 rounded-full">Kontributor (Editor)</span>
+</div>
+<span class="text-[11px] text-zinc-500 truncate font-mono">fajar.n@perusahaan.co.id • Hak Tulis</span>
+</div>
+</div>
+<button class="flex items-center gap-1 text-zinc-400 hover:text-red-400 hover:bg-red-500/10 px-3 py-1 rounded-full text-xs transition-colors" onclick="removeMember('member-row-2', 'Fajar Nugraha')" title="Keluarkan anggota ini" type="button">
+<span class="material-symbols-outlined text-[14px]">person_remove</span>
+<span class="hidden sm:inline">Keluarkan</span>
+</button>
+</div>
+<!-- Member 3 -->
+<div class="flex items-center justify-between p-3 bg-[#131317] border border-white/5 rounded-xl hover:border-white/15 transition-all" id="member-row-3">
+<div class="flex items-center gap-3 min-w-0">
+<img class="w-9 h-9 rounded-full object-cover shrink-0 ring-1 ring-white/20" data-alt="Melinda Tan" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA2k9d8jLrcQ86J5cBqvVO6RYHU22dvWISEFfOlC3Mh-PMaYjN6ffkGUcCP3JTpIjIWQp1yMtt2E6VUyrieySN-D2sUynORWhv-52sGvaAGhVmvEw1KCgaV6reUdV0EkNQ0PLrOJxQNGM28a0lzFAS2PKewnLHWXj3_bETqCTgTMgM8IpyP8VEbfqMaJHk7uDEXfbF2GocnYFqPxcJMSTGlaECtQswGGEbpFuurpuQZ5XzExpoNYSD0"/>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-2">
+<span class="text-xs font-medium text-white truncate">Melinda Tan</span>
+<span class="bg-[#1b1b22] border border-white/10 text-zinc-300 font-mono text-[9px] px-2 py-0.5 rounded-full">Pelihat (Auditor)</span>
+</div>
+<span class="text-[11px] text-zinc-500 truncate font-mono">melinda.tan@perusahaan.co.id • Hanya Baca</span>
+</div>
+</div>
+<button class="flex items-center gap-1 text-zinc-400 hover:text-red-400 hover:bg-red-500/10 px-3 py-1 rounded-full text-xs transition-colors" onclick="removeMember('member-row-3', 'Melinda Tan')" title="Keluarkan anggota ini" type="button">
+<span class="material-symbols-outlined text-[14px]">person_remove</span>
+<span class="hidden sm:inline">Keluarkan</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Modal Footer -->
+<div class="p-4 sm:p-5 bg-black/60 border-t border-white/10 flex items-center justify-between">
+<span class="font-mono text-[11px] text-zinc-400 flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[15px] text-emerald-400">verified</span>
+              Audit log FR-2.4 mencatat semua mutasi wewenang anggota.
+            </span>
+<button class="bg-[#18181c] hover:bg-[#222228] border border-white/15 text-zinc-200 text-xs font-medium px-5 py-2 rounded-full transition-colors" onclick="closeMemberModal()" type="button">
+              Tutup
+            </button>
+</div>
+</div>
+</div>
+</main>
+</div>
+<script>
+    function toggleMenu(menuId) {
+      const el = document.getElementById(menuId);
+      if (el) {
+        el.classList.toggle('hidden');
+      }
+    }
+
+    function openMemberModal() {
+      const modal = document.getElementById('member-modal');
+      if (modal) {
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+      }
+    }
+
+    function closeMemberModal() {
+      const modal = document.getElementById('member-modal');
+      if (modal) {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+      }
+    }
+
+    function copyInviteLink() {
+      const label = document.getElementById('copy-text-label');
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText('https://jara.internal/workspace/team-redesign-v2');
+      }
+      if (label) {
+        const original = label.innerText;
+        label.innerText = 'Tautan Berhasil Disalin!';
+        label.classList.add('text-emerald-400');
+        setTimeout(() => {
+          label.innerText = original;
+          label.classList.remove('text-emerald-400');
+        }, 2000);
+      }
+    }
+
+    function handleSendInvite() {
+      const input = document.getElementById('invite-email-input');
+      const role = document.getElementById('invite-role-select').value;
+      if (!input || !input.value || !input.value.includes('@')) {
+        alert('Harap masukkan alamat email tim yang valid.');
+        return;
+      }
+
+      const container = document.getElementById('member-list-container');
+      const newId = 'member-' + Date.now();
+      const userEmail = input.value;
+      const userName = userEmail.split('@')[0].replace('.', ' ');
+
+      const newRow = document.createElement('div');
+      newRow.id = newId;
+      newRow.className = 'flex items-center justify-between p-3 bg-[#131317] border border-white/5 rounded-xl hover:border-white/15 transition-all';
+      newRow.innerHTML = `
+        <div class="flex items-center gap-3 min-w-0">
+          <div class="w-9 h-9 rounded-full bg-white text-black font-bold text-xs flex items-center justify-center uppercase shrink-0">
+            ${userName.slice(0,2)}
+          </div>
+          <div class="flex flex-col min-w-0">
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-medium text-white truncate capitalize">${userName}</span>
+              <span class="bg-[#1b1b22] border border-white/10 text-zinc-300 font-mono text-[9px] px-2 py-0.5 rounded-full">${role}</span>
+            </div>
+            <span class="text-[11px] text-zinc-500 truncate font-mono">${userEmail} • Menunggu Konfirmasi</span>
+          </div>
+        </div>
+        <button type="button" onclick="removeMember('${newId}', '${userName}')" class="flex items-center gap-1 text-zinc-400 hover:text-red-400 hover:bg-red-500/10 px-3 py-1 rounded-full text-xs transition-colors" title="Batalkan undangan">
+          <span class="material-symbols-outlined text-[14px]">close</span>
+          <span class="hidden sm:inline">Batalkan</span>
+        </button>
+      `;
+
+      container.appendChild(newRow);
+      input.value = '';
+    }
+
+    function removeMember(rowId, name) {
+      if (confirm(`Apakah Anda yakin ingin menghapus akses ${name} dari proyek ini? (FR-2.4)`)) {
+        const target = document.getElementById(rowId);
+        if (target) {
+          target.remove();
+        }
+      }
+    }
+
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('[onclick^="toggleMenu"]') && !e.target.closest('[id^="menu-card-"]')) {
+        document.querySelectorAll('[id^="menu-card-"]').forEach(el => el.classList.add('hidden'));
+      }
+    });
+  </script>
+</body></html>
