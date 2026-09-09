@@ -1,29 +1,34 @@
-# JARA - App mengelola tugas tim
+# Jara — Collaborative Task Management System (UI Prototype)
 
-Aplikasi pengelolaan tugas berbasis website yang memungkinkan pengguna membuat, mengelompokkan, dan mengatur tugas ke dalam beberapa daftar (list/projek), menetapkan prioritas dan tenggat waktu, serta menandai tugas yang selesai. Pemilik daftar dapat menambahkan pengguna lain ke dalam daftar tugasnya agar dapat dikerjakan bersama serta memantau progress penyelesaian tugas dalam daftar tersebut. Admin bertanggung jawab menambah dan menghapus akun pengguna dalam sistem.
+Kumpulan UI screen hasil desain via Google Stitch AI untuk aplikasi *Jara*, sebuah sistem manajemen tugas kolaboratif. Setiap screen adalah file HTML standalone (Tailwind CSS via CDN) lengkap dengan preview gambar.
 
-## User Story
+## Struktur
 
-Sebagai anggota tim, saya ingin membuat dan mengelompokkan tugas ke dalam beberapa daftar, sehingga pekerjaan saya lebih terorganisir dan mudah dipantau.
+| Folder | Deskripsi | Referensi |
+|---|---|---|
+| `screens/00-landing` | Landing page produk | - |
+| `screens/01-authentication-login` | Halaman sign in | - |
+| `screens/02-admin-panel-manajemen-akun` | Panel admin — manajemen akun | SRS-01 |
+| `screens/03-ruang-kerja-proyek-papan-tugas` | Ruang kerja proyek / papan tugas (kanban) | SRS-02, SRS-03 |
+| `screens/04-daftar-tugas-anggota-tim` | Daftar tugas per anggota tim | SRS-02.4 |
+| `screens/05-modal-buat-tugas-proyek-baru` | Modal buat tugas/proyek baru | FR-2.1, FR-3.1 |
+| `screens/06-detail-form-tugas` | Form detail tugas | SRS-03.4 |
+| `screens/07-monitoring-analisis-progres` | Monitoring & analisis progres | SRS-05 |
+| `docs/design/DESIGN.md` | Dokumen sistem desain (design tokens, style guide) | - |
 
-Sebagai anggota tim, saya ingin menetapkan prioritas dan tenggat waktu pada setiap tugas, sehingga saya dapat mengatur pekerjaan mana yang harus dikerjakan lebih dulu.
+Setiap folder `screens/*` berisi:
+- `index.html` — kode UI yang bisa langsung dibuka di browser
+- `screen.png` — preview hasil render
 
-Sebagai anggota tim, saya ingin menandai tugas yang telah selesai, sehingga progress pekerjaan saya dan tim dapat terlihat jelas.
+## Menjalankan secara lokal
 
-Sebagai pemilik daftar, saya ingin menambahkan anggota lain ke dalam daftar tugas saya, sehingga tugas dapat dikerjakan secara kolaboratif.
+Tidak perlu build step — cukup buka `index.html` di browser, atau serve lewat static server:
 
-Sebagai pemilik daftar, saya ingin memantau progress penyelesaian tugas dalam daftar saya, sehingga saya dapat mengetahui sejauh mana pekerjaan tim telah selesai.
+```bash
+npx serve screens/01-authentication-login
+```
 
-Sebagai admin, saya ingin menambah dan menghapus akun pengguna dalam sistem, sehingga akses ke aplikasi dapat dikelola dengan baik.
+## GitHub Pages (opsional)
 
-[Demo](https://doctor3131.github.io/jara/)
-
-## Daftar SRS
-
-| Kode | Deskripsi | Acceptance Criteria |
-|------|-----------|---------------------|
-| SRS-01 | Manajemen akun & autentikasi — admin menambah/menghapus akun pengguna, pengguna login/logout ke sistem. | - Halaman admin menampilkan daftar seluruh pengguna<br>- Admin dapat menambahkan akun baru (nama, email, role) dan menghapus akun yang ada<br>- Form login memvalidasi kredensial dan menampilkan error jika gagal<br>- Setelah login berhasil, pengguna diarahkan ke dashboard; tombol logout mengakhiri sesi |
-| SRS-02 | Manajemen daftar tugas (list/projek) — membuat, mengedit, menghapus daftar, serta menambah/menghapus anggota daftar. | - Pengguna dapat membuat daftar baru dengan nama minimal 1 karakter<br>- Pemilik dapat mengedit nama atau menghapus daftar beserta seluruh tugas di dalamnya<br>- Pemilik dapat menambahkan pengguna lain ke daftar (tanpa duplikasi) dan menghapus anggota dari daftar |
-| SRS-03 | Manajemen tugas — membuat, mengedit, menghapus tugas, menetapkan prioritas & tenggat waktu, serta menandai tugas selesai. | - Form tugas berisi judul, deskripsi, prioritas (rendah/sedang/tinggi), dan tenggat waktu<br>- Validasi mencegah judul tugas kosong; prioritas ditampilkan dengan indikator visual<br>- Setiap tugas memiliki tombol/checkbox "Selesai" yang mengubah status secara visual<br>- Pengguna dapat mengedit atau menghapus tugas |
-| SRS-04 | Kolaborasi tim — anggota daftar dapat mengerjakan tugas bersama dan tugas dapat ditugaskan (assign) ke anggota tertentu. | - Semua anggota daftar dapat melihat dan mengerjakan tugas dalam daftar yang sama<br>- Tugas dapat di-assign ke salah satu anggota daftar<br>- Nama anggota yang di-assign ditampilkan pada tugas terkait<br>- Hanya anggota daftar yang dapat mengakses/mengubah tugas di dalamnya |
-| SRS-05 | Monitoring & progress — pemilik daftar memantau progress penyelesaian tugas dalam daftarnya. | - Setiap daftar menampilkan progress bar/persentase tugas selesai vs total tugas<br>- Progress ter-update otomatis saat status tugas berubah<br>- Dashboard menampilkan ringkasan progress dari seluruh daftar milik pemilik<br>- Tidak ada reload halaman saat progress berubah |
+Karena setiap screen self-contained, repo ini bisa langsung di-deploy ke GitHub Pages dari branch `main` / folder `screens/`, sehingga tiap layar bisa diakses via URL sendiri, contoh:
+`https://<username>.github.io/jara-task-management/screens/03-ruang-kerja-proyek-papan-tugas/`
