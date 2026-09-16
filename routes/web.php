@@ -7,6 +7,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::middleware('auth')->group(function () {
-    Route::post('/lists', [ListController::class, 'store'])->name('lists.store');
+use App\Http\Controllers\ListController;
+
+
+Route::middleware(['auth'])->group(function () {
+    Route::resource('lists', ListController::class);
 });
