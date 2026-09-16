@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use App\Models\ListItem;
+use App\Policies\ListItemPolicy;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -21,4 +23,12 @@ class AppServiceProvider extends ServiceProvider
     {
         //
     }
+
+    protected $policies = [
+    ListItem::class => ListItemPolicy::class,
+];
 }
+
+
+
+
